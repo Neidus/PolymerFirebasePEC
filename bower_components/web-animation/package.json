@@ -1,0 +1,43 @@
+{
+  "name": "web-animation.css",
+  "version": "1.0.4",
+  "description": "web-animation.css 动画库，可以通过 bower 和 npm 下载",
+  "main": "dist/web-animation.min.css",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:patch": "gulp bump:patch && gulp dev",
+    "build:prerelease": "gulp bump:prerelease && gulp dev",
+    "build:minor": "gulp bump:minor && gulp dev",
+    "build:major": "gulp bump:major && gulp dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/vxhly/web-animation.css.git"
+  },
+  "keywords": [
+    "web-animation.css",
+    "scss",
+    "sass",
+    "animation"
+  ],
+  "author": "vxhly <pengchengou@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vxhly/web-animation.css/issues"
+  },
+  "homepage": "https://github.com/vxhly/web-animation.css#readme",
+  "devDependencies": {
+    "autoprefixer": "^7.2.3",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^4.0.0",
+    "gulp-bump": "^3.0.0",
+    "gulp-clean-css": "^3.9.0",
+    "gulp-cssbeautify": "^0.1.3",
+    "gulp-csscomb": "^3.0.8",
+    "gulp-header": "^1.8.9",
+    "gulp-load-plugins": "^1.5.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^3.1.0",
+    "gulp-sequence": "^1.0.0"
+  }
+}

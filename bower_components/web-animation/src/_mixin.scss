@@ -1,0 +1,36 @@
+// @Author: vxhly
+// @Date:   2018-01-16 05:27:24 pm
+// @Email:  pengchengou@gmail.com
+// @Last modified by:   vxhly
+// @Last modified time: 2018-01-16 07:37:10 pm
+// @License: MIT
+/*
+ * 动画名字
+ */
+@mixin name($name) {
+  animation-name: $name;
+}
+/*
+ * 延迟几秒
+ */
+@mixin delay($time) {
+  animation-delay: $time;
+}
+/*
+ * 运行几秒
+ */
+@mixin duration($time) {
+  animation-duration: $time;
+}
+/*
+ * 速度曲线
+ */
+@mixin bezier($bezier) {
+  animation-timing-function: $bezier;
+}
+/*
+ * transform 变化
+ */
+@mixin transform($transform...) {
+  transform: $transform;
+}

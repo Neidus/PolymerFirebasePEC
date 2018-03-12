@@ -1,0 +1,25 @@
+// @Author: vxhly
+// @Date:   2018-01-15 02:53:34 pm
+// @Email:  pengchengou@gmail.com
+// @Last modified by:   vxhly
+// @Last modified time: 2018-01-16 07:30:50 pm
+// @License: MIT
+@import 'mixin';
+@import 'bezier';
+
+[animation] {
+  @include duration(1s);
+  animation-fill-mode: both;
+}
+
+[animation ~="infinite"] {
+  animation-iteration-count: infinite;
+}
+
+[animation $="-big"] {
+  @include duration(.75s);
+}
+@import 'fadeIn/fadeIn';
+@import 'fadeIn/fadeInBig';
+@import 'fadeOut/fadeOut';
+@import 'fadeOut/fadeOutBig'

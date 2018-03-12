@@ -1,0 +1,33 @@
+{
+  "name": "web-animation.css",
+  "version": "1.0.4",
+  "description": "web-animation.css 动画库，可以通过 bower 和 npm 下载",
+  "main": "dist/web-animation.min.css",
+  "authors": [
+    "vxhly <pengchengou@gmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "web-animation.css",
+    "scss",
+    "sass",
+    "animation"
+  ],
+  "homepage": "https://github.com/vxhly/web-animation.css",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "1.0.4",
+  "_resolution": {
+    "type": "version",
+    "tag": "1.0.4",
+    "commit": "8876bddda44773ffa099a080867303ced83e713b"
+  },
+  "_source": "https://github.com/vxhly/web-animation.git",
+  "_target": "*",
+  "_originalSource": "web-animation"
+}

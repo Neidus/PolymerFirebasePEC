@@ -1,0 +1,82 @@
+// @Author: vxhly
+// @Date:   2018-01-15 06:43:20 pm
+// @Email:  pengchengou@gmail.com
+// @Last modified by:   vxhly
+// @Last modified time: 2018-01-16 07:45:50 pm
+// @License: MIT
+/*
+ * 淡入（跨度大），从右到左
+ */
+@keyframes fadeInRightBig {
+  from {
+    opacity: 0;
+    @include transform(translate3d(2000px, 0, 0));
+  }
+
+  to {
+    opacity: 1;
+    @include transform(none);
+  }
+}
+
+[animation ~="fadeIn:right-big"] {
+  @include name(fadeInRightBig);
+  @include bezier($easeInOutQuadratic);
+}
+/*
+ * 淡入（跨度大），从左到右
+ */
+@keyframes fadeInLeftBig {
+  from {
+    opacity: 0;
+    @include transform(translate3d(-2000px, 0, 0));
+  }
+
+  to {
+    opacity: 1;
+    @include transform(none);
+  }
+}
+
+[animation ~="fadeIn:left-big"] {
+  @include name(fadeInLeftBig);
+  @include bezier($easeInOutQuadratic);
+}
+/*
+ * 淡入（跨度大），从上到下
+ */
+@keyframes fadeInTopBig {
+  from {
+    opacity: 0;
+    @include transform(translate3d(0, -2000px, 0));
+  }
+
+  to {
+    opacity: 1;
+    @include transform(none);
+  }
+}
+
+[animation ~="fadeIn:top-big"] {
+  @include name(fadeInTopBig);
+  @include bezier($easeInOutQuadratic);
+}
+/*
+ * 淡入（跨度大），从下到上
+ */
+@keyframes fadeInBottomBig {
+  from {
+    opacity: 0;
+    @include transform(translate3d(0, 2000px, 0));
+  }
+
+  to {
+    opacity: 1;
+    @include transform(none);
+  }
+}
+
+[animation ~="fadeIn:bottom-big"] {
+  @include name(fadeInTopBig);
+  @include bezier($easeInOutQuadratic);
+}

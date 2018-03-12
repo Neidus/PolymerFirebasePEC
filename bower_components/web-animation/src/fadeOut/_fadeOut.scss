@@ -1,0 +1,99 @@
+// @Author: vxhly
+// @Date:   2018-01-15 06:32:56 pm
+// @Email:  pengchengou@gmail.com
+// @Last modified by:   vxhly
+// @Last modified time: 2018-01-16 07:53:14 pm
+// @License: MIT
+/*
+ * 淡出
+ */
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+[animation ~= "fadeOut"] {
+  @include name(fadeOut);
+  @include bezier($easeInOutQuadratic);
+}
+/*
+ * 淡出，从右到左
+ */
+@keyframes fadeOutRight {
+  from {
+    opacity: 1;
+    @include transform(translate3d(100%, 0, 0));
+  }
+
+  to {
+    opacity: 0;
+    @include transform(none);
+  }
+}
+
+[animation ~="fadeOut:right"] {
+  @include name(fadeOutRight);
+  @include bezier($easeInOutQuadratic);
+}
+/*
+ * 淡出，从左到右
+ */
+@keyframes fadeOutLeft {
+  from {
+    opacity: 1;
+    @include transform(translate3d(-100%, 0, 0));
+  }
+
+  to {
+    opacity: 0;
+    @include transform(none);
+  }
+}
+
+[animation ~="fadeOut:left"] {
+  @include name(fadeOutLeft);
+  @include bezier($easeInOutQuadratic);
+}
+/*
+ * 淡出，从上到下
+ */
+@keyframes fadeOutTop {
+  from {
+    opacity: 1;
+    @include transform(translate3d(0, -100%, 0));
+  }
+
+  to {
+    opacity: 0;
+    @include transform(none);
+  }
+}
+
+[animation ~="fadeOut:top"] {
+  @include name(fadeOutTop);
+  @include bezier($easeInOutQuadratic);
+}
+/*
+ * 淡出，从下到上
+ */
+@keyframes fadeOutBottom {
+  from {
+    opacity: 1;
+    @include transform(translate3d(0, 100%, 0));
+  }
+
+  to {
+    opacity: 0;
+    @include transform(none);
+  }
+}
+
+[animation ~="fadeOut:bottom"] {
+  @include name(fadeOutBottom);
+  @include bezier($easeInOutQuadratic);
+}

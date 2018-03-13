@@ -1,0 +1,103 @@
+{
+  "concursantes" : {
+    "artistas" : {
+      "a1" : {
+        "nombre" : "Artista1",
+        "valor" : 10
+      },
+      "a2" : {
+        "nombre" : "Artista2",
+        "valor" : 20
+      },
+      "a3" : {
+        "nombre" : "Artista3",
+        "valor" : 30
+      }
+    },
+    "duetos" : {
+      "d1" : {
+        "nombre" : "Dueto1",
+        "valor" : 60
+      },
+      "d2" : {
+        "nombre" : "Dueto2",
+        "valor" : 40
+      },
+      "d3" : {
+        "nombre" : "Dueto3",
+        "valor" : 50
+      }
+    }
+  },
+  "programas" : {
+    "p1" : {
+      "artistas" : {
+        "a1" : {
+          "nombre" : "Artista1",
+          "puntuacion" : 10
+        },
+        "a2" : {
+          "nombre" : "Artista2"
+        }
+      },
+      "descripcion" : "Este es el programa1",
+      "duetos" : {
+        "d1" : {
+          "nombre" : "Dueto1",
+          "puntuacion" : 10
+        },
+        "d2" : {
+          "nombre" : "Dueto2",
+          "puntuacion" : 6
+        }
+      },
+      "fecha" : "15/12/2017",
+      "imageURL" : "",
+      "nombre" : "Programa1"
+    },
+    "p2" : {
+      "artistas" : {
+        "a1" : {
+          "imageURL" : "",
+          "nombre" : "Artista1",
+          "puntuacion" : 10
+        },
+        "a2" : {
+          "imageURL" : "",
+          "nombre" : "Artista2",
+          "puntuacion" : 5
+        }
+      },
+      "descripcion" : "Este es el programa 2",
+      "duetos" : {
+        "d1" : {
+          "imageURL" : "",
+          "nombre" : "Dueto1",
+          "puntuacion" : 5
+        }
+      },
+      "fecha" : "01/01/2018",
+      "imageURL" : "",
+      "nombre" : "programa2"
+    }
+  },
+  "puntuacion" : {
+    "usuarioid" : 1000
+  },
+  "usuarios" : {
+    "u1" : {
+      "creditos" : 50,
+      "descripcion" : "friki OT",
+      "elecciones" : {
+        "artistas" : {
+          "artista1" : "a1",
+          "artista2" : "a2"
+        },
+        "dueto" : "d1"
+      },
+      "nombre" : "usuario1",
+      "privacidad" : true,
+      "puntuacion" : 0
+    }
+  }
+}

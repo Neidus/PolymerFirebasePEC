@@ -45,13 +45,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         color: #0a3142;
       }
 
-      .price {
+      .fecha {
         position: absolute;
         top: 20px;
         right: 20px;
         font-size: 1em;
         color: #111;
         font-weight: bold;
+      }
+
+      .descripcion {
+        position: absolute;
+        bottom: 20px;
+        text-align: center;
+        font-size: 1em;
+        color: #111;
+        font-weight: normal;
       }
 
       .author {
@@ -103,16 +112,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
     </style>
-
-    <div class="pic" style$="background-image: url([[item.imageUrl]]);"></div>
-    <h2 class="link">[[item.title]]</h2>
-    <span class="price">[[item.price]]</span>
+    <!-- debemos insertar los campos que queramos mostrar en el shrine item-->
+    
+    <!--<div class="pic" style$="background-image: url([[item.imageUrl]]);"></div>-->
+      <h1 class="nombre">[[item.nombre]]</h1>
+      <span class="fecha">[[item.fecha]]</span>
 
     <div class="author">
       <img src="[[item.storeAvatarUrl]]">
-      [[item.storeName]]
     </div>
-
+    <div class="descripcion">[[item.descripcion]]</div>
   </template>
 
   <script>

@@ -360,9 +360,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </iron-pages>
             <iron-pages  selected="[[page]]" attr-for-selected="name" name="programas">
               
-              Aqui cargariamos los programas existentes en forma de lista y resumidos.
-              Podriamos clickarlos y veriamos en detalle el programa con las puntuaciones
-              asignadas a los concursantes de dicho programa (fueron asignadas por un admin que metio los datos en la bbdd)
+              <!-- list of items -->
+              <template is="dom-if" if="[[_equal(page, 'list')]]">
+                <shrine-list name="list" section="[[sectionData.section]]" items="[[_getItemsCopy(items, sectionData.section)]]" featured-item="[[_getFeaturedItem(featuredItems, sectionData.section)]]">
+                </shrine-list>
+              </template>
 
             </iron-pages>
 

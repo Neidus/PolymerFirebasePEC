@@ -39,7 +39,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/neon-animation/web-animations.html">
 <link rel="import" href="../bower_components/polymerfire/polymerfire.html">
 
-
 <link rel="import" href="shrine-list.html">
 <link rel="import" href="shrine-detail.html">
 
@@ -108,8 +107,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       .logo {
-        width: 120px;
-        height: 40px;
+        width: 240px;
+        height: 80px;
         background-size: 100% 100%;
       }
 
@@ -207,8 +206,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
        */
       @media (max-width: 1200px) {
         .logo {
-          width: 89px;
-          height: 17px;
+          width: 140px;
+          height: 50px;
         }
 
         #mainToolbar {
@@ -306,7 +305,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <a href="#[[sectionData.section]]" tabindex="-1"><paper-icon-button icon="arrow-back"  alt="Back to the home"></paper-icon-button></a>
               </div>
               <div class="spacer">
-                <img src="//app-layout-assets.appspot.com/assets/shrine/shrine_logo.svg" class="logo" alt="SHRINE">
+                <img src="../img/logoLF_OT.jpg" class="logo" alt="SHRINE">
               </div>
               <template is="dom-if" if="[[_shouldShowTabs(onDetailPage, smallScreen)]]">
                   <app-toolbar class="navItem2 profileBar rightItem" if="[[_shouldShowTabs(onDetailPage, smallScreen)]]">

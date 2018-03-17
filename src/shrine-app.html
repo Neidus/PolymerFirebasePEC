@@ -41,6 +41,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="shrine-list.html">
 <link rel="import" href="shrine-detail.html">
+<link rel="import" href="lista-ranking.html">
 
 <dom-module id="shrine-app">
 
@@ -373,8 +374,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </iron-pages>
 
             <iron-pages  selected="[[page]]" attr-for-selected="name" name="rankings">
-              aqui mostraremos el ranking de usuarios en forma de tabla.
-              Podria ser interesante usar un webcomponent llamado s-table para la tabla
+              <template is="dom-if" if="[[_equal(page, 'list')]]">
+                <lista-ranking  name="list">
+                </lista-ranking>
+              </template>
+              
             </iron-pages>
 
             <iron-pages  selected="[[page]]" attr-for-selected="name" name="cuenta">

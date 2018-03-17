@@ -17,7 +17,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/polymerfire/polymerfire.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 
-<dom-module id="eleccion-artista">
+<dom-module id="eleccion-dueto">
 
   <template>
 
@@ -125,7 +125,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   Polymer({
 
-    is: 'eleccion-artista',
+    is: 'eleccion-dueto',
 
     properties: {
 
@@ -159,8 +159,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       this.__favorite = !this.__favorite;
 
       if (this.__favorite) {
-        if (document.getElementById("contadorArtistas").value>=2) {
-          alert("No puedes elegir más artistas. Deselecciona uno antes");
+        if (document.getElementById("contadorDuetos").value>=1) {
+          alert("No puedes elegir más duetos. Deselecciona uno antes");
           this.__favorite = !this.__favorite;
           return;
         }
@@ -172,11 +172,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
 
         document.getElementById("contadorCreditos").value = Number(document.getElementById("contadorCreditos").value) - this.item.valor;
-        document.getElementById("contadorArtistas").value = Number(document.getElementById("contadorArtistas").value) + 1;
+        document.getElementById("contadorDuetos").value = Number(document.getElementById("contadorDuetos").value) + 1;
         return;
       } else {
         document.getElementById("contadorCreditos").value = Number(document.getElementById("contadorCreditos").value) + this.item.valor;
-        document.getElementById("contadorArtistas").value = Number(document.getElementById("contadorArtistas").value) - 1;
+        document.getElementById("contadorDuetos").value = Number(document.getElementById("contadorDuetos").value) - 1;
         return;
       }
     },

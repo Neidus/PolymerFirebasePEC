@@ -18,6 +18,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 
 <link rel="import" href="eleccion-artista.html">
+<link rel="import" href="eleccion-dueto.html">
 
 <dom-module id="form-eleccion-concursantes">
 
@@ -116,11 +117,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <h1>Duetos</h1>
                 <template is="dom-repeat" items="{{duetos}}" sort="" initial-count="">
                     
-                    <!--
-                        Llamamos al componente web o directamente aqui cargamos todo
-                    -->
-                    <paper-fab id ="[[item.$key]]" icon="{{__computeFavIcon(__favorite)}}" on-tap="__toggleFavorite"></paper-fab>
-                    
+                  <eleccion-dueto item="[[item]]"></eleccion-dueto>
                 </template>
 
            </div>
@@ -162,6 +159,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             -->
 
       <input disabled id="contadorCreditos" value="{{puntuacionRestante}}">
+      <input  disabled id="contadorDuetos" value="0">
+      <input  disabled id="contadorArtistas" value="0">
       <button>Confirmar selección</button>
     
 
@@ -212,6 +211,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     __recalcularCreditos: function () {
         this.__favorite = !this.__favorite;
+    },
+
+    __cargarDatos:function () {
+      /*
+      Con nuestro id de usuario cogemos los ids marcados para subirlos a la
+      bbdd como nuestra eleccion
+
+      Hay que ver una forma de poder obtener los ids marcados
+      posible idea es hace inputs hidden en las elecciones de cada tipo
+      que guarden los ids y ya recuperarlos luego desde aqui.
+
+
+      */
     }
 
     

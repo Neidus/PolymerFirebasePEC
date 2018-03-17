@@ -42,6 +42,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="shrine-list.html">
 <link rel="import" href="shrine-detail.html">
 <link rel="import" href="lista-ranking.html">
+<link rel="import" href="form-eleccion-concursantes.html">
 
 <dom-module id="shrine-app">
 
@@ -369,14 +370,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </iron-pages>
 
             <iron-pages  selected="[[page]]" attr-for-selected="name" name="elegir concursantes">
-              Mostramos los concursantes y los creditos que cuestas y elegimos con cuales nos quedamos para que nos contabilicen las puntuaciones.
-              Luego ya implementariamos el limite de creditos.
+              <form-eleccion-concursantes name="list" section="[[sectionData.section]]"></form-eleccion-concursantes>
             </iron-pages>
 
             <iron-pages  selected="[[page]]" attr-for-selected="name" name="rankings">
               <template is="dom-if" if="[[_equal(page, 'list')]]">
-                <lista-ranking  name="list">
-                </lista-ranking>
+                <lista-ranking  name="list"></lista-ranking>
               </template>
               
             </iron-pages>

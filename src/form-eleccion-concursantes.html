@@ -1,0 +1,223 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="shrine-item.html">
+<link rel="import" href="shrine-featured-item.html">
+
+<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+
+<link rel="import" href="../bower_components/polymerfire/polymerfire.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<link rel="import" href="eleccion-artista.html">
+
+<dom-module id="form-eleccion-concursantes">
+
+  <template>
+
+    <style>
+
+        :host {
+          display: block;
+          -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+  
+        .grid {
+          @apply --layout-horizontal;
+          @apply --layout-center-center;
+          @apply --layout-wrap;
+          margin-top: 10px;
+        }
+  
+        .grid > .item {
+          -webkit-flex: 1 calc(50% - 20px);
+          flex: 1 calc(50% - 20px);
+          max-width: calc(50% - 20px);
+          height: 30vmax;
+          min-height: 250px;
+          margin: 10px;
+          text-decoration: none;
+          background-color: white;
+        }
+
+        paper-fab {
+            top: -28px;
+            right: 40px;
+
+            --paper-fab-background: #EF5458;
+            --paper-fab-keyboard-focus-background: #DF4448;
+        }
+
+  
+        /**
+         * Desktop small, tablet
+         */
+        @media (max-width: 1200px) {
+          .grid {
+            padding-left: 10px;
+            padding-right: 10px;
+            font-size: 0.7em;
+          }
+  
+          .grid > .item {
+            -webkit-flex: 1 calc(50% - 20px);
+            flex: 1 calc(50% - 20px);
+            max-width: calc(50% - 20px);
+            margin: 10px;
+            text-decoration: none;
+            background-color: white;
+          }
+        }
+  
+        /**
+         * Phone
+         */
+        @media (max-width: 400px) {
+          .grid {
+            padding-left: 10px;
+            padding-right: 10px;
+          }
+  
+          .grid > .item {
+            -webkit-flex: 1 calc(100% - 10px);
+            flex: 1 calc(1000% - 10px);
+            max-width: calc(100% - 10px);
+            margin: 5px;
+            text-decoration: none;
+            background-color: white;
+          }
+        }
+  
+      </style>
+
+    <firebase-query 
+    id="queryDuetos" 
+    path="/concursantes/duetos" 
+    data="{{duetos}}">
+    </firebase-query>
+
+    <firebase-query 
+    id="queryArtistas" 
+    path="/concursantes/artistas" 
+    data="{{artistas}}">
+    </firebase-query>
+
+       <div class="grid">
+           <div class="item">
+
+                <h1>Duetos</h1>
+                <template is="dom-repeat" items="{{duetos}}" sort="" initial-count="">
+                    
+                    <!--
+                        Llamamos al componente web o directamente aqui cargamos todo
+                    -->
+                    <paper-fab id ="[[item.$key]]" icon="{{__computeFavIcon(__favorite)}}" on-tap="__toggleFavorite"></paper-fab>
+                    
+                </template>
+
+           </div>
+                
+           
+            
+
+           <div class="item">
+
+                <h1>Artistas</h1>
+                <template is="dom-repeat" items="{{artistas}}" sort="" initial-count="">
+                    
+                    <eleccion-artista item="[[item]]"></eleccion-artista>
+                </template>
+
+           </div>
+
+         </div>
+            <!--
+                Llamamos a 2 columnas que serán 2 web components
+                Una sera item-dueto y otra item-artista.
+                 <paper-fab icon="{{__computeFavIcon(__favorite)}}" on-tap="__toggleFavorite"></paper-fab>
+                Este icono será el que usaremos para seleccionar a cada uno
+                En los webcomponents hay que añadir las siguientes funcionalidades para que el boton funcione apropiadamente
+                            __computeFavIcon: function(favorite) {
+                return favorite ? 'app:favorite' : 'app:favorite-border';
+                },
+
+                __toggleFavorite: function(event, detail) {
+                this.__favorite = !this.__favorite;
+                },
+
+                y
+
+                            __favorite: {
+                    type: Boolean,
+                    value: false
+                }
+            -->
+
+      <input disabled id="contadorCreditos" value="{{puntuacionRestante}}">
+      <button>Confirmar selección</button>
+    
+
+  </template>
+
+  <script>
+
+  Polymer({
+
+    is: 'form-eleccion-concursantes',
+
+    properties: {
+
+      items: {
+        type: Array
+      },
+
+      featuredItem: {
+        type: Object
+      },
+
+      section: {
+        type: String
+      },
+
+      __favorite: {
+        type: Boolean,
+        value: false
+      },
+
+      puntuacionRestante: {
+          type: Number,
+          value: 50
+      }
+    },
+
+    _sortItems: function() {
+      return Math.round(Math.random()*3) - 1;
+    },
+
+    __computeFavIcon: function(favorite) {
+      return favorite ? 'favorite' : 'favorite-border';
+    },
+
+    __toggleFavorite: function(event, detail) {
+      this.__favorite = !this.__favorite;
+    },
+
+    __recalcularCreditos: function () {
+        this.__favorite = !this.__favorite;
+    }
+
+    
+
+  });
+
+  </script>
+
+</dom-module>

@@ -26,14 +26,38 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         height: 100%;
         --paper-icon-button-ink-color: #31f0ef;
       }
+      
+      .fecha {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        font-size: 0.7em;
+        color: #111;
+        font-weight: normal;
+      }
+
+      .author {
+        font-size: 11px;
+        color: #000;
+        line-height: 5em;
+      }
+
+      .author img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50% 50%;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
 
       .pic {
-        width: 80%;
-        height: 80%;
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: 50% 50%;
-        transition: opacity 0.5s;
+        width: 100px;
+        height: 100px;
+        border-radius: 50% 50%;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
       }
 
       :host::after {
@@ -57,8 +81,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     </style>
 
-    <div class="pic" style$="background-image: url([[item.imageUrl]]);"></div>
-
+    <!--<div class="pic" style$="background-image:[[item.imageUrl]];"></div>-->
+    <h1 class="nombre">[[item.nombre]]</h1>
+    <div class="author">
+        <img src="[[item.imageURL]]">
+      </div>
+    <span class="fecha">[[item.fecha]]</span>
+    
+    
   </template>
 
   <script>

@@ -226,6 +226,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     path="/programas" 
     data="{{programas}}">
     </firebase-query>
+    
+    <firebase-query 
+    id="query2" 
+    path="/programas/{{programaid}}/artistas" 
+    data="{{artistas}}">
+    </firebase-query>
+
+    <firebase-query 
+    id="query3" 
+    path="/programas/{{programaid}}/duetos" 
+    data="{{duetos}}">
+    </firebase-query>
 
     <firebase-document
     path="/programas/{{programaid}}"
@@ -272,13 +284,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <h3>[[item.storeName]]</h3>
             <p>[[item.storeDescription]]</p>
           </div>-->
+          
           <h4>Artistas</h4>
-
-            <template is="dom-repeat" items="{{programas.artistas}}">
+          
+          <div class="items2">
+            <template is="dom-repeat" items="{{artistas}}">
               <div class="artistas-item">
-                <div class="ingredient-amount">{{item.amount}}</div>
+                <div class="artistas-nombre">Nombre: [[item.nombre]]</div>
+                <div class="artistas-puntuacion">Puntuación: [[item.puntuacion]]</div>
+                <p></p>
               </div>
             </template>
+
+            <h4>Duetos</h4>
+
+            <template is="dom-repeat" items="{{duetos}}">
+                <div class="duetos-item">
+                    <div class="duetos-nombre">Nombre: [[item.nombre]]</div>
+                    <div class="duetos-puntuacion">Puntuación: [[item.puntuacion]]</div>
+                    <p></p>
+                </div>
+              </template>
+            <p> </p>
+          </div>
+
         </div>
         
       </div>
@@ -309,17 +338,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           type: String
         },
 
-        relatedItems: {
+        items2: {
           type: Array
-        }
-
-      },
+        },
 
       _programaChanged: function (programa) {
         this.$.img.src = '';
         this.$.img.src = programa.imageUrl;
       }
-
+      }
     });
 
   </script>

@@ -136,27 +136,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
            </div>
 
          </div>
-            <!--
-                Llamamos a 2 columnas que serán 2 web components
-                Una sera item-dueto y otra item-artista.
-                 <paper-fab icon="{{__computeFavIcon(__favorite)}}" on-tap="__toggleFavorite"></paper-fab>
-                Este icono será el que usaremos para seleccionar a cada uno
-                En los webcomponents hay que añadir las siguientes funcionalidades para que el boton funcione apropiadamente
-                            __computeFavIcon: function(favorite) {
-                return favorite ? 'app:favorite' : 'app:favorite-border';
-                },
-
-                __toggleFavorite: function(event, detail) {
-                this.__favorite = !this.__favorite;
-                },
-
-                y
-
-                            __favorite: {
-                    type: Boolean,
-                    value: false
-                }
-            -->
 
       <input disabled id="contadorCreditos" value="{{puntuacionRestante}}">
       <input  disabled id="contadorDuetos" value="0">

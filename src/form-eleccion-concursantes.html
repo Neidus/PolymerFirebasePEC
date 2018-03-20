@@ -161,7 +161,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <input disabled id="contadorCreditos" value="{{puntuacionRestante}}">
       <input  disabled id="contadorDuetos" value="0">
       <input  disabled id="contadorArtistas" value="0">
-      <button>Confirmar selección</button>
+      <button on-click="__cargarDatos">Confirmar selección</button>
     
 
   </template>
@@ -194,6 +194,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       puntuacionRestante: {
           type: Number,
           value: 50
+      },
+
+      user: {
+        type: Object
       }
     },
 
@@ -214,18 +218,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     },
 
     __cargarDatos:function () {
-      /*
-      Con nuestro id de usuario cogemos los ids marcados para subirlos a la
-      bbdd como nuestra eleccion
+    
 
-      Hay que ver una forma de poder obtener los ids marcados
-      posible idea es hace inputs hidden en las elecciones de cada tipo
-      que guarden los ids y ya recuperarlos luego desde aqui.
+      
+      firebase.database().ref('user2s/' + this.user.uid).set({
+        username: this.user.displayName,
+        email: this.user.email,
+        profile_picture : this.user.photoURL
+      });
 
-
-      */
-    }
-
+      console.log(this.user);
+    },
     
 
   });

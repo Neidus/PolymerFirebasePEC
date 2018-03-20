@@ -359,7 +359,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </iron-pages>
 
             <iron-pages selected="[[page]]" attr-for-selected="name" name="elegir concursantes">
-              <form-eleccion-concursantes name="list" section="[[sectionData.section]]"></form-eleccion-concursantes>
+              <form-eleccion-concursantes name="list" user="[[user]]" section="[[sectionData.section]]"></form-eleccion-concursantes>
             </iron-pages>
 
             <iron-pages selected="[[page]]" attr-for-selected="name" name="rankings">
@@ -372,6 +372,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <iron-pages selected="[[page]]" attr-for-selected="name" name="cuenta">
               Aqui info de la cuenta seleccionada. Habra que revisar la forma de llegar a aqui si podemos entrar en los perfiles de las
               cuentas de cualquiera.
+            </iron-pages>
+
+            <iron-pages selected="[[page]]" attr-for-selected="name" name="Añadir concursantes">
+              aqui añadimos concursantes 
             </iron-pages>
           </iron-pages>
 
@@ -397,7 +401,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               'programas',
               'elegir concursantes',
               'rankings',
-              'furniture',
+              'Añadir concursantes',
               'beauty',
               'food',
               'travel'

@@ -242,10 +242,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <!-- Conexion a la BBDD -->
     <firebase-app auth-domain="primerproyecto-166008.firebaseapp.com" database-url="https://primerproyecto-166008.firebaseio.com/"
-      api-key="AIzaSyDjCmVSTejjAzRZaXtLgKS1ti9fHi4JTE0">
+      api-key="AIzaSyDjCmVSTejjAzRZaXtLgKS1ti9fHi4JTE0" >
     </firebase-app>
     <firebase-auth id="auth" user="{{user}}" provider="google" on-error="handleError">
     </firebase-auth>
+
+    <firebase-query 
+    id="query" 
+    path="/user2s/{{user.uid}}" 
+    data="{{usuarioBBDD}}">
+    </firebase-query>
 
     <app-location route="{{route}}" use-hash-as-path></app-location>
     <app-route route="{{route}}" pattern=":section" data="{{sectionData}}" tail="{{subRoute}}"></app-route>
@@ -443,6 +449,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         _usuarioLogeado: {
           type: String,
           computed: '_calcularLogin(user)'
+        },
+
+        consulta: {
+          type: Object
         }
 
 
@@ -514,17 +524,87 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       _hacerLogin: function () {
+        
+        //this.getFirebaseValue("/user2s/{{user.uid}}");
         return this.$.auth.signInWithPopup(this.$.auth.provider);
+        
       },
 
       _calcularLogin: function (usuario) {
         return ((this.$.auth.user === undefined || this.$.auth.user === null) ? "login" : "logeado");
       },
 
+      getFirebaseValue: function(path) {
+      return new Promise(function(resolve, reject) {
+        var ref = firebase.app('').database().ref(path);
+        ref.on('value', function(snapshot) {
+          ref.off();
+          resolve(snapshot.val());
+        });
+      });
+    },
+
       _cerrarSesion: function () {
-        console.log(this.$.auth.user);
-        this.$.auth.signOut();
-      }
+         
+         /*
+            Si la consulta es nula, es que no está en la bbdd y por tanto no deberemos permitir que entre en la pagina
+
+            Si no es nula, todo bien.
+         */
+
+         
+        //Metodo 1 para obtener la consulta
+
+        var ref = firebase.app('').database().ref("/user2s/"+this.user.uid);
+          ref.on('value', function(snapshot) {
+          ref.off();
+          console.log(snapshot.val());
+          });
+
+        var ref = firebase.app('').database().ref("/user2s/"+this.user.uid+"d");
+          ref.on('value', function(snapshot) {
+          ref.off();
+          console.log(snapshot.val());
+          });
+
+        /*
+
+          //Consulta que SI funciona
+        var consultaValor = this.getFirebaseValue("/user2s/"+this.user.uid);
+
+        var consulta4444 = consultaValor.then(function(result) {
+          // do something with result
+          this.consulta = result;
+          if (result === null) {
+            alert("Es nulo!");
+          } else {
+            alert("No es nulo!");
+          }
+          return result;
+        });
+        
+        //Consulta que NO devuelve nada
+        consultaValor = this.getFirebaseValue("/user2s/"+this.user.uid+"d");
+
+         consulta4444 = consultaValor.then(function(result) {
+          // do something with result
+          this.consulta = result;
+          if (result === null) {
+            alert("Es nulo!");
+          } else {
+            alert("No es nulo!");
+          }
+          return result;
+        });
+
+        */
+        
+
+      },
+
+      
+
+      
 
     });
 

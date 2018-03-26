@@ -43,6 +43,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="shrine-detail.html">
 <link rel="import" href="lista-ranking.html">
 <link rel="import" href="form-eleccion-concursantes.html">
+<link rel="import" href="form-insertar-concursante.html">
 
 <dom-module id="shrine-app">
 
@@ -391,8 +392,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         cuentas de cualquiera.
                       </iron-pages>
           
-                      <iron-pages selected="[[page]]" attr-for-selected="Añadir concursantes" >
-                        aqui añadimos concursantes ccc 
+                      <iron-pages selected="[[page]]" attr-for-selected="name" name="Añadir concursantes" >
+                        <form-insertar-concursante name="list"></form-insertar-concursante>
+                      </iron-pages>
+
+                      <iron-pages selected="[[page]]" attr-for-selected="Añadir duetos" >
+                        aqui añadimos duetos en base a los concursantes que ya tenemos 
                       </iron-pages>
           
                     </iron-pages>
@@ -426,6 +431,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               'elegir concursantes',
               'rankings',
               'Añadir concursantes',
+              'Añadir duetos'
             ];
           }
         },

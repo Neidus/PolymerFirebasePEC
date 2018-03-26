@@ -47,13 +47,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     
   <dom-bind>
     <template is="dom-bind">
-      <iron-ajax url="data/items.json" auto last-response="{{items}}"></iron-ajax>
-      <iron-ajax url="data/featured.json" auto last-response="{{featuredItems}}"></iron-ajax>
-      <!-- 
-<iron-ajax url="data/recipes.json" auto last-response="{{recipes}}"></iron-ajax>
-<recipe-app recipes="[[recipes]]"></recipe-app>
-   
-      -->
+      
       <shrine-app items="[[items]]" featured-items="[[featuredItems]]"></shrine-app>
    
     </template>

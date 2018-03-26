@@ -247,147 +247,165 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <firebase-auth id="auth" user="{{user}}" provider="google" on-error="handleError">
     </firebase-auth>
 
+    <!-- Consulta para obtener el usuario con el que estamos conectados de la BBDD -->
     <firebase-query 
-    id="query" 
-    path="/user2s/{{user.uid}}" 
+    id="queryUser" 
+    path="/users/{{user.uid}}" 
     data="{{usuarioBBDD}}">
     </firebase-query>
 
+    <!--  Obtencion de las rutas y subrutas dentro de nuestra aplicación web -->
     <app-location route="{{route}}" use-hash-as-path></app-location>
     <app-route route="{{route}}" pattern=":section" data="{{sectionData}}" tail="{{subRoute}}"></app-route>
     <app-route route="{{subRoute}}" pattern="/:id" data="{{idData}}" active="{{onDetailPage}}"></app-route>
 
     <iron-media-query query="max-width: 500px" query-matches="{{smallScreen}}"></iron-media-query>
 
+    <!-- Este iron page decide a qué parte hay que ir en funcion de si estamos logeados correctamente
+       (con un user de google que está en nuestra bbdd)-->
     <iron-pages selected="[[_usuarioLogeado]]" attr-for-selected="name" fallback-selection="login">
 
-
+     <!-- Si NO estamos logeados con ninguna cuenta nos envía aquí-->
       <div name="login">
-        <h1>Usuario no identificado!</h1>
-        <paper-button raised on-tap="_hacerLogin">Login</paper-button>
+          <h1>Usuario no identificado!</h1>
+          <paper-button raised on-tap="_hacerLogin">Login</paper-button>
       </div>
+    
+      <!-- Si SI estamos logeados con ninguna cuenta nos envía aquí-->
+      <div name="logeado">
 
-
-      <app-drawer-layout drawer-width="288px" force-narrow name="logeado">
-        <!-- menú de navegación para la izquierda cuando la web es pequeña-->
-        <app-drawer slot="drawer" id="drawer" swipe-open="[[smallScreen]]">
-          <template is="dom-if" if="[[smallScreen]]">
-            <app-toolbar class="profileBar">
-              <img class="profilePic" src="[[user.photoURL]]" width="30" height="30">
-              <div class="profileName">[[user.displayName]]</div>
-
-              <paper-menu-button>
-                <paper-icon-button icon="settings" aria-label="Settings" slot="dropdown-trigger" alt="menu"></paper-icon-button>
-                <paper-listbox slot="dropdown-content">
-                  <paper-button onclick="window.location='#cuenta'">Cuenta</paper-button>
-                  <paper-button on-tap="_cerrarSesion">Cerrar Sesión</paper-button>
-                </paper-listbox>
-              </paper-menu-button>
-            </app-toolbar>
-            <div class="list">
-              <template is="dom-repeat" items="[[sections]]" as="section" initial-count="1">
-                <a href="#[[section]]" class$="[[_getSectionClass(index, selectedTab)]]">[[section]]</a>
-              </template>
-            </div>
-          </template>
-        </app-drawer>
-
-        <app-header-layout id="headerLayout">
-          <!-- menú de cabecera -->
-          <app-header slot="header" effects="waterfall" fixed="[[smallScreen]]" condenses="[[!smallScreen]]" reveals="[[!smallScreen]]">
-
-            <app-toolbar id="mainToolbar">
-              <div class="navItem leftItem">
-                <paper-icon-button icon="menu" drawer-toggle alt="Toogle navigation menu"></paper-icon-button>
-                <a href="#[[sectionData.section]]" tabindex="-1">
-                  <paper-icon-button icon="arrow-back" alt="Back to the home"></paper-icon-button>
-                </a>
+        <!-- Este iron page decide a qué parte va en función de si consideramos que tenemos el usuario logeado en la bbdd (ser un usuario valido) -->
+          <iron-pages selected="[[_usuarioValido]]" attr-for-selected="name" fallback-selection="false">
+              <!--  El usuario no esta en la BBDD aún-->
+              <div name="false">
+                  <p>No estás registrado en la página pulsa en Registrarse para registrar tus datos.</p>
+                  <paper-button raised on-tap="_registrarUsuario">Registrarse con Cuenta Google</paper-button>
+                  
               </div>
-              <div class="spacer">
-                <img src="../img/logoLF_OT.jpg" class="logo" alt="SHRINE">
+
+              <!-- parte vacía donde accedemos momentaneamente mientras se procesa nuestro usuario correctamente.
+                Esto está para evitar accesos a la pagina web que no deberian producirse -->
+              <div name="none">
+                  <p></p>
               </div>
-              <template is="dom-if" if="[[_shouldShowTabs(onDetailPage, smallScreen)]]">
-                <app-toolbar class="navItem2 profileBar rightItem" if="[[_shouldShowTabs(onDetailPage, smallScreen)]]">
-                  <img class="profilePic" src="[[user.photoURL]]" width="30" height="30">
-                  <div class="profileName">[[user.displayName]]</div>
-                  <paper-menu-button>
-                    <paper-icon-button icon="settings" aria-label="Settings" slot="dropdown-trigger" alt="menu"></paper-icon-button>
-                    <paper-listbox slot="dropdown-content">
-                      <paper-button onclick="window.location='#cuenta'">Cuenta</paper-button>
-                      <paper-button on-tap="_cerrarSesion">Cerrar Sesión</paper-button>
-                    </paper-listbox>
-                  </paper-menu-button>
-                </app-toolbar>
-              </template>
-            </app-toolbar>
 
-            <template is="dom-if" if="[[_shouldShowTabs(onDetailPage, smallScreen)]]">
-              <paper-tabs selected="[[selectedTab]]" scrollable sticky$="[[_shouldShowTabs(onDetailPage, smallScreen)]]">
-                <template is="dom-repeat" items="[[sections]]" as="section">
-                  <paper-tab>
-                    <a href="#[[section]]">[[section]]</a>
-                  </paper-tab>
-                </template>
-              </paper-tabs>
-            </template>
+              <!--Si todo está correctamente respecto al logeo del usuario entramos en nuestra pagina normalmente. -->
+              <app-drawer-layout drawer-width="288px" force-narrow name="true">
+                  <!-- menú de navegación para la izquierda cuando la web es pequeña-->
+                  <app-drawer slot="drawer" id="drawer" swipe-open="[[smallScreen]]">
+                    <template is="dom-if" if="[[smallScreen]]">
+                      <app-toolbar class="profileBar">
+                        <img class="profilePic" src="[[user.photoURL]]" width="30" height="30">
+                        <div class="profileName">[[user.displayName]]</div>
+          
+                        <paper-menu-button>
+                          <paper-icon-button icon="settings" aria-label="Settings" slot="dropdown-trigger" alt="menu"></paper-icon-button>
+                          <paper-listbox slot="dropdown-content">
+                            <paper-button onclick="window.location='#cuenta'">Cuenta</paper-button>
+                            <paper-button on-tap="_cerrarSesion">Cerrar Sesión</paper-button>
+                          </paper-listbox>
+                        </paper-menu-button>
+                      </app-toolbar>
+                      <div class="list">
+                        <template is="dom-repeat" items="[[sections]]" as="section" initial-count="1">
+                          <a href="#[[section]]" class$="[[_getSectionClass(index, selectedTab)]]">[[section]]</a>
+                        </template>
+                      </div>
+                    </template>
+                  </app-drawer>
 
-          </app-header>
+                  <!-- menú de cabecera -->
+                  <app-header-layout id="headerLayout">
+                    <app-header slot="header" effects="waterfall" fixed="[[smallScreen]]" condenses="[[!smallScreen]]" reveals="[[!smallScreen]]">
+                      <app-toolbar id="mainToolbar">
+                        <div class="navItem leftItem">
+                          <paper-icon-button icon="menu" drawer-toggle alt="Toogle navigation menu"></paper-icon-button>
+                          <a href="#[[sectionData.section]]" tabindex="-1">
+                            <paper-icon-button icon="arrow-back" alt="Back to the home"></paper-icon-button>
+                          </a>
+                        </div>
+                        <div class="spacer">
+                          <img src="../img/logoLF_OT.jpg" class="logo" alt="SHRINE">
+                        </div>
+                        <template is="dom-if" if="[[_shouldShowTabs(onDetailPage, smallScreen)]]">
+                          <app-toolbar class="navItem2 profileBar rightItem" if="[[_shouldShowTabs(onDetailPage, smallScreen)]]">
+                            <img class="profilePic" src="[[user.photoURL]]" width="30" height="30">
+                            <div class="profileName">[[user.displayName]]</div>
+                            <paper-menu-button>
+                              <paper-icon-button icon="settings" aria-label="Settings" slot="dropdown-trigger" alt="menu"></paper-icon-button>
+                              <paper-listbox slot="dropdown-content">
+                                <paper-button onclick="window.location='#cuenta'">Cuenta</paper-button>
+                                <paper-button on-tap="_cerrarSesion">Cerrar Sesión</paper-button>
+                              </paper-listbox>
+                            </paper-menu-button>
+                          </app-toolbar>
+                        </template>
+                      </app-toolbar>
+          
+                      <template is="dom-if" if="[[_shouldShowTabs(onDetailPage, smallScreen)]]">
+                        <paper-tabs selected="[[selectedTab]]" scrollable sticky$="[[_shouldShowTabs(onDetailPage, smallScreen)]]">
+                          <template is="dom-repeat" items="[[sections]]" as="section">
+                            <paper-tab>
+                              <a href="#[[section]]">[[section]]</a>
+                            </paper-tab>
+                          </template>
+                        </paper-tabs>
+                      </template>
+          
+                    </app-header>
+          
+          
+                    <!-- zona inferior de la página web. En función de la seleccion clickada carga una u otra-->
+                    <iron-pages selected="[[sectionData.section]]" attr-for-selected="name">
+                      
+                      <iron-pages selected="[[page]]" attr-for-selected="name" name="programas">
+                        
+                        <!-- detail of item -->
+                        <template is="dom-if" if="[[_equal(page, 'detail')]]">
+                          <shrine-detail name="detail" section="[[sectionData.section]]" related-items="[[items]]" programaid="[[idData.id]]">
+                          </shrine-detail>
+                        </template>
+                        
+                        <!-- list of items -->
+                        <template is="dom-if" if="[[_equal(page, 'list')]]">
+                          <shrine-list name="list" section="[[sectionData.section]]" items="[[_getItemsCopy(items, sectionData.section)]]" featured-item="[[_getFeaturedItem(featuredItems, sectionData.section)]]">
+                          </shrine-list>
+                        </template>
+          
+                      </iron-pages>
+          
+                      <iron-pages selected="[[page]]" attr-for-selected="name" name="elegir concursantes">
+                        <form-eleccion-concursantes name="list" user="[[user]]" section="[[sectionData.section]]"></form-eleccion-concursantes>
+                      </iron-pages>
+          
+                      <iron-pages selected="[[page]]" attr-for-selected="name" name="rankings">
+                        
+                        <template is="dom-if" if="[[_equal(page, 'list')]]">
+                          <lista-ranking name="list"></lista-ranking>
+                        </template>
+          
+                      </iron-pages>
+          
+                      <iron-pages selected="[[page]]" attr-for-selected="name" name="cuenta">
+                        Aqui info de la cuenta seleccionada. Habra que revisar la forma de llegar a aqui si podemos entrar en los perfiles de las
+                        cuentas de cualquiera.
+                      </iron-pages>
+          
+                      <iron-pages selected="[[page]]" attr-for-selected="Añadir concursantes" >
+                        aqui añadimos concursantes ccc 
+                      </iron-pages>
+          
+                    </iron-pages>
+          
+          
+                  </app-header-layout>
+                </app-drawer-layout>
 
-
-          <!-- zona inferior de la página web -->
-          <iron-pages selected="[[sectionData.section]]" attr-for-selected="name">
-            <iron-pages selected="[[page]]" attr-for-selected="name" name="hola">
-              <!-- detail of item -->
-              <template is="dom-if" if="[[_equal(page, 'detail')]]">
-                <shrine-detail name="detail" section="[[sectionData.section]]" related-items="[[items]]" item="[[_getDetailItem(items, idData.id)]]">
-                </shrine-detail>
-              </template>
-              <!-- list of items -->
-              <template is="dom-if" if="[[_equal(page, 'list')]]">
-                <shrine-list name="list" section="[[sectionData.section]]" items="[[_getItemsCopy(items, sectionData.section)]]" featured-item="[[_getFeaturedItem(featuredItems, sectionData.section)]]">
-                </shrine-list>
-              </template>
-            </iron-pages>
-            <iron-pages selected="[[page]]" attr-for-selected="name" name="programas">
-              
-              <!-- detail of item -->
-              <template is="dom-if" if="[[_equal(page, 'detail')]]">
-                <shrine-detail name="detail" section="[[sectionData.section]]" related-items="[[items]]" programaid="[[idData.id]]">
-                </shrine-detail>
-              </template>
-              
-              <!-- list of items -->
-              <template is="dom-if" if="[[_equal(page, 'list')]]">
-                <shrine-list name="list" section="[[sectionData.section]]" items="[[_getItemsCopy(items, sectionData.section)]]" featured-item="[[_getFeaturedItem(featuredItems, sectionData.section)]]">
-                </shrine-list>
-              </template>
-
-            </iron-pages>
-
-            <iron-pages selected="[[page]]" attr-for-selected="name" name="elegir concursantes">
-              <form-eleccion-concursantes name="list" user="[[user]]" section="[[sectionData.section]]"></form-eleccion-concursantes>
-            </iron-pages>
-
-            <iron-pages selected="[[page]]" attr-for-selected="name" name="rankings">
-              <template is="dom-if" if="[[_equal(page, 'list')]]">
-                <lista-ranking name="list"></lista-ranking>
-              </template>
-
-            </iron-pages>
-
-            <iron-pages selected="[[page]]" attr-for-selected="name" name="cuenta">
-              Aqui info de la cuenta seleccionada. Habra que revisar la forma de llegar a aqui si podemos entrar en los perfiles de las
-              cuentas de cualquiera.
-            </iron-pages>
-
-            <iron-pages selected="[[page]]" attr-for-selected="name" name="Añadir concursantes">
-              aqui añadimos concursantes ccc
-            </iron-pages>
           </iron-pages>
 
 
-        </app-header-layout>
-      </app-drawer-layout>
+      </div>
+
     </iron-pages>
 
   </template>
@@ -408,9 +426,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               'elegir concursantes',
               'rankings',
               'Añadir concursantes',
-              'beauty',
-              'food',
-              'travel'
             ];
           }
         },
@@ -445,16 +460,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         onDetailPage: Boolean,
 
         user: Object,
-
+        //Guarda la info de si está logeado el usuario
         _usuarioLogeado: {
           type: String,
           computed: '_calcularLogin(user)'
         },
-
-        consulta: {
+        //Guarda la query realizada a la bbdd sobre el usuario
+        usuarioBBDD: {
           type: Object
+        },
+        //Guarda si el usuario con el que estamos logeados existe en la bbdd
+        existeUser: {
+          type: String,
+          computed: '_computeExisteUsuario(usuarioBBDD)'
+        },
+        //propiedad extra que debo usar para evitar problemas con los logeos.
+        _primerComprobacionQuery: {
+          type: String,
+          computed: '_computePrimeraComprobacionQuery(_usuarioLogeado)'
+        },
+        // Guarda si con las anteriores propiedades referidas al usuario todo es correcto.
+        _usuarioValido: {
+          type: String,
+          computed: '_computeUsuarioValido(existeUser)'
         }
-
 
       },
 
@@ -478,14 +507,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         return items ? items.slice() : [];
       },
 
-      /*Devuelve el featured item segun la categoria elegida
-      teniendo que coincidir con la guardada en el json de los datos
-      Nosotros lo que haremos sera coger el documento del programa destacado
-      de la bbdd para ponerlo en dicho componente destacado. Simpre será
-      el ultimo programa introducido en la bbdd.
-      Ahora si cambiamos las categorias no nos carga a no ser que cambiemos la
-      categoria tambien en el json. Hay que andarse con ojo.
-      */
       _getFeaturedItem: function (featuredItems, section) {
         if (featuredItems && section) {
           return featuredItems.filter(function (item) {
@@ -524,16 +545,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       _hacerLogin: function () {
-        
-        //this.getFirebaseValue("/user2s/{{user.uid}}");
         return this.$.auth.signInWithPopup(this.$.auth.provider);
-        
       },
 
       _calcularLogin: function (usuario) {
+        //alert("entro en calcular login");
+        //alert("usuario: " +  this.$.auth.user);
         return ((this.$.auth.user === undefined || this.$.auth.user === null) ? "login" : "logeado");
       },
 
+//Ignorar por ahora esta funcion
       getFirebaseValue: function(path) {
       return new Promise(function(resolve, reject) {
         var ref = firebase.app('').database().ref(path);
@@ -544,30 +565,78 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       });
     },
 
+    _computeExisteUsuario: function(usuario) {
+      //alert("entro en comprobar existe usuario");
+      //alert("control Primera Vez: " +  this._primerComprobacionQuery);
+      //alert("usuario existente: " +  usuario);
+      if (usuario===null  || usuario === undefined || usuario.length===0) {
+        if (this._primerComprobacionQuery==="true") {
+          return "none";
+        }
+        return "false";
+      } else {
+        return "true";
+      }
+
+    },
+
+    _computePrimeraComprobacionQuery: function(ff) {
+
+      if (this._primerComprobacionQuery===undefined) {
+        return "true";
+      }
+
+      if (this._primerComprobacionQuery==="true") {
+        return "false";
+      }
+      
+      return "false";
+    },
+
+    _computeUsuarioValido(usuario) {
+      //alert("entro en comprobar usuario valido");
+      //alert("usuarioLogeado: " + this._usuarioLogeado);
+      //alert("existeUser: " + this.existeUser);
+      if (this._usuarioLogeado==="logeado" && this.existeUser==="true") {
+          return "true";
+      } 
+      if (this.existeUser==="false") {
+        return "registro"
+      }  else {
+        //alert("comprobacion Query en validar usuario :" + this._primerComprobacionQuery);
+        
+        if (this._primerComprobacionQuery==="true") {
+          this._primerComprobacionQuery = "false";
+          
+          return "false";
+        } else {
+          return "false";
+        }
+      }
+    },
       _cerrarSesion: function () {
          
-         /*
-            Si la consulta es nula, es que no está en la bbdd y por tanto no deberemos permitir que entre en la pagina
-
-            Si no es nula, todo bien.
-         */
-
-         
-        //Metodo 1 para obtener la consulta
-
-        var ref = firebase.app('').database().ref("/user2s/"+this.user.uid);
-          ref.on('value', function(snapshot) {
-          ref.off();
-          console.log(snapshot.val());
-          });
-
-        var ref = firebase.app('').database().ref("/user2s/"+this.user.uid+"d");
-          ref.on('value', function(snapshot) {
-          ref.off();
-          console.log(snapshot.val());
-          });
+        this.$.auth.signOut();
 
         /*
+         var existes=true;
+        var ref = firebase.app('').database().ref("/user2s/"+this.user.uid+"d");
+          return ref.on('value', function(snapshot) {
+          ref.off();
+          if (snapshot.val()===null || snapshot.val()===undefined) {
+            
+            existes = false;
+            userExistsCallback(existes);
+            return false;
+            alert("holis");
+          } else {
+            existes = true;
+            userExistsCallback(existes);
+            return true;
+            alert("holis");
+          }
+          });
+
 
           //Consulta que SI funciona
         var consultaValor = this.getFirebaseValue("/user2s/"+this.user.uid);
@@ -602,11 +671,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       },
 
-      
+      _registrarUsuario() {
+          
+        /*
+        Subimos a la BBDD el valor del usuario cuya clave sera el uid del usuario logeado.
+        Luego recargamos la pagina para que nos cargue la principal.
+        */
+        firebase.database().ref('users/' + this.user.uid).set({
+          username: this.user.displayName,
+          email: this.user.email,
+          profile_picture : this.user.photoURL,
+          privacidad: "true"
+        });
+        recargarPagina();
 
+      }
       
-
     });
+
+    function recargarPagina() {
+        location.reload();
+    }
 
   </script>
 

@@ -561,9 +561,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       _calcularLogin: function (usuario) {
-        alert("entro en calcular login");
-        alert("control Primera Vez: " +  this._primerComprobacionQuery);
-        alert("usuario: " +  this.$.auth.user);
+        //alert("entro en calcular login");
+        //alert("control Primera Vez: " +  this._primerComprobacionQuery);
+        //alert("usuario: " +  this.$.auth.user);
 
         if ((this.$.auth.user === undefined || this.$.auth.user === null)) {
           if ( this._primerComprobacionQuery===undefined) {
@@ -587,9 +587,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     },
 
     _computeExisteUsuario: function(usuario) {
-      alert("entro en comprobar existe usuario");
-      alert("control Primera Vez: " +  this._primerComprobacionQuery);
-      alert("usuario existente: " +  usuario);
+      //alert("entro en comprobar existe usuario");
+      //alert("control Primera Vez: " +  this._primerComprobacionQuery);
+      //alert("usuario existente: " +  usuario);
       if (usuario===null  || usuario === undefined || usuario.length===0) {
         if (this._primerComprobacionQuery==="true") {
           return "none";
@@ -615,9 +615,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     },
 
     _computeUsuarioValido(usuario) {
-      alert("entro en comprobar usuario valido");
-      alert("usuarioLogeado: " + this._usuarioLogeado);
-      alert("existeUser: " + this.existeUser);
+      //alert("entro en comprobar usuario valido");
+      //alert("usuarioLogeado: " + this._usuarioLogeado);
+      //alert("existeUser: " + this.existeUser);
       if (this._usuarioLogeado==="logeado" && this.existeUser==="true") {
           return "true";
       } 

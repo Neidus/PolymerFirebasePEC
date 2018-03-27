@@ -1,0 +1,360 @@
+<script src="../pdfjs-dist/build/pdf.min.js"></script>
+<script>
+    var resizer = (function () {
+        'use strict';
+        function Resize() {
+            
+        }
+
+        Resize.prototype = {
+
+            init: function (outputQuality) {
+                this.outputQuality = (outputQuality === 'undefined' ? 0.8 : outputQuality);
+            },
+            
+            resize: function (dataURL, maxSize, outputType, callback) {
+                var _this = this;
+                var image = new Image();
+                image.crossOrigin = "anonymous";  // This enables CORS
+                image.onload = function (imageEvent) {
+                    // Resize image
+                    debugger;
+                    var canvas = document.createElement('canvas'),
+                        width = image.width,
+                        height = image.height;
+                    if (width > height) {
+                        if (width > maxSize) {
+                            height *= maxSize / width;
+                            width = maxSize;
+                        }
+                    } else {
+                        if (height > maxSize) {
+                            width *= maxSize / height;
+                            height = maxSize;
+                        }
+                    }
+                    canvas.width = width;
+                    canvas.height = height;
+                    
+                    if(_this.isiOSDevice()){
+                        var arrayBuffer = _this.base64ToArrayBuffer(dataURL);
+                        _this.getOrienataion(arrayBuffer,function(orientation){
+                            canvas = _this.transformContext(canvas,orientation,width,height);
+                            canvas.getContext('2d').drawImage(image, 0, 0, width, height);
+                            _this.output(canvas, outputType, callback);
+                        });
+                    }else{
+                        canvas.getContext('2d').drawImage(image, 0, 0, width, height);
+                        _this.output(canvas, outputType, callback);
+                    }
+                }
+                image.src = dataURL;
+
+            },
+
+            output: function (canvas, outputType, callback) {
+                switch (outputType) {
+                    case 'file':
+                        canvas.toBlob(function (blob) {
+                            callback(blob);
+                        }, 'image/jpeg', 0.8);
+                        break;
+
+                    case 'dataURL':
+                        callback(canvas.toDataURL('image/jpeg', 0.8));
+                        break;
+                }
+            },
+            base64ToArrayBuffer:function(base64, contentType) {
+                contentType = contentType || base64.match(/^data\:([^\;]+)\;base64,/mi)[1] || ''; // e.g. 'data:image/jpeg;base64,...' => 'image/jpeg'
+                base64 = base64.replace(/^data\:([^\;]+)\;base64,/gmi, '');
+                var binary = atob(base64);
+                var len = binary.length;
+                var buffer = new ArrayBuffer(len);
+                var view = new Uint8Array(buffer);
+                for (var i = 0; i < len; i++) {
+                    view[i] = binary.charCodeAt(i);
+                }
+                return buffer;
+            },
+            getOrienataion:function(arrayBuffer,callback){
+                var view = new DataView(arrayBuffer);
+                if (view.getUint16(0, false) != 0xFFD8)
+                {
+                    return callback(-2);
+                }
+                var length = view.byteLength, offset = 2;
+                while (offset < length) 
+                {
+                    var marker = view.getUint16(offset, false);
+                    offset += 2;
+                    if (marker == 0xFFE1) 
+                    {
+                        if (view.getUint32(offset += 2, false) != 0x45786966) 
+                        {
+                            return callback(-1);
+                        }
+
+                        var little = view.getUint16(offset += 6, false) == 0x4949;
+                        offset += view.getUint32(offset + 4, little);
+                        var tags = view.getUint16(offset, little);
+                        offset += 2;
+                        for (var i = 0; i < tags; i++)
+                        {
+                            if (view.getUint16(offset + (i * 12), little) == 0x0112)
+                            {
+                                return callback(view.getUint16(offset + (i * 12) + 8, little));
+                            }
+                        }
+                    }
+                    else if ((marker & 0xFF00) != 0xFF00)
+                    {
+                        break;
+                    }
+                    else
+                    { 
+                        offset += view.getUint16(offset, false);
+                    }
+                }
+            },
+            isiOSDevice:function(){
+                var iOS = navigator.userAgent.match(/(iPad|iPhone|iPod)/i);
+                return iOS ? true :false;
+            },
+            transformContext:function(canvas,orientation,width,height){
+                var ctx = canvas.getContext("2d");
+                switch (orientation) {
+                    case 2:
+                        ctx.transform(-1, 0, 0, 1, width, 0);
+                        break;
+                    case 3:
+                        ctx.transform(-1, 0, 0, -1, width, height);
+                        break;
+                    case 4:
+                        ctx.transform(1, 0, 0, -1, 0, height);
+                        break;
+                    case 5:
+                        ctx.transform(0, 1, 1, 0, 0, 0);
+                        break;
+                    case 6:
+                        ctx.transform(0, 1, -1, 0, height, 0);
+                        break;
+                    case 7:
+                        ctx.transform(0, -1, -1, 0, height, width);
+                        break;
+                    case 8:
+                        ctx.transform(0, -1, 1, 0, 0, width);
+                        break;
+                    default:
+                        ctx.transform(1, 0, 0, 1, 0, 0);
+                }
+                return canvas;
+            }
+        }
+        return Resize;
+    }());
+    /*@polymerBehavior BwtUploadBehavior*/
+    BwtUploadBehavior = {
+        properties: {
+            error: {
+                type: String,
+                notify: true,
+            },
+            // private variable
+            file: {
+                type: Object,
+                value: {},
+                notify: true
+            },
+            /**
+             * The type of placeholder, accepts either one of two arguments; square or circle
+             **/
+            theme: {
+                type: String,
+                value: 'circle',
+                notify: true,
+                reflectToAttribute: true
+            },
+            // url of the image to be displayed, this can be used mixed with the placeholder
+            image: {
+                type: String,
+                value: '',
+                notify: true,
+                reflectToAttribute: true
+            },
+            /**
+             * location of the placeholder image
+             **/
+            placeholder: {
+                type: String,
+                value: '/bower_components/bwt-uploader/images/placeholder.png',
+                notify: true
+            },
+            placeHolderRemoved: {
+                type: Boolean,
+                value: false,
+                notify: true
+            },
+            customClass: {
+                type: Boolean,
+                value: false,
+                notify: true
+            }
+        },
+        _hasWrongMimeType(file, acceptedFileTypes) {
+            if (!acceptedFileTypes.includes(file.type))
+                throw new Error('Invalid file type, please upload an accepted file type');
+        },
+        _hasMoreThanOneFile(files) {
+            if (files.length > 1)
+                throw new Error('You can only upload one file at a time');
+        },
+        _validateFile(files) {
+            try {
+                this._hasMoreThanOneFile(files);
+                this._hasWrongMimeType(files[0], this.acceptedFileTypes);
+                if (!this.height) this._hasExceededMaximumFileSize(files[0]);
+            } catch (e) {
+                this.error = e.message;
+            }
+        },
+        // Only applies images that are captured or less than minute
+        _isRecentImage(file) {
+            if (file && file.lastModified) {
+                var diiference = Math.round(new Date().getTime() - file.lastModified) / 60000;
+                if (diiference <= 1) return true;
+                else return false;
+            }
+        },
+        _hasExceededMaximumFileSize(file) {
+            var _isRecentImage = this._isRecentImage(file);
+            if (file.size > (this.maxFileSize * 1024) && !_isRecentImage)
+                throw new Error('The uploaded file exceeds ' + this.maxFileSize + ' KB')
+        },
+        _uploadFile(files) {
+            this._validateFile(files);
+
+            if (this.error) return;
+            this.set('file', files[0]);
+            this.set('file.progress', 20);
+            this.notifyPath('file.progress');
+            this.file.error = false;
+            this.file.complete = false;
+            this._startPreviewAndAjax(this.file);
+        },
+        _startPreviewAndAjax(file) {
+            try {
+                if (file.type === 'application/pdf') {
+                    this.set('file.progress', 40);
+                    this.notifyPath('file.progress');
+                    this._getDocumentPreview(file).then( (success) => {
+                        success.task.then((done) => {
+                            this.image = success.canvas.toDataURL("image/jpeg");
+                            this.$.preview._updateImage(this.placeholder, this.image);
+                            this._uploadPdf(file, this.image);
+                        });
+                    }).catch(error => {
+                        throw new Error(error);
+                    });
+                } else {
+                    this.toDataURL(file).then(function(image) {
+                        this.$.preview._createImagePreview(file, image);
+                        if(this.resize && this.height){
+                            var resize = new resizer();
+                            resize.init();
+                            resize.resize(image, this.height, 'file',function(newFile){
+                                var newImage = newFile;
+                                newImage.lastModified = file.lastModified;
+                                this._hasExceededMaximumFileSize(newImage);
+                                resize.resize(image, this.height, 'dataURL',function(newDataURL){
+                                    this.$.preview._createImagePreview(file, newDataURL);
+                                    this.set('file.progress', 60);
+                                    this.notifyPath('file.progress');
+                                    this._upload(newDataURL);            
+                                }.bind(this));
+                            }.bind(this));
+                        }else{
+                            this.set('file.progress', 60);
+                            this.notifyPath('file.progress');
+                            this._upload(image);   
+                        }
+                    }.bind(this));
+                }
+            } catch (e) {
+                console.error(e);
+                this.set('file.error', true);
+                this.notifyPath('file.error');
+                this.error = e.message || 'File Couldn\'t be uploaded';
+            }
+        },
+        _getDocumentPreview(file) {
+            return new Promise( (resolve, reject) => {
+                this.set('file.progress', 60);
+                this.notifyPath('file.progress');
+                PDFJS.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/1.7.246/pdf.worker.min.js';
+                // there is no proper way to load this thing other than a cdn
+                this._createArrayBufferFie(file)
+                .then(buffer => {
+                    return PDFJS.getDocument(buffer);
+                })
+                .then(pdf => {
+                    return pdf.getPage(1);
+                })
+                .then(page => {
+                    var scale = 0.36;
+                    var viewport = page.getViewport(scale);
+                    var canvas = document.createElement('canvas');
+                    var context = canvas.getContext('2d');
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+                    var task = page.render({
+                        canvasContext: context,
+                        viewport: viewport
+                    });
+                    resolve({ task: task.promise, canvas });
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+            })
+        },
+        _createArrayBufferFie(file) {
+            var fileReader = new FileReader();
+            return new Promise(function (resolve, reject) {
+                fileReader.onload = function (ev) {
+                    resolve(fileReader.result);
+                }
+                fileReader.readAsArrayBuffer(file);
+            });
+        },
+        _upload(file, img) {
+            debugger;
+            this.set('file.progress', 80);
+            this.notifyPath('file.progress');
+            var ajax = this.$.ajaxElement;
+            ajax.contentType = "application/json";
+            ajax.body = this.body;
+            ajax.body.file = file;
+            if (img) ajax.body.thumbnail = img;
+            this.$.ajaxElement.generateRequest();
+        },
+        _uploadPdf(file, img) {
+            var fileReader = new FileReader();
+            fileReader.onload = function (ev) {
+                this._upload(ev.target.result, img);
+            }.bind(this);
+            fileReader.readAsDataURL(file);
+            this.set('file.progress', 80);
+            this.notifyPath('file.progress');
+        },
+        toDataURL(file) {
+            return new Promise((resolve, reject) => {
+                let fr = new FileReader();
+                fr.readAsDataURL(file);
+                fr.onload = (ev) => {
+                    resolve(ev.target.result);
+                };
+            })
+        }
+    }
+</script>

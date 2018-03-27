@@ -27,7 +27,8 @@
     "web-animation": "latest",
     "web-animations-js": "latest",
     "polymerfire": "latest",
-    "s-table": "StartPolymer/s-table#^0.2.2"
+    "s-table": "StartPolymer/s-table#^0.2.2",
+    "paper-image-upload-button": "Collaborne/paper-image-upload-button#^1.0.3"
   },
   "variants": {
     "1.x": {

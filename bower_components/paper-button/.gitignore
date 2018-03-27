@@ -1,3 +1,2 @@
-bower_components*
-bower-*.json
+bower_components
 node_modules

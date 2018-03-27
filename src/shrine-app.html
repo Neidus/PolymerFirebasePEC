@@ -264,19 +264,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <!-- Este iron page decide a qué parte hay que ir en funcion de si estamos logeados correctamente
        (con un user de google que está en nuestra bbdd)-->
-    <iron-pages selected="[[_usuarioLogeado]]" attr-for-selected="name" fallback-selection="login">
+    <iron-pages selected="[[_usuarioLogeado]]" attr-for-selected="name" fallback-selection="none">
 
      <!-- Si NO estamos logeados con ninguna cuenta nos envía aquí-->
       <div name="login">
           <h1>Usuario no identificado!</h1>
           <paper-button raised on-tap="_hacerLogin">Login</paper-button>
       </div>
+
+      <!-- parte vacía donde accedemos momentaneamente mientras se procesa nuestro usuario correctamente.
+                Esto está para evitar accesos a la pagina web que no deberian producirse -->
+      <div name="none">
+        <p></p>
+      </div>
     
       <!-- Si SI estamos logeados con ninguna cuenta nos envía aquí-->
       <div name="logeado">
 
         <!-- Este iron page decide a qué parte va en función de si consideramos que tenemos el usuario logeado en la bbdd (ser un usuario valido) -->
-          <iron-pages selected="[[_usuarioValido]]" attr-for-selected="name" fallback-selection="false">
+          <iron-pages selected="[[_usuarioValido]]" attr-for-selected="name" fallback-selection="none">
               <!--  El usuario no esta en la BBDD aún-->
               <div name="false">
                   <p>No estás registrado en la página pulsa en Registrarse para registrar tus datos.</p>
@@ -555,9 +561,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       _calcularLogin: function (usuario) {
-        //alert("entro en calcular login");
-        //alert("usuario: " +  this.$.auth.user);
-        return ((this.$.auth.user === undefined || this.$.auth.user === null) ? "login" : "logeado");
+        alert("entro en calcular login");
+        alert("control Primera Vez: " +  this._primerComprobacionQuery);
+        alert("usuario: " +  this.$.auth.user);
+
+        if ((this.$.auth.user === undefined || this.$.auth.user === null)) {
+          if ( this._primerComprobacionQuery===undefined) {
+            return "none";
+          }
+          return "login";
+        } else {
+          return "logeado";
+        }
       },
 
 //Ignorar por ahora esta funcion
@@ -572,9 +587,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     },
 
     _computeExisteUsuario: function(usuario) {
-      //alert("entro en comprobar existe usuario");
-      //alert("control Primera Vez: " +  this._primerComprobacionQuery);
-      //alert("usuario existente: " +  usuario);
+      alert("entro en comprobar existe usuario");
+      alert("control Primera Vez: " +  this._primerComprobacionQuery);
+      alert("usuario existente: " +  usuario);
       if (usuario===null  || usuario === undefined || usuario.length===0) {
         if (this._primerComprobacionQuery==="true") {
           return "none";
@@ -600,24 +615,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     },
 
     _computeUsuarioValido(usuario) {
-      //alert("entro en comprobar usuario valido");
-      //alert("usuarioLogeado: " + this._usuarioLogeado);
-      //alert("existeUser: " + this.existeUser);
+      alert("entro en comprobar usuario valido");
+      alert("usuarioLogeado: " + this._usuarioLogeado);
+      alert("existeUser: " + this.existeUser);
       if (this._usuarioLogeado==="logeado" && this.existeUser==="true") {
           return "true";
       } 
-      if (this.existeUser==="false") {
-        return "registro"
+      if (this._usuarioLogeado==="logeado" && this.existeUser==="false") {
+        return "false"
       }  else {
         //alert("comprobacion Query en validar usuario :" + this._primerComprobacionQuery);
         
-        if (this._primerComprobacionQuery==="true") {
-          this._primerComprobacionQuery = "false";
-          
-          return "false";
-        } else {
-          return "false";
-        }
+        return this.existeUser;
       }
     },
       _cerrarSesion: function () {

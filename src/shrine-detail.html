@@ -239,6 +239,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     data="{{duetos}}">
     </firebase-query>
 
+    <firebase-query 
+    id="query4" 
+    path="/programas/{{programaid}}/mensajes" 
+    data="{{mensajes}}">
+    </firebase-query>
+
     <firebase-document
     path="/programas/{{programaid}}"
     data="{{programa}}">
@@ -305,6 +311,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     <p></p>
                 </div>
               </template>
+            
+              <h4>Mensajes</h4>
+
+              <template is="dom-repeat" items="{{mensajes}}">
+                  <div class="mensajes-item">
+                      <div class="mensajes-nombre">[[item.usuario]]:[[item.mensaje]]</div>
+                      <p></p>
+                  </div>
+                </template>
+                
+                <form action="">
+                  <!--<h5>Nuevo Mensaje </h5>-->
+                  <textarea id="mensaje"></textarea>
+                  <paper-fab mini icon="send" on-click="_enviarMensaje" aria-label="Enviar este mensaje"></paper-fab>
+                </form>
+
             <p> </p>
           </div>
 
@@ -329,7 +351,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           type:String
         },
 
-        prorgrama: {
+        programa: {
           type: Object,
           observer: '_programaChanged'
         },
@@ -341,12 +363,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         items2: {
           type: Array
         },
-
+       
       _programaChanged: function (programa) {
         this.$.img.src = '';
         this.$.img.src = programa.imageUrl;
       }
-      }
+      },
+      _enviarMensaje: function () {
+        /*firebase.database().ref('/programas/{{programaid}}/mensajes/').set({
+          username: this.user.displayName,
+          mensaje: this.user.me,
+        });*/
+
+        console.log(this.programaid);
+      },
+      
+     
     });
 
   </script>

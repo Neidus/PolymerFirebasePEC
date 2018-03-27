@@ -275,7 +275,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <!-- parte vacía donde accedemos momentaneamente mientras se procesa nuestro usuario correctamente.
                 Esto está para evitar accesos a la pagina web que no deberian producirse -->
       <div name="none">
-        <p></p>
+        <p>hola1</p>
       </div>
     
       <!-- Si SI estamos logeados con ninguna cuenta nos envía aquí-->
@@ -293,7 +293,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <!-- parte vacía donde accedemos momentaneamente mientras se procesa nuestro usuario correctamente.
                 Esto está para evitar accesos a la pagina web que no deberian producirse -->
               <div name="none">
-                  <p></p>
+                  <p>hola2</p>
               </div>
 
               <!--Si todo está correctamente respecto al logeo del usuario entramos en nuestra pagina normalmente. -->
@@ -567,7 +567,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         if ((this.$.auth.user === undefined || this.$.auth.user === null)) {
           if ( this._primerComprobacionQuery===undefined) {
-            return "none";
+            //ESTO ERA UN NONE PERO EN USUARIOS NO LOGEADOS NOS QUEDABAMOS PILLADOS EN EL NONE PRIMERO
+            return "login";
           }
           return "login";
         } else {
@@ -625,7 +626,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         return "false"
       }  else {
         //alert("comprobacion Query en validar usuario :" + this._primerComprobacionQuery);
-        
+        if (this.existeUser==="none") return "false";
         return this.existeUser;
       }
     },

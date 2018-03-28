@@ -1,0 +1,245 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="shrine-item.html">
+<link rel="import" href="shrine-featured-item.html">
+
+<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+
+<link rel="import" href="../bower_components/polymerfire/polymerfire.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<link rel="import" href="eleccion-artista.html">
+<link rel="import" href="eleccion-dueto.html">
+
+<dom-module id="form-cuenta">
+
+  <template>
+
+    <style>
+
+        :host {
+          display: block;
+          -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+  
+        .grid {
+          @apply --layout-horizontal;
+          @apply --layout-center-center;
+          @apply --layout-wrap;
+          margin-top: 10px;
+        }
+  
+        .grid > .item {
+          -webkit-flex: 1 calc(50% - 20px);
+          font-size:20px;
+          flex: 1 calc(50% - 20px);
+          max-width: calc(50% - 20px);
+          height: 30vmax;
+          min-height: 250px;
+          margin: 10px;
+          text-decoration: none;
+          background-color: white;
+        }
+
+
+        paper-fab {
+            top: -28px;
+            right: 40px;
+
+            --paper-fab-background: #EF5458;
+            --paper-fab-keyboard-focus-background: #DF4448;
+        }
+
+  
+        /**
+         * Desktop small, tablet
+         */
+        @media (max-width: 1200px) {
+          .grid {
+            padding-left: 50px;
+            padding-right: 50px;
+            font-size: 10 em;
+          }
+  
+          .grid > .item {
+            -webkit-flex: 1 calc(50% - 20px);
+            flex: 1 calc(50% - 20px);
+            max-width: calc(50% - 20px);
+            margin: 50px;
+            text-decoration: none;
+            background-color: white;
+          }
+        }
+  
+        /**
+         * Phone
+         */
+        @media (max-width: 400px) {
+          .grid {
+            padding-left: 10px;
+            padding-right: 10px;
+          }
+  
+          .grid > .item {
+            -webkit-flex: 1 calc(100% - 10px);
+            flex: 1 calc(1000% - 10px);
+            max-width: calc(100% - 10px);
+            margin: 5px;
+            text-decoration: none;
+            background-color: white;
+          }
+        }
+  
+      </style>
+
+
+
+
+
+
+
+
+    <firebase-document
+         
+        path="/users/[[user.uid]]"  
+        data="{{userCuenta}}">
+    </firebase-document>
+
+       <div class="grid">
+           <div class="item">
+
+                <h1>Perfil</h1>
+                    <table border>
+                        <form  action="/foo" method="get">
+                            <tr>
+                                <td rowspan="10">
+                                    <img class="profilePic" src="[[user.photoURL]]" width="300" height="300"> 
+                                </td>
+                                <td>                 
+                                     <div>Usuario: [[userCuenta.nombre]] </div>
+                                     <div>
+                                     <paper-input type="text" name="nombre" required label= [[user.displayName]] value=""></paper-input> 
+                                    </div> 
+                                </td>                          
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>Email: [[user.email]] </div>
+                                    <div>
+                                    <paper-input type="text" name="nombre" required label= [[user.email]] value=""></paper-input>   
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                        <div>Privacidad: [[user.privacidad]] </div>
+                                        <div>
+                                    <paper-input type="text" name="nombre" required label= [[user.email]] value=""></paper-input> 
+                                </td>
+                            </tr>
+                        </form>
+                    </table>
+                    <paper-button raised onclick="Funcion()">prueba</paper-button>
+                        
+                  
+                
+
+           </div>
+                
+           
+            
+
+         </div>
+
+    
+
+  </template>
+
+  <script>
+
+  Polymer({
+
+    is: 'form-cuenta',
+
+    properties: {
+
+      items: {
+        type: Array
+      },
+
+      featuredItem: {
+        type: Object
+      },
+
+      section: {
+        type: String
+      },
+
+      __favorite: {
+        type: Boolean,
+        value: false
+      },
+
+      puntuacionRestante: {
+          type: Number,
+          value: 50
+      },
+
+      user: {
+        type: Object
+      },
+
+      userCuenta: {
+          type: Object
+      }
+    },
+
+    _sortItems: function() {
+      return Math.round(Math.random()*3) - 1;
+    },
+
+    __computeFavIcon: function(favorite) {
+      return favorite ? 'favorite' : 'favorite-border';
+    },
+
+    __toggleFavorite: function(event, detail) {
+      this.__favorite = !this.__favorite;
+    },
+
+    __recalcularCreditos: function () {
+        this.__favorite = !this.__favorite;
+    },
+
+    __cargarDatos:function () {
+    
+
+      
+      firebase.database().ref('user2s/' + this.user.uid).set({
+        username: this.user.displayName,
+        email: this.user.email,
+        profile_picture : this.user.photoURL
+      });
+
+      console.log(this.user);
+    },
+
+    
+    
+
+  });
+
+  function Funcion() {
+      console.log(this.userCuenta);
+  }
+
+  </script>
+
+</dom-module>

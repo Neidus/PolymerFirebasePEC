@@ -46,6 +46,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="form-insertar-concursante.html">
 <link rel="import" href="form-insertar-dueto.html">
 <link rel="import" href="form-insertar-programa.html">
+<link rel="import" href="form-cuenta.html">
 
 <dom-module id="shrine-app">
 
@@ -402,8 +403,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                       </iron-pages>
           
                       <iron-pages selected="[[page]]" attr-for-selected="name" name="cuenta">
-                        Aqui info de la cuenta seleccionada. Habra que revisar la forma de llegar a aqui si podemos entrar en los perfiles de las
-                        cuentas de cualquiera.
+                          <form-cuenta name="list" user="[[user]]" section="[[sectionData.section]]"></form-cuenta>
                       </iron-pages>
           
                       <iron-pages selected="[[page]]" attr-for-selected="name" name="Añadir concursantes" >

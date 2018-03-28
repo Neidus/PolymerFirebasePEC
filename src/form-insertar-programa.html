@@ -92,6 +92,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
        
   
       </style>
+      <firebase-query 
+      id="queryFormProgramaArtistas" 
+      path="/concursantes/artistas" 
+      data="{{artistas}}">
+      </firebase-query>
+      <firebase-query 
+      id="queryFormProgramaDuetos" 
+      path="/concursantes/duetos" 
+      data="{{duetos}}">
+      </firebase-query>
 
   <div class="grid">
 
@@ -103,6 +113,47 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <paper-input type="date" on name="fecha" value=""></paper-input>
           <paper-textarea type="text" on name="descripcion" label="Descripción del programa" value=""></paper-textarea>
           
+          <h3>Artistas</h3>
+          <table is="s-table-lite">
+            <thead>
+              <tr>
+                <th>Nombre</th>  
+                <th>Valor</th>
+                <th>Elección</th>
+              </tr>
+            </thead>
+            <tbody>
+              <template is="dom-repeat" items="[[artistas]]">
+                <tr>  
+                  <td>[[item.nombre]]</td>
+                  <td>[[item.valor]]</td>
+                  <td><paper-checkbox id="[[item.$ key]]" name="[[item.$key]]" checked></paper-checkbox></td>
+                </tr>
+              </template>      
+            </tbody>
+          </table>
+          <h3>Duetos</h3> 
+          <table is="s-table-lite">
+              <thead>
+                <tr>
+                  <th>Nombre</th>  
+                  <th>Valor</th>
+                  <th>Elección</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <template is="dom-repeat" items="[[duetos]]">
+                  <tr>  
+                    <td>[[item.nombre]]</td>
+                    <td>[[item.valor]]</td>
+                    <td><paper-checkbox id="[[item.$key]]" name="[[item.$key]]" aria-checked="true"></paper-checkbox></td>
+                  </tr>
+                </template>      
+              </tbody>
+            </table>
+
+
           <paper-button raised onclick="submitForm()">Submit</paper-button>
           <paper-button raised onclick="formPrograma.reset()">Reset</paper-button>
           <paper-button raised onclick="formPrograma.validate()">Validate</paper-button>
@@ -138,6 +189,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </script>
 
   <script>
+    
   function submitForm() {
       document.getElementById("formPrograma").submit();
       if (document.getElementById("formPrograma").validate()){

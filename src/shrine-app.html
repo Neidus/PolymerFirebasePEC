@@ -44,6 +44,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="lista-ranking.html">
 <link rel="import" href="form-eleccion-concursantes.html">
 <link rel="import" href="form-insertar-concursante.html">
+<link rel="import" href="form-insertar-dueto.html">
 
 <dom-module id="shrine-app">
 
@@ -268,6 +269,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
      <!-- Si NO estamos logeados con ninguna cuenta nos envía aquí-->
       <div name="login">
+        <!-- 
+          IMPORTANTE DAVID LOGIN: Posibilidad de tirar de un dom-if
+          que muestre el login o no en funcion de la propiedad
+          primerComprobacionQuery.
+          Si es true, no mostramos nada, si es false, mostramos el contenido.
+        -->
           <h1>Usuario no identificado!</h1>
           <paper-button raised on-tap="_hacerLogin">Login</paper-button>
       </div>
@@ -402,9 +409,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         <form-insertar-concursante name="list"></form-insertar-concursante>
                       </iron-pages>
 
-                      <iron-pages selected="[[page]]" attr-for-selected="Añadir duetos" >
-                        aqui añadimos duetos en base a los concursantes que ya tenemos 
-                      </iron-pages>
+                      <iron-pages selected="[[page]]" attr-for-selected="name" name="Añadir duetos" >
+                        <form-insertar-dueto name="list"></form-insertar-dueto>
+                     </iron-pages>
           
                     </iron-pages>
           

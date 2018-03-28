@@ -27,7 +27,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../bower_components/iron-form/iron-form.html">
 
-<dom-module id="form-insertar-concursante">
+<dom-module id="form-insertar-dueto">
 
   <template>
 
@@ -90,26 +90,54 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 margin-top:15px;
                 text-align: center;
             }
+
+            paper-dropdown-menu {
+                display: inline-block;
+                width: 49%;
+                margin-top:15px;
+                text-align: center;
+            }
   
        
   
       </style>
 
-  <div class="grid">
+ 
+
+
+    <firebase-query 
+    id="queryFormDuetos" 
+    path="/pruebasConcursantes/artistas" 
+    data="{{artistas}}">
+    </firebase-query>
+    <div class="grid">
 
       
-    <iron-form id="formArtista">
+    <iron-form id="formDueto">
         <form  action="/foo" method="get">
-          <paper-input type="text" name="nombre" required label="Nombre de Concursante" value=""></paper-input>
-          <paper-input type="text" on name="photoURL" required label="URL de imagen del concursante" value=""></paper-input>
+          <paper-input type="text" name="nombre" required label="Nombre de Dueto" value=""></paper-input>
+          <paper-input type="text" on name="photoURL" required label="URL de imagen del dueto" value=""></paper-input>
           <paper-input type="text" on name="valor" 
-                       required label="Coste en créditos del concursante" 
+                       required label="Coste en créditos del dueto" 
                        value="1" pattern="[1-9][0-9]*" 
                        title="Por favor introduce un número"></paper-input>
-          
-          <paper-button raised onclick="submitFormArtista()">Submit</paper-button>
-          <paper-button raised onclick="formArtista.reset()">Reset</paper-button>
-          <paper-button raised onclick="formArtista.validate()">Validate</paper-button>
+          <paper-dropdown-menu id="formDuetoPrimerArtista" label="Primer Concursante" name="artistas" required>
+            <paper-listbox class="dropdown-content" slot="dropdown-content">
+                <template is="dom-repeat" items="{{artistas}}" sort="" initial-count="">         
+                      <paper-item value="[[item.$key]]">[[item.nombre]]</paper-item>
+                </template>
+            </paper-listbox>
+          </paper-dropdown-menu>
+          <paper-dropdown-menu id="formDuetoSegundoArtista" label="Segundo Concursante" name="artistas" required>
+            <paper-listbox name="prueba" class="dropdown-content" slot="dropdown-content">
+                <template is="dom-repeat" items="{{artistas}}" sort="" initial-count="">         
+                    <paper-item value="[[item.$key]]">[[item.nombre]]</paper-item>
+                </template>
+            </paper-listbox>
+          </paper-dropdown-menu>               
+          <paper-button raised onclick="submitFormDueto()">Submit</paper-button>
+          <paper-button raised onclick="formDueto.reset()">Reset</paper-button>
+          <paper-button raised onclick="formDueto.validate()">Validate</paper-button>
         </form>
        
       </iron-form>
@@ -126,12 +154,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   Polymer({
 
-    is: 'form-insertar-concursante',
+    is: 'form-insertar-dueto',
 
     properties: {
 
-        hola:{
-            type: String
+        artistas:{
+            type: Object
         }
     },
 
@@ -152,19 +180,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </script>
 
   <script>
-  function submitFormArtista() {
-      document.getElementById("formArtista").submit();
-      if (document.getElementById("formArtista").validate()){
+  function submitFormDueto() {
+      document.getElementById("formDueto").submit();
+      if (document.getElementById("formDueto").validate()){
 
-        console.log(document.getElementById("formArtista").serializeForm());
+        var formJSON = document.getElementById("formDueto").serializeForm()
+        
+        
+        artistas = [];
+        artistas[document.getElementById("formDuetoPrimerArtista").selectedItem.value] =  formJSON.artistas[0];
+        artistas[document.getElementById("formDuetoSegundoArtista").selectedItem.value] =  formJSON.artistas[1];
+       
+        //formJSON.artistas[document.getElementById("formDuetoPrimerArtista").selectedItem.value] =  formJSON.artistas[0]
+        console.log(artistas);
+        console.log(formJSON.artistas);
+        formJSON.artistas=artistas;
       
-        var postsRef = firebase.database().ref('/pruebasConcursantes/artistas');
+        var postsRef = firebase.database().ref('/pruebasConcursantes/duetos');
 
         var newPostRef = postsRef.push();
-        newPostRef.set(document.getElementById("formArtista").serializeForm());
+        newPostRef.set(formJSON);
 
         alert("Inserción de datos confirmada.");
-        document.getElementById("formArtista").reset();
+        document.getElementById("formDueto").reset();
 
       }
     }

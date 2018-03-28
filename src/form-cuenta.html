@@ -108,11 +108,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
 
-    <firebase-document
-         
-        path="/users/[[user.uid]]"  
-        data="{{userCuenta}}">
-    </firebase-document>
+
+<firebase-query 
+    id="queryUserquery" 
+    path="/users/CwXyT3dyOQhC0w5jN7vFqsxIhYG2" 
+    data="{{usuarioBBDD}}">
+    </firebase-query>
+    
+<template is="dom-repeat" items="[[usuarioBBDD]]" initial-count="">
+[[item]]
+<paper-input type="text" name="nombre" required label= [[user.displayName]] value="[[item.email]]"></paper-input> 
+                                   
+</template>
+                            
 
        <div class="grid">
            <div class="item">
@@ -125,7 +133,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                                     <img class="profilePic" src="[[user.photoURL]]" width="300" height="300"> 
                                 </td>
                                 <td>                 
-                                     <div>Usuario: [[userCuenta.nombre]] </div>
+                                     <div>Usuario: {{usuarioBBDD.email}} </div>
                                      <div>
                                      <paper-input type="text" name="nombre" required label= [[user.displayName]] value=""></paper-input> 
                                     </div> 
@@ -147,7 +155,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                             </tr>
                         </form>
                     </table>
-                    <paper-button raised onclick="Funcion()">prueba</paper-button>
+                    <paper-button raised onclick="Funcionquery()">prueba</paper-button>
                         
                   
                 
@@ -236,8 +244,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   });
 
-  function Funcion() {
-      console.log(this.userCuenta);
+  function Funcionquery() {
+      console.log(this.user);
   }
 
   </script>

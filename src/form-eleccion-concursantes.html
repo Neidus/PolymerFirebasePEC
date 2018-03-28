@@ -50,8 +50,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
 
         paper-fab {
-            top: -28px;
-            right: 40px;
+            width: 50px;
+            height: 50px;
+
 
             --paper-fab-background: #EF5458;
             --paper-fab-keyboard-focus-background: #DF4448;
@@ -111,31 +112,52 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     data="{{artistas}}">
     </firebase-query>
 
-       <div class="grid">
-           <div class="item">
+    <div class="grid">
+      <div class="item">
+         <h1>Artistas</h1>
+         <table>
+             <thead>
+               <tr>
+                 <th>Nombre</th>  
+                 <th>Valor</th>
+                 <th>Elección</th>
+               </tr>
+             </thead>
+             <tbody>
+                 <template is="dom-repeat" items="{{artistas}}" sort="" initial-count="">
+                 <tr>  
+                   <td>[[item.nombre]]</td>
+                   <td>[[item.valor]]</td>
+                   <td><eleccion-artista item="[[item]]"></eleccion-artista></td>
+                 </tr>
+               </template>      
+             </tbody>
+           </table>
+      </div>
 
-                <h1>Duetos</h1>
-                <template is="dom-repeat" items="{{duetos}}" sort="" initial-count="">
-                    
-                  <eleccion-dueto item="[[item]]"></eleccion-dueto>
-                </template>
+      <div class="item">
+         <h1>Duetos</h1>
+         <table>
+             <thead>
+               <tr>
+                 <th>Nombre</th>  
+                 <th>Valor</th>
+                 <th>Elección</th>
+               </tr>
+             </thead>
+             <tbody>
+                 <template is="dom-repeat" items="{{duetos}}" sort="" initial-count="">
+                 <tr>  
+                   <td>[[item.nombre]]</td>
+                   <td>[[item.valor]]</td>
+                   <td><eleccion-dueto item="[[item]]"></eleccion-dueto></td>
+                 </tr>
+               </template>      
+             </tbody>
+           </table>    
+      </div>
 
-           </div>
-                
-           
-            
-
-           <div class="item">
-
-                <h1>Artistas</h1>
-                <template is="dom-repeat" items="{{artistas}}" sort="" initial-count="">
-                    
-                    <eleccion-artista item="[[item]]"></eleccion-artista>
-                </template>
-
-           </div>
-
-         </div>
+    </div>
 
       <input disabled id="contadorCreditos" value="{{puntuacionRestante}}">
       <input  disabled id="contadorDuetos" value="0">

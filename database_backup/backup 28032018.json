@@ -1,0 +1,278 @@
+{
+  "concursantes" : {
+    "artistas" : {
+      "a1" : {
+        "nombre" : "Artista1",
+        "valor" : 10
+      },
+      "a2" : {
+        "nombre" : "Artista2",
+        "valor" : 5
+      },
+      "a3" : {
+        "nombre" : "Artista3",
+        "valor" : 5
+      }
+    },
+    "duetos" : {
+      "d1" : {
+        "nombre" : "Dueto1",
+        "valor" : 10
+      },
+      "d2" : {
+        "nombre" : "Dueto2",
+        "valor" : 5
+      },
+      "d3" : {
+        "nombre" : "Dueto3",
+        "valor" : 10
+      }
+    }
+  },
+  "programas" : {
+    "p1" : {
+      "artistas" : {
+        "a1" : {
+          "nombre" : "Artista1",
+          "puntuacion" : 10
+        },
+        "a2" : {
+          "nombre" : "Artista2"
+        }
+      },
+      "descripcion" : "Este es el programa 1",
+      "duetos" : {
+        "d1" : {
+          "nombre" : "Dueto1",
+          "puntuacion" : 10
+        },
+        "d2" : {
+          "nombre" : "Dueto2",
+          "puntuacion" : 6
+        }
+      },
+      "fecha" : "15/12/2017",
+      "imageURL" : "https://images-eu.ssl-images-amazon.com/images/I/419THE7SevL._SS500.jpg",
+      "mensajes" : {
+        "-L8g-jO7xB-oIWYtwmoI" : {
+          "mensaje" : ".......",
+          "usuario" : "u2"
+        },
+        "-L8g12lN0QDkXI0bnPxE" : {
+          "mensaje" : ".......",
+          "usuario" : "u2"
+        },
+        "-L8g20zKbkqyd-qMGs35" : {
+          "mensaje" : ".......",
+          "prueba" : {
+            "__polymerGesturesHandled" : {
+              "tap" : true
+            },
+            "isTrusted" : true
+          },
+          "usuario" : "u2"
+        }
+      },
+      "nombre" : "Programa 1"
+    },
+    "p2" : {
+      "artistas" : {
+        "a1" : {
+          "imageURL" : "",
+          "nombre" : "Artista1",
+          "puntuacion" : 10
+        },
+        "a2" : {
+          "imageURL" : "",
+          "nombre" : "Artista2",
+          "puntuacion" : 5
+        }
+      },
+      "descripcion" : "Este es el programa 2",
+      "duetos" : {
+        "d1" : {
+          "imageURL" : "",
+          "nombre" : "Dueto1",
+          "puntuacion" : 5
+        }
+      },
+      "fecha" : "01/01/2018",
+      "imageURL" : "https://images-eu.ssl-images-amazon.com/images/I/41B-Y3CV4BL._SS500.jpg",
+      "mensajes" : {
+        "-L8hOs4iDFS0T1GGMGRZ" : {
+          "mensaje" : "algo",
+          "uid" : "PyBqzqwryYhHs4mr1EQDJAEciIw2",
+          "usuario" : "Fernando García"
+        },
+        "-L8hOvIkTKwW-avUYw3u" : {
+          "mensaje" : "2",
+          "uid" : "PyBqzqwryYhHs4mr1EQDJAEciIw2",
+          "usuario" : "Fernando García"
+        },
+        "-L8hP70IYDQv0_EM0_A3" : {
+          "mensaje" : "3",
+          "uid" : "PyBqzqwryYhHs4mr1EQDJAEciIw2",
+          "usuario" : "Fernando García"
+        },
+        "-L8hP7hdXfrJU_I9cKCU" : {
+          "mensaje" : "4",
+          "uid" : "PyBqzqwryYhHs4mr1EQDJAEciIw2",
+          "usuario" : "Fernando García"
+        },
+        "m1" : {
+          "Respuestas" : {
+            "r1" : {
+              "respuesta" : "Respuesta m1",
+              "usuario" : "u1"
+            }
+          },
+          "mensaje" : "Mensaje 1",
+          "usuario" : "u2"
+        },
+        "m2" : {
+          "mensaje" : "este es el mensaje",
+          "usuario" : "u1"
+        }
+      },
+      "nombre" : "Programa 2"
+    },
+    "p3" : {
+      "artistas" : {
+        "a1" : {
+          "nombre" : "Artista1"
+        }
+      },
+      "descripcion" : "Este es el programa 3",
+      "fecha" : "08/01/2018",
+      "imageURL" : "https://images-eu.ssl-images-amazon.com/images/I/41MMCTCGbgL._SS500.jpg",
+      "mensajes" : {
+        "-L8bU6T1FVeow2EGmibu" : {
+          "mensaje" : ".......",
+          "usuario" : "u2"
+        }
+      },
+      "nombre" : "Programa 3"
+    }
+  },
+  "pruebasConcursantes" : {
+    "-L8ccvLuAXCI991sWL4e" : {
+      "nombre" : "Pepito",
+      "photoURL" : "http://www.lavanguardia.com/r/GODO/LV/p4/WebSite/2017/10/20/Recortada/img_jsilvestre_20171020-120259_imagenes_lv_terceros_agoney-kexC--656x369@LaVanguardia-Web.jpg",
+      "valor" : "12"
+    },
+    "-L8fBA6tLbTCwU4ZC69h" : {
+      "nombre" : "g",
+      "photoURL" : "g",
+      "valor" : "1"
+    },
+    "artistas" : {
+      "-L8fBPjvCb8vDVfm-Zse" : {
+        "nombre" : "Pepita",
+        "photoURL" : "http://www.lavanguardia.com/r/GODO/LV/p4/WebSite/2017/10/20/Recortada/img_jsilvestre_20171020-120349_imagenes_lv_terceros_aitana-kexC--656x369@LaVanguardia-Web.jpg",
+        "valor" : "8"
+      },
+      "-L8fB_YLHZxfudOp5pMq" : {
+        "nombre" : "Alfredo",
+        "photoURL" : "http://www.lavanguardia.com/r/GODO/LV/p4/WebSite/2017/10/20/Recortada/img_jsilvestre_20171020-120435_imagenes_lv_terceros_alfred-kexC--656x369@LaVanguardia-Web.jpg",
+        "valor" : "12"
+      },
+      "-L8fgswN_xZ1ubE5_OYX" : {
+        "nombre" : "Alin",
+        "photoURL" : "hhttp",
+        "valor" : "1"
+      },
+      "-L8fisrAwy1AtLoH2Xav" : {
+        "nombre" : "Perico",
+        "photoURL" : "https://www.google.es/imgres?imgurl=https%3A%2F%2Fjuventudjosue.files.wordpress.com%2F2012%2F01%2Fel-perico-donde-quiera-es-verde-juventud-josue-rafael-reyes.jpg%3Fw%3D300&imgrefurl=https%3A%2F%2Fjuventudjosue.wordpress.com%2F2012%2F01%2F13%2Fel-perico-donde-quiera-es-verde%2F&docid=dzGGnSh5Zgu-3M&tbnid=2OaryqC54vMwZM%3A&vet=10ahUKEwiIsZqfzY7aAhWLDZoKHfnvDNUQMwhaKAswCw..i&w=300&h=225&bih=949&biw=1920&q=perico&ved=0ahUKEwiIsZqfzY7aAhWLDZoKHfnvDNUQMwhaKAswCw&iact=mrc&uact=8",
+        "valor" : "5"
+      }
+    },
+    "duetos" : {
+      "-L8fWx-5HNsdjqKI382G" : {
+        "artistas" : {
+          "-L8fBPjvCb8vDVfm-Zse" : "Pepita",
+          "-L8fB_YLHZxfudOp5pMq" : "Alfredo"
+        },
+        "nombre" : "DuetoMolon",
+        "photoURL" : "https://vignette.wikia.nocookie.net/creepypasta/images/9/91/Dueto.jpg/revision/latest?cb=20160906224847&path-prefix=es",
+        "valor" : "20"
+      }
+    }
+  },
+  "puntuacion" : {
+    "usuarioid" : 1000
+  },
+  "ranking" : {
+    "u1" : {
+      "nombre" : "usuario1",
+      "privacidad" : true,
+      "puntuacion" : 0
+    },
+    "u2" : {
+      "nombre" : "usuario2",
+      "privacidad" : true,
+      "puntuacion" : 150
+    },
+    "u3" : {
+      "nombre" : "usuario3",
+      "privacidad" : false,
+      "puntuacion" : 40
+    }
+  },
+  "user2s" : {
+    "ZYo0yEww0rRcAeXhox1KUEr48oF3" : {
+      "email" : "alinnicolaeg@gmail.com",
+      "profile_picture" : "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg",
+      "username" : "Alin Nicolae Giurca"
+    }
+  },
+  "users" : {
+    "CwXyT3dyOQhC0w5jN7vFqsxIhYG2" : {
+      "email" : "sergiosanzuah@gmail.com",
+      "privacidad" : "true",
+      "profile_picture" : "https://lh4.googleusercontent.com/-aO47K0prw2E/AAAAAAAAAAI/AAAAAAAAABM/wdLfY-Qzh48/photo.jpg",
+      "username" : "Sergio Sanz"
+    },
+    "GZVdNXo1o9OA2YBa7L0e5gP7vjc2" : {
+      "email" : "varelatj26@gmail.com",
+      "privacidad" : "true",
+      "profile_picture" : "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg",
+      "username" : "David V"
+    },
+    "PyBqzqwryYhHs4mr1EQDJAEciIw2" : {
+      "email" : "nandosaz@gmail.com",
+      "privacidad" : "true",
+      "profile_picture" : "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg",
+      "username" : "Fernando García"
+    },
+    "ZYo0yEww0rRcAeXhox1KUEr48oF3" : {
+      "email" : "alinnicolaeg@gmail.com",
+      "privacidad" : "true",
+      "profile_picture" : "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg",
+      "username" : "Alin Nicolae Giurca"
+    }
+  },
+  "usuarios" : {
+    "u1" : {
+      "creditos" : 50,
+      "descripcion" : "friki OT",
+      "elecciones" : {
+        "artistas" : {
+          "artista45" : "David V"
+        },
+        "dueto" : "d1"
+      },
+      "nombre" : "usuario1",
+      "privacidad" : true,
+      "puntuacion" : 0
+    },
+    "u2" : {
+      "nombre" : "usuario2",
+      "puntuacion" : 150
+    },
+    "u3" : {
+      "nombre" : "usuario3",
+      "puntuacion" : 40
+    }
+  }
+}

@@ -221,33 +221,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
 
-    <firebase-query 
-    id="query" 
-    path="/programas" 
-    data="{{programas}}">
-    </firebase-query>
-    
-    <firebase-query 
-    id="query2" 
-    path="/programas/{{programaid}}/artistas" 
-    data="{{artistas}}">
+    <firebase-query id="query" path="/programas" data="{{programas}}">
     </firebase-query>
 
-    <firebase-query 
-    id="query3" 
-    path="/programas/{{programaid}}/duetos" 
-    data="{{duetos}}">
+    <firebase-query id="query2" path="/programas/{{programaid}}/artistas" data="{{artistas}}">
     </firebase-query>
 
-    <firebase-query 
-    id="query4" 
-    path="/programas/{{programaid}}/mensajes" 
-    data="{{mensajes}}">
+    <firebase-query id="query3" path="/programas/{{programaid}}/duetos" data="{{duetos}}">
     </firebase-query>
 
-    <firebase-document
-    path="/programas/{{programaid}}"
-    data="{{programa}}">
+    <firebase-query id="query4" path="/programas/{{programaid}}/mensajes" data="{{mensajes}}">
+    </firebase-query>
+
+    <!-- Consulta para obtener el usuario con el que estamos conectados de la BBDD -->
+    <firebase-query id="queryUser" path="/users/{{user.uid}}" data="{{usuarioBBDD}}">
+    </firebase-query>
+
+    <firebase-document path="/programas/{{programaid}}" data="{{programa}}">
     </firebase-document>
 
     <div class="items">
@@ -274,8 +264,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <p>[[programa.fecha]]</p>
           <p>[[programa.descripcion]]</p>
           <div class="image">
-              <img src="[[programa.imageURL]]">
-            </div>
+            <img src="[[programa.imageURL]]">
+          </div>
           <!--<div class="quantitySelector">
             <select aria-label="Change number of items">
               <option value="1">Quantity 1</option>
@@ -290,9 +280,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <h3>[[item.storeName]]</h3>
             <p>[[item.storeDescription]]</p>
           </div>-->
-          
+
           <h4>Artistas</h4>
-          
+
           <div class="items2">
             <template is="dom-repeat" items="{{artistas}}">
               <div class="artistas-item">
@@ -305,33 +295,36 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <h4>Duetos</h4>
 
             <template is="dom-repeat" items="{{duetos}}">
-                <div class="duetos-item">
-                    <div class="duetos-nombre">Nombre: [[item.nombre]]</div>
-                    <div class="duetos-puntuacion">Puntuación: [[item.puntuacion]]</div>
-                    <p></p>
-                </div>
-              </template>
-            
-              <h4>Mensajes</h4>
+              <div class="duetos-item">
+                <div class="duetos-nombre">Nombre: [[item.nombre]]</div>
+                <div class="duetos-puntuacion">Puntuación: [[item.puntuacion]]</div>
+                <p></p>
+              </div>
+            </template>
 
-              <template is="dom-repeat" items="{{mensajes}}">
-                  <div class="mensajes-item">
-                      <div class="mensajes-nombre">[[item.usuario]]:[[item.mensaje]]</div>
-                      <p></p>
-                  </div>
-                </template>
-                
-                <form action="">
-                  <!--<h5>Nuevo Mensaje </h5>-->
-                  <textarea id="mensaje"></textarea>
-                  <paper-fab mini icon="send" on-click="_enviarMensaje" aria-label="Enviar este mensaje"></paper-fab>
-                </form>
+            <h4>Mensajes</h4>
+
+            <template is="dom-repeat" items="{{mensajes}}">
+              <div class="mensajes-item">
+                <div class="mensajes-nombre">[[item.usuario]]:       [[item.mensaje]]
+                <paper-fab mini icon="reply" on-click="_responderMensaje" aria-label="Enviar este mensaje"></paper-fab>
+                </div>
+                <p></p>
+              </div>
+            </template>
+
+            <form action="msg" method="GET">
+              <!--<h5>Nuevo Mensaje </h5>-->
+              <paper-input type="text" name="message" required label="Nuevo Mensaje"></paper-input>
+              <!--<textarea id="mensaje"></textarea>-->
+              <paper-fab mini icon="send" on-click="_enviarMensaje" aria-label="Enviar este mensaje"></paper-fab>
+            </form>
 
             <p> </p>
           </div>
 
         </div>
-        
+
       </div>
     </div>
 
@@ -347,8 +340,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       properties: {
 
-        programaid:{
-          type:String
+        programaid: {
+          type: String
         },
 
         programa: {
@@ -363,22 +356,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         items2: {
           type: Array
         },
-       
-      _programaChanged: function (programa) {
-        this.$.img.src = '';
-        this.$.img.src = programa.imageUrl;
-      }
-      },
-      _enviarMensaje: function () {
-        /*firebase.database().ref('/programas/{{programaid}}/mensajes/').set({
-          username: this.user.displayName,
-          mensaje: this.user.me,
-        });*/
 
-        console.log(this.programaid);
+        usuarioBBDD: {
+          type: Object
+        },
+
+        _programaChanged: function (programa) {
+          this.$.img.src = '';
+          this.$.img.src = programa.imageUrl;
+        }
       },
-      
-     
+
+      _enviarMensaje: function () {
+        var refBbdd = 'programas/' + this.programaid + '/mensajes/';
+
+        firebase.database().ref(refBbdd).push({
+          uid: this.user.uid,
+          usuario: this.usuarioBBDD[3].$val,
+          mensaje: document.getElementsByName("message")[0].value,
+
+        })
+
+        console.log(this.programaid, this.user.uid,this.usuarioBBDD, document.getElementsByName("message")[0].value);
+      },
+
+
     });
 
   </script>

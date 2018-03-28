@@ -377,7 +377,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         
                         <!-- detail of item -->
                         <template is="dom-if" if="[[_equal(page, 'detail')]]">
-                          <shrine-detail name="detail" section="[[sectionData.section]]" related-items="[[items]]" programaid="[[idData.id]]">
+                          <shrine-detail name="detail" section="[[sectionData.section]]" related-items="[[items]]" programaid="[[idData.id]]"
+                          user="[[user]]">
                           </shrine-detail>
                         </template>
                         

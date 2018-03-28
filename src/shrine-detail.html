@@ -363,7 +363,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.$.img.src = programa.imageUrl;
         }
       },
+      
+      _programaChanged: function(){
 
+      },
       _enviarMensaje: function () {
         var refBbdd = 'programas/' + this.programaid + '/mensajes/';
 
@@ -373,7 +376,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           mensaje: document.getElementsByName("message")[0].value,
 
         })
-
+        document.getElementsByName("message")[0].value="";
         console.log(this.programaid, this.user.uid,this.usuarioBBDD, document.getElementsByName("message")[0].value);
       },
 

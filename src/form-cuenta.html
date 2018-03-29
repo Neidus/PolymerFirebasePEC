@@ -109,17 +109,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
 
-<firebase-query 
-    id="queryUserquery" 
-    path="/users/CwXyT3dyOQhC0w5jN7vFqsxIhYG2" 
-    data="{{usuarioBBDD}}">
-    </firebase-query>
+<firebase-document 
+    path="/users/{{user.uid}}" 
+    data="{{usuarioCuenta}}">
+</firebase-document>
     
-<template is="dom-repeat" items="[[usuarioBBDD]]" initial-count="">
-[[item]]
-<paper-input type="text" name="nombre" required label= [[user.displayName]] value="[[item.email]]"></paper-input> 
-                                   
-</template>
+
+<paper-button raised on-tap="ayudame">HELP</paper-button>
+                   
                             
 
        <div class="grid">
@@ -130,32 +127,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         <form  action="/foo" method="get">
                             <tr>
                                 <td rowspan="10">
-                                    <img class="profilePic" src="[[user.photoURL]]" width="300" height="300"> 
+                                    <img class="profilePic" src="{{usuarioCuenta.profile_picture}}" width="300" height="300"> 
                                 </td>
                                 <td>                 
-                                     <div>Usuario: {{usuarioBBDD.email}} </div>
+                                     <div>Usuario: {{usuarioCuenta.username}} </div>
                                      <div>
-                                     <paper-input type="text" name="nombre" required label= [[user.displayName]] value=""></paper-input> 
+                                     <paper-input type="text" name="nombre" required label= {{usuarioCuenta.username}} value=""></paper-input> 
                                     </div> 
                                 </td>                          
                             </tr>
                             <tr>
                                 <td>
-                                    <div>Email: [[user.email]] </div>
+                                    <div>Email: {{usuarioCuenta.email}} </div>
                                     <div>
-                                    <paper-input type="text" name="nombre" required label= [[user.email]] value=""></paper-input>   
+                                    <paper-input type="text" name="nombre" required label= {{usuarioCuenta.email}}  value=""></paper-input>   
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                        <div>Privacidad: [[user.privacidad]] </div>
+                                        <div>Privacidad: [[usuarioCuenta.privacidad]] </div>
                                         <div>
-                                    <paper-input type="text" name="nombre" required label= [[user.email]] value=""></paper-input> 
+                                    <paper-input type="text" name="nombre" required label= [[usuarioCuenta.privacidad]] value=""></paper-input> 
                                 </td>
                             </tr>
                         </form>
                     </table>
-                    <paper-button raised onclick="Funcionquery()">prueba</paper-button>
+                    <paper-button raised on-tap="ayudame">prueba</paper-button>
                         
                   
                 
@@ -179,51 +176,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     properties: {
 
-      items: {
-        type: Array
-      },
-
-      featuredItem: {
-        type: Object
-      },
-
       section: {
         type: String
-      },
-
-      __favorite: {
-        type: Boolean,
-        value: false
-      },
-
-      puntuacionRestante: {
-          type: Number,
-          value: 50
       },
 
       user: {
         type: Object
       },
 
-      userCuenta: {
-          type: Object
-      }
+      usuarioCuenta: Object
     },
 
-    _sortItems: function() {
-      return Math.round(Math.random()*3) - 1;
-    },
-
-    __computeFavIcon: function(favorite) {
-      return favorite ? 'favorite' : 'favorite-border';
-    },
-
-    __toggleFavorite: function(event, detail) {
-      this.__favorite = !this.__favorite;
-    },
-
-    __recalcularCreditos: function () {
-        this.__favorite = !this.__favorite;
+    ayudame: function() {
+      console.log(this.usuarioCuenta);
     },
 
     __cargarDatos:function () {
@@ -240,13 +205,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     },
 
     
-    
-
   });
-
-  function Funcionquery() {
-      console.log(this.user);
-  }
 
   </script>
 

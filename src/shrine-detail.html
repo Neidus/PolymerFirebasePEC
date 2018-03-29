@@ -112,7 +112,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         position: absolute;
         top: calc(50% - 8px);
         right: 10px;
-        speak: none;
         -webkit-transform: scaleY(.6) scaleX(1);
         transform: scaleY(.6) scaleX(1);
         color: #666;
@@ -122,7 +121,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       .quantitySelector select {
         -webkit-appearance: none;
         -moz-appearance: none;
-        appearance: none;
         padding: 10px 20px;
         border: 1px solid rgba(0, 0, 0, .2);
         background-color: white;
@@ -234,8 +232,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </firebase-query>
 
     <!-- Consulta para obtener el usuario con el que estamos conectados de la BBDD -->
-    <firebase-query id="queryUser" path="/users/{{user.uid}}" data="{{usuarioBBDD}}">
-    </firebase-query>
+    <firebase-document  path="/users/{{user.uid}}" data="{{usuarioBBDD}}">
+    </firebase-document>
 
     <firebase-document path="/programas/{{programaid}}" data="{{programa}}">
     </firebase-document>
@@ -350,10 +348,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           type: String
         },
 
-        items2: {
-          type: Array
-        },
-
         usuarioBBDD: {
           type: Object
         },
@@ -369,13 +363,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       _enviarMensaje: function () {
         var refBbdd = 'programas/' + this.programaid + '/mensajes/';
+        /*
 
-        firebase.database().ref(refBbdd).push({
+         firebase.database().ref(refBbdd).push({
           uid: this.user.uid,
           usuario: this.usuarioBBDD[3].$val,
           mensaje: document.getElementsByName("message")[0].value,
 
         })
+        */
+        console.log(this.usuarioBBDD);
         document.getElementsByName("message")[0].value="";
         console.log(this.programaid, this.user.uid,this.usuarioBBDD, document.getElementsByName("message")[0].value);
       },

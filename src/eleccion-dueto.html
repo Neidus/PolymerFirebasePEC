@@ -95,24 +95,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
   
       </style>
-
-    <firebase-query 
-    id="queryDuetos" 
-    path="/concursantes/duetos" 
-    data="{{duetos}}">
-    </firebase-query>
-
-    <firebase-query 
-    id="queryArtistas" 
-    path="/concursantes/artistas" 
-    data="{{artistas}}">
-    </firebase-query>
-
     
            <div>
-
-                 
+              <paper-checkbox name="[[item.$key]]"></paper-checkbox>
+                 <!--
                     <paper-fab id ="[[item.$key]]" icon="{{__computeFavIcon(__favorite)}}" on-tap="__toggleFavorite"></paper-fab>
+                 -->
              
 
            </div>

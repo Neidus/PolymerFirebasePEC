@@ -252,11 +252,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </firebase-auth>
 
     <!-- Consulta para obtener el usuario con el que estamos conectados de la BBDD -->
-    <firebase-query 
-    id="queryUser" 
+    <firebase-document 
     path="/users/{{user.uid}}" 
     data="{{usuarioBBDD}}">
-    </firebase-query>
+    </firebase-document>
 
     <!--  Obtencion de las rutas y subrutas dentro de nuestra aplicación web -->
     <app-location route="{{route}}" use-hash-as-path></app-location>
@@ -392,7 +391,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                       </iron-pages>
           
                       <iron-pages selected="[[page]]" attr-for-selected="name" name="elegir concursantes">
-                        <form-eleccion-concursantes name="list" user="[[user]]" section="[[sectionData.section]]"></form-eleccion-concursantes>
+                        <form-eleccion-concursantes name="list" user="[[usuarioBBDD]]" keyuser="[[user.uid]]" section="[[sectionData.section]]"></form-eleccion-concursantes>
                       </iron-pages>
           
                       <iron-pages selected="[[page]]" attr-for-selected="name" name="rankings">

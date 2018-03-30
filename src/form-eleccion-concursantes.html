@@ -17,6 +17,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/polymerfire/polymerfire.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 
+
 <link rel="import" href="eleccion-artista.html">
 <link rel="import" href="eleccion-dueto.html">
 
@@ -47,6 +48,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           margin: 10px;
           text-decoration: none;
           background-color: white;
+          font-size: 20px;
         }
 
         paper-fab {
@@ -58,6 +60,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             --paper-fab-keyboard-focus-background: #DF4448;
         }
 
+     
   
         /**
          * Desktop small, tablet
@@ -66,10 +69,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           .grid {
             padding-left: 10px;
             padding-right: 10px;
-            font-size: 0.7em;
+            
           }
   
           .grid > .item {
+            font-size: 20px;
             -webkit-flex: 1 calc(50% - 20px);
             flex: 1 calc(50% - 20px);
             max-width: calc(50% - 20px);
@@ -89,6 +93,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           }
   
           .grid > .item {
+            font-size: 20px;
             -webkit-flex: 1 calc(100% - 10px);
             flex: 1 calc(1000% - 10px);
             max-width: calc(100% - 10px);
@@ -114,55 +119,67 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <div class="grid">
       <div class="item">
-         <h1>Artistas</h1>
-         <table>
-             <thead>
-               <tr>
-                 <th>Nombre</th>  
-                 <th>Valor</th>
-                 <th>Elección</th>
-               </tr>
-             </thead>
-             <tbody>
-                 <template is="dom-repeat" items="{{artistas}}" sort="" initial-count="">
-                 <tr>  
-                   <td>[[item.nombre]]</td>
-                   <td>[[item.valor]]</td>
-                   <td><eleccion-artista item="[[item]]"></eleccion-artista></td>
-                 </tr>
-               </template>      
-             </tbody>
-           </table>
+          <iron-form id="formEleccionArtista">
+              <form  action="/foo" method="get">
+                <h1>Artistas</h1>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Nombre</th>  
+                      <th>Valor</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      <template is="dom-repeat" items="{{artistas}}" sort="" initial-count="">
+                      <tr>  
+                        <td>[[item.nombre]]</td>
+                        <td>[[item.valor]]</td>
+                        <td><eleccion-artista item="[[item]]"></eleccion-artista></td>
+                      </tr>
+                    </template>      
+                  </tbody>
+                </table>
+              </form>
+             
+            </iron-form>
+         
       </div>
 
       <div class="item">
-         <h1>Duetos</h1>
-         <table>
-             <thead>
-               <tr>
-                 <th>Nombre</th>  
-                 <th>Valor</th>
-                 <th>Elección</th>
-               </tr>
-             </thead>
-             <tbody>
-                 <template is="dom-repeat" items="{{duetos}}" sort="" initial-count="">
-                 <tr>  
-                   <td>[[item.nombre]]</td>
-                   <td>[[item.valor]]</td>
-                   <td><eleccion-dueto item="[[item]]"></eleccion-dueto></td>
-                 </tr>
-               </template>      
-             </tbody>
-           </table>    
+          <iron-form id="formEleccionDueto">
+            <form action="/foo" method="get">
+              <h1>Duetos</h1>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Nombre</th>  
+                      <th>Valor</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      <template is="dom-repeat" items="{{duetos}}" sort="" initial-count="">
+                      <tr>  
+                        <td>[[item.nombre]]</td>
+                        <td>[[item.valor]]</td>
+                        <td><eleccion-dueto item="[[item]]"></eleccion-dueto></td>
+                      </tr>
+                    </template>      
+                  </tbody>
+                </table>  
+            </form>
+             
+          </iron-form>
+           
       </div>
 
     </div>
 
-      <input disabled id="contadorCreditos" value="{{puntuacionRestante}}">
-      <input  disabled id="contadorDuetos" value="0">
-      <input  disabled id="contadorArtistas" value="0">
-      <button on-click="__cargarDatos">Confirmar selección</button>
+      <input disabled id="contadorCreditos" value="{{puntuacionRestante}}" hidden>
+      <input  disabled id="contadorDuetos" value="0" hidden>
+      <input  disabled id="contadorArtistas" value="0" hidden>
+      <paper-button raised on-click="__cargarDatos">Submit</paper-button>
     
 
   </template>
@@ -175,21 +192,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     properties: {
 
-      items: {
-        type: Array
-      },
-
-      featuredItem: {
-        type: Object
-      },
-
       section: {
         type: String
-      },
-
-      __favorite: {
-        type: Boolean,
-        value: false
       },
 
       puntuacionRestante: {
@@ -199,41 +203,105 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       user: {
         type: Object
+      },
+
+      keyuser: {
+        type: Object
+      },
+
+      usuarioBBDD: {
+        type: Object
+      },
+
+      duetos: {
+        type: Object
+      },
+
+      artistas: {
+        type: Object
       }
     },
 
-    _sortItems: function() {
-      return Math.round(Math.random()*3) - 1;
-    },
-
-    __computeFavIcon: function(favorite) {
-      return favorite ? 'favorite' : 'favorite-border';
-    },
-
-    __toggleFavorite: function(event, detail) {
-      this.__favorite = !this.__favorite;
-    },
-
-    __recalcularCreditos: function () {
-        this.__favorite = !this.__favorite;
-    },
 
     __cargarDatos:function () {
     
 
+      var formJSONArtistas = document.getElementById("formEleccionArtista").serializeForm();
+      var formJSONDuetos = document.getElementById("formEleccionDueto").serializeForm();
       
-      firebase.database().ref('user2s/' + this.user.uid).set({
-        username: this.user.displayName,
-        email: this.user.email,
-        profile_picture : this.user.photoURL
-      });
+      
+      if (Object.keys(formJSONArtistas).length!==2) {
+        alert("Debes elegir 2 concursantes individuales exactamente");
+        return;
+      }
 
-      console.log(this.user);
+
+      if (Object.keys(formJSONDuetos).length!==1) {
+        alert("Debes elegir 1 dueto exactamente");
+        return;
+      }
+
+      console.log(formJSONDuetos);
+
+      //Obtencion de los datos de los DUETOS
+      for (var clave in formJSONDuetos){
+            //alert("La clave es " + clave + " y el valor es " + formJSONDuetos[clave]);
+        for (var clave2 in this.duetos) {
+          //alert(this.duetos[clave2].$key);
+          if (this.duetos[clave2].$key === clave) {
+
+            var aux = this.duetos[clave2];
+            //console.log("Antes de delete:");
+            //console.log(aux);
+            delete aux.$key;
+            //console.log("Después de delete:");
+            //console.log(aux);
+            formJSONDuetos[clave] = aux;
+          }
+        }
+
+      }
+
+      //Obtencion de los datos de los ARTISTAS
+      for (var clave in formJSONArtistas){
+            //alert("La clave es " + clave + " y el valor es " + formJSONArtistas[clave]);
+        for (var clave2 in this.artistas) {
+          //alert(this.artistas[clave2].$key);
+          if (this.artistas[clave2].$key === clave) {
+
+            var aux = this.artistas[clave2];
+            //console.log("Antes de delete:");
+            //console.log(aux);
+            delete aux.$key;
+            //console.log("Después de delete:");
+            //console.log(aux);
+            formJSONArtistas[clave] = aux;
+          }
+        }
+      }
+
+
+      console.log("El formulario con los datos de los duetos añadidos: ");
+      console.log(formJSONDuetos);
+      console.log("El formulario con los datos de los artistas añadidos: ");
+      console.log(formJSONArtistas);
+
+      //Insercion de las elecciones de artistas y duetos en el usuario
+      firebase.database().ref('/users/' + this.keyuser + '/elecciones/duetos').set(formJSONDuetos);
+      firebase.database().ref('/users/' + this.keyuser + '/elecciones/artistas').set(formJSONArtistas);
+
+
+      
+
     },
+
+
     
 
   });
 
+
   </script>
+
 
 </dom-module>

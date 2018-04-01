@@ -60,6 +60,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             --paper-fab-keyboard-focus-background: #DF4448;
         }
 
+        
+
      
   
         /**
@@ -230,13 +232,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       var formJSONDuetos = document.getElementById("formEleccionDueto").serializeForm();
       
       
-      if (Object.keys(formJSONArtistas).length!==2) {
+      if (!(Object.keys(formJSONArtistas).length===2)) {
         alert("Debes elegir 2 concursantes individuales exactamente");
         return;
       }
 
 
-      if (Object.keys(formJSONDuetos).length!==1) {
+      if (!(Object.keys(formJSONDuetos).length===1)) {
         alert("Debes elegir 1 dueto exactamente");
         return;
       }

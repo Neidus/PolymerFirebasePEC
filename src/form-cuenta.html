@@ -115,56 +115,53 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 </firebase-document>
     
 
-<paper-button raised on-tap="ayudame">HELP</paper-button>
+<!--<paper-button raised on-tap="ayudame">HELP</paper-button>-->
                    
                             
 
        <div class="grid">
            <div class="item">
-
-                <h1>Perfil</h1>
-                    <table border>
-                        <form  action="/foo" method="get">
-                            <tr>
-                                <td rowspan="10">
-                                    <img class="profilePic" src="{{usuarioCuenta.profile_picture}}" width="300" height="300"> 
-                                </td>
-                                <td>                 
-                                     <div>Usuario: {{usuarioCuenta.username}} </div>
-                                     <div>
-                                     <paper-input type="text" name="nombre" required label= {{usuarioCuenta.username}} value=""></paper-input> 
-                                    </div> 
-                                </td>                          
-                            </tr>
-                            <tr>
+              <iron-form id="formCuenta">
+                <form  action="/foo" method="get">
+                    <h1>Perfil</h1>
+                        <table>                     
+                              <tr>
+                                  <td rowspan="10">
+                                      <img class="profilePic" src="{{usuarioCuenta.profile_picture}}" width="300" height="300"> 
+                                  </td>
+                                  <td>                 
+                                      <div>Usuario: {{usuarioCuenta.username}} </div>
+                                      <div>
+                                      <paper-input type="text" name="username" required label= {{usuarioCuenta.username}} value=""></paper-input> 
+                                      </div> 
+                                  </td>                          
+                              </tr>
+                              <tr>
+                                  <td>
+                                      <div>Email: {{usuarioCuenta.email}} </div>
+                                      <div>
+                                      <paper-input type="text" name="email" required label= {{usuarioCuenta.email}}  value=""></paper-input>   
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>
+                                          <div>Privacidad: [[usuarioCuenta.privacidad]] </div>
+                                          <div>
+                                      <paper-input type="text" name="privacidad" required label= [[usuarioCuenta.privacidad]] value=""></paper-input> 
+                                  </td>
+                              </tr>
+                              <tr>
                                 <td>
-                                    <div>Email: {{usuarioCuenta.email}} </div>
-                                    <div>
-                                    <paper-input type="text" name="nombre" required label= {{usuarioCuenta.email}}  value=""></paper-input>   
+                                  <center><paper-button raised onclick="update()" >Enviar</paper-button></center>
                                 </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                        <div>Privacidad: [[usuarioCuenta.privacidad]] </div>
-                                        <div>
-                                    <paper-input type="text" name="nombre" required label= [[usuarioCuenta.privacidad]] value=""></paper-input> 
-                                </td>
-                            </tr>
-                        </form>
-                    </table>
-                    <paper-button raised on-tap="ayudame">prueba</paper-button>
-                        
-                  
-                
-
-           </div>
-                
-           
-            
-
+                              </tr>                            
+                          </form>
+                     </table>
+                  </form>
+              </iron-form>
+                   <!-- <paper-button raised on-tap="ayudame">prueba</paper-button>-->
+          </div>
          </div>
-
-    
 
   </template>
 
@@ -206,6 +203,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     
   });
+  </script>
+  <script>
+    function update() {
+      document.getElementById("formCuenta").submit();
+      if (document.getElementById("formCuenta").validate()){
+
+        console.log(document.getElementById("formCuenta").serializeForm());
+      
+        var postsRef = firebase.database().ref('user2s/');
+
+        var newPostRef = postsRef.push();
+        newPostRef.set(document.getElementById("formCuenta").serializeForm());
+
+        alert("Inserción de datos confirmada.");
+        document.getElementById("formCuenta").reset();
+
+      }
+    }
 
   </script>
 

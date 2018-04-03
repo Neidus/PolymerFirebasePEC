@@ -1,0 +1,130 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../bower_components/polymerfire/polymerfire.html">
+
+<link rel="import" href="shrine-detail.html">
+
+<dom-module id="shrine-respuestas">
+
+  <template>
+
+    <style>
+      :host {
+        @apply --layout-horizontal;
+        @apply --layout-center-center;
+        @apply --layout-wrap;
+        position: relative;
+        text-align: center;
+        width: 100%;
+        height: 100%;
+        --paper-icon-button-ink-color: #31f0ef;
+      }
+      
+      .author {
+        font-size: 11px;
+        color: #000;
+        line-height: 5em;
+      }
+
+      .muestra-respuestas{
+        margin-left: 0px;
+        margin-top: 10px;
+        text-align: left;
+      }
+
+      .pic {
+        width: 100px;
+        height: 100px;
+        border-radius: 50% 50%;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
+
+      :host::after {
+        content: "";
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0;
+        transition: opacity 0.5s;
+        pointer-events: none;
+        /* create a layer to only invalidate this layer for :hover */
+        transform: translateZ(0);
+      }
+
+      :host:hover::after {
+        opacity: 1;
+      }
+    </style>
+
+    <firebase-query id="querymsg" path="/programas/{{programaid}}/mensajes" data="{{mensajes}}">
+    </firebase-query>
+
+    <firebase-query id="queryrspt" path="/programas/{{programaid}}/mensajes/{{mensajeid}}/Respuestas" data="{{respuestas}}">
+    </firebase-query>
+
+    <firebase-document path="/programas/{{programaid}}/mensajes/[[item.$key]]" data="{{mensaje}}">
+    </firebase-document>
+
+    <div class"content">
+      <paper-button raised on-tap="_ayuda" hidden> Ayuda </paper-button>
+      <paper-button raised on-tap="_respuestas" hidden> Respuestas </paper-button>
+
+      <template is="dom-repeat" items="{{respuestas}}">
+          <div class="respuestas-item">
+            <div class="muestra-respuestas">
+                [[item.usuario]]: [[item.respuesta]]
+          </div>
+          </div>
+        </template>
+      </div>
+
+  </template>
+
+  <script>
+
+    Polymer({
+
+      is: 'shrine-respuestas',
+
+      properties: {
+
+        mensajes: {
+          type: Array
+        },
+        mensajeid: {
+          type: String
+        },
+
+        mensaje: {
+          type: Object,
+        },
+      },
+
+      _ayuda: function (mensajes) {
+
+        console.log(this.mensajes)
+      },
+      _respuestas: function (respuestas, mensajeid) {
+
+        console.log(this.mensajeid, this.respuestas)
+      },
+    });
+
+  </script>
+
+</dom-module>

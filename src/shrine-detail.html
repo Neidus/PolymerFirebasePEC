@@ -16,6 +16,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 
 <link rel="import" href="shrine-simple-item.html">
+<link rel="import" href="shrine-app.html">
+
 
 <dom-module id="shrine-detail">
 
@@ -308,15 +310,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             <template is="dom-repeat" items="{{mensajes}}">
               <div class="mensajes-item">
-                  <p></p>
                 <div class="mensajes-nombre">[[item.usuario]]: [[item.mensaje]]
-                  <a href$="#[[section]]/{{programaid}}/mensajes/[[item.$key]]" title$="[[item.mensaje]]" class="item">
-                    <paper-fab mini icon="reply" aria-label="Responder a este mensaje"> </paper-fab>
-                    </a>
+            <!-- <a href$="#[[section]]/{{programaid}}/mensajes/[[item.$key]]" title$="[[item.mensaje]]" class="item">
+                  </a>-->
                     <input id="msgid" value=[[item.$key]] hidden>
-                    <shrine-respuestas name="respuestas"programaid=[[programaid]] mensajeid=[[item.$key]]></shrine-respuestas>
+                    <shrine-respuestas name="respuestas"programaid=[[programaid]] mensajeid=[[item.$key]] user="[[user]]"></shrine-respuestas>
 
                 </div>
+
                 <p></p>
               </div>
             </template>
@@ -387,14 +388,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         console.log(this.usuarioBBDD);
         document.getElementsByName("message")[0].value = "";
         console.log(this.programaid);
-      },
-
-      _responderMensaje: function (msgid) {
-
-        /*<a href$="#[[section]]/[[item.$key]]" title$="[[item.nombre]]" class="item">
-            <shrine-respuestas item="[[item]]"></shrine-respuestas>
-          </a>*/
-        console.log(this.msgid)
       },
 
     });

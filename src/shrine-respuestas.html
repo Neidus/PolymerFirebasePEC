@@ -13,6 +13,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/polymerfire/polymerfire.html">
 
 <link rel="import" href="shrine-detail.html">
+<link rel="import" href="shrine-app.html">
 
 <dom-module id="shrine-respuestas">
 
@@ -91,6 +92,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </div>
           </div>
         </template>
+        <paper-input type="text" name="respuesta" required label="Nueva Respuesta"> </paper-input>
+        <paper-fab mini icon="reply" on-click="_responderMensaje" aria-label="Responder a este mensaje"> </paper-fab>
       </div>
 
   </template>
@@ -119,9 +122,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         console.log(this.mensajes)
       },
-      _respuestas: function (respuestas, mensajeid) {
+      _responderMensaje: function () {
+        var refBbdd2 = 'programas/' + this.programaid + '/mensajes/'+ this.mensajeid + '/Respuestas/';
+        
 
-        console.log(this.mensajeid, this.respuestas)
+         firebase.database().ref(refBbdd2).push({
+          uid: this.user.uid,
+          usuario: this.user.displayName,
+          respuesta: document.getElementsByName("respuesta")[0].value,
+
+        })
+        console.log(this.mensajeid, this.user.uid,this.user.displayName, this.mensajeid)
+        document.getElementsByName("respuesta")[0].value = "";
+
       },
     });
 

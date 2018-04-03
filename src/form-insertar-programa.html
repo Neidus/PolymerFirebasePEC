@@ -108,8 +108,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       
     <iron-form id="formPrograma">
         <form  action="/foo" method="get">
-          <paper-input type="text" on name="nombre" required label="Nombre del Programa" value=""></paper-input>
-          <paper-input type="text" on name="photoURL" required label="URL de imagen del Programa" value=""></paper-input>
+          <paper-input type="text" on name="nombre" label="Nombre del Programa" value=""></paper-input>
+          <paper-input type="text" on name="photoURL" label="URL de imagen del Programa" value=""></paper-input>
           <paper-input type="date" on name="fecha" value=""></paper-input>
           <paper-textarea type="text" on name="descripcion" label="Descripción del programa" value=""></paper-textarea>
           
@@ -118,16 +118,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <thead>
               <tr>
                 <th>Nombre</th>  
-                <th>Valor</th>
                 <th>Elección</th>
+                <th>Puntuación</th>
               </tr>
             </thead>
             <tbody>
               <template is="dom-repeat" items="[[artistas]]">
                 <tr>  
                   <td>[[item.nombre]]</td>
-                  <td>[[item.valor]]</td>
-                  <td><paper-checkbox id="[[item.$ key]]" name="[[item.$key]]" checked></paper-checkbox></td>
+                  <td><paper-checkbox id="[[item.$key]]" name="[[item.$key]]"></paper-checkbox></td>
+                  <td><paper-input type="number" name="[[item.$key]]" id="[[item.$key]]"></paper-input></td>
                 </tr>
               </template>      
             </tbody>
@@ -137,17 +137,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <thead>
                 <tr>
                   <th>Nombre</th>  
-                  <th>Valor</th>
                   <th>Elección</th>
+                  <th>Puntuación</th>
                 </tr>
-              </thead>
+              </thead> 
 
               <tbody>
                 <template is="dom-repeat" items="[[duetos]]">
                   <tr>  
                     <td>[[item.nombre]]</td>
-                    <td>[[item.valor]]</td>
-                    <td><paper-checkbox id="[[item.$key]]" name="[[item.$key]]" aria-checked="true"></paper-checkbox></td>
+                    <td><paper-checkbox id="[[item.$key]]" name="[[item.$key]]"></paper-checkbox></td>
+                    <td><paper-input type="number" name="[[item.$key]]" id="[[item.$key]]"></paper-input></td>
                   </tr>
                 </template>      
               </tbody>
@@ -155,18 +155,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
           <paper-button raised onclick="submitForm()">Submit</paper-button>
-          <paper-button raised onclick="formPrograma.reset()">Reset</paper-button>
-          <paper-button raised onclick="formPrograma.validate()">Validate</paper-button>
+         <!-- <paper-button raised onclick="formPrograma.reset()">Reset</paper-button>
+          <paper-button raised onclick="formPrograma.validate()">Validate</paper-button>-->
         </form>
        
       </iron-form>
       
   </div>
-    
-      
-
-    
-
   </template>
 
   <script>
@@ -191,15 +186,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <script>
     
   function submitForm() {
+      var formJSONPrograma = document.getElementById("formPrograma").serializeForm();
+
       document.getElementById("formPrograma").submit();
       if (document.getElementById("formPrograma").validate()){
       
         var postsRef = firebase.database().ref('/programas');
 
         var newPostRef = postsRef.push();
-        newPostRef.set(document.getElementById("formPrograma").serializeForm());
-        document.getElementById("formPrograma").reset();        
+
+        var jsonFinal = JSON.parse(JSON.stringify(formJSONPrograma));
+
+        newPostRef.set(jsonFinal);
+
+        alert("Inserción de datos confirmada.");
+
+        document.getElementById("formPrograma").reset();
+             
       }
+      
     }
 
   </script>

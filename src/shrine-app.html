@@ -258,6 +258,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     data="{{usuarioBBDD}}">
     </firebase-document>
 
+    <firebase-document 
+    path="/admins/{{user.uid}}" 
+    data="{{userAdmin}}">
+    </firebase-document>
+
     <!--  Obtencion de las rutas y subrutas dentro de nuestra aplicación web -->
     <app-location route="{{route}}" use-hash-as-path></app-location>
     <app-route route="{{route}}" pattern=":section" data="{{sectionData}}" tail="{{subRoute}}"></app-route>
@@ -416,7 +421,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      </iron-pages>
 
                      <iron-pages selected="[[page]]" attr-for-selected="name" name="Añadir programa" >
-                        <form-insertar-programa name="list"></form-insertar-programa>
+                        <form-insertar-programa name="list" administrador=[[esAdministrador]]></form-insertar-programa>
                      </iron-pages>
           
                     </iron-pages>
@@ -453,7 +458,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               'Añadir duetos',
               'Añadir programa'
             ];
-          }
+          },
+          computed: '_probando(userAdmin)'
         },
 
         selectedTab: {
@@ -509,6 +515,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         _usuarioValido: {
           type: String,
           computed: '_computeUsuarioValido(existeUser)'
+        },
+
+        userAdmin: {
+          type: Object
+        },
+
+        esAdministrador: {
+          type: String,
+          computed: '_computeAdministrador(userAdmin)'
         }
 
       },
@@ -644,8 +659,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         return this.existeUser;
       }
     },
+
+    _computeAdministrador: function (){
+      if (this.userAdmin===true) {
+        //alert("true")
+        return "true";
+      } else {
+        //alert("false");
+        return false;
+      }
+    },
       _cerrarSesion: function () {
-         
+         console.log(this.userAdmin);
         this.$.auth.signOut();
 
         /*
@@ -699,6 +724,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         */
         
 
+      },
+
+      _probando: function() {
+        if (this.userAdmin===true) {
+          return [
+              'programas',
+              'elegir concursantes',
+              'rankings',
+              'Añadir concursantes',
+              'Añadir duetos',
+              'Añadir programa'
+            ];
+        }
+        return [
+              'programas',
+              'elegir concursantes',
+              'rankings',
+              'Añadir concursantes',
+              'Añadir duetos',
+              'Añadir programa'
+            ];
       },
 
       _registrarUsuario() {

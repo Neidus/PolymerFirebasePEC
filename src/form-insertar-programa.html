@@ -25,6 +25,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-input/paper-input-error.html">
 <link rel="import" href="../bower_components/iron-form/iron-form.html">
 
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+
 <dom-module id="form-insertar-programa">
 
   <template>
@@ -103,6 +105,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       data="{{duetos}}">
       </firebase-query>
 
+      <iron-pages selected="[[administrador]]" attr-for-selected="name" fallback-selection=false>
+         
+        <div name="true">
+          t
+          [[administrador]]
+        </div>
+
+        <div name="false">
+          f
+          [[administrador]]
+        </div>
+
+      </iron-pages>
+
+     
+
+
   <div class="grid">
 
       
@@ -174,6 +193,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         insertar_programa:{
             type: String
+        },
+
+        administrador: {
+          type: String
         }
     },
 

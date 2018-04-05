@@ -145,14 +145,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                               </tr>
                               <tr>
                                   <td>
-                                          <div>Privacidad: [[usuarioCuenta.privacidad]] </div>
+                                          <div>Privacidad: {{usuarioCuenta.privacidad}} </div>
                                           <div>
                                       <paper-input type="text" name="privacidad" required label= [[usuarioCuenta.privacidad]] value=""></paper-input> 
                                   </td>
                               </tr>
                               <tr>
                                 <td>
-                                  <center><paper-button raised onclick="update()" >Enviar</paper-button></center>
+                                  <paper-button raised on-click="__cargarDatos">Submit</paper-button>
                                 </td>
                               </tr>                            
                           </form>
@@ -191,14 +191,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     __cargarDatos:function () {
     
 
-      
+      /*
       firebase.database().ref('user2s/' + this.user.uid).set({
         username: this.user.displayName,
         email: this.user.email,
         profile_picture : this.user.photoURL
       });
 
-      console.log(this.user);
+      console.log(this.user);*/
+      //alert("Usuario: " + this.usuarioCuenta.privacidad); // funciona 
+      //alert("PRUEBAAAA: "+ document.getElementsByName("email")[0].value); // funcionaaaaa 
+      //usuarioCuenta.email = document.getElementsByName("email")[0].value; // prueba 01
+
+
+
     },
 
     

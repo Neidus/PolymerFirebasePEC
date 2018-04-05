@@ -587,9 +587,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       _calcularLogin: function (usuario) {
-        //alert("entro en calcular login");
-        //alert("control Primera Vez: " +  this._primerComprobacionQuery);
-        //alert("usuario: " +  this.$.auth.user);
+        //console.log("entro en calcular login");
+        //console.log("control Primera Vez calcular login: " +  this._primerComprobacionQuery);
+        //console.log("usuario calcular login: " +  this.$.auth.user);
 
         if ((this.$.auth.user === undefined || this.$.auth.user === null)) {
           if ( this._primerComprobacionQuery===undefined) {
@@ -614,10 +614,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     },
 
     _computeExisteUsuario: function(usuario) {
-      //alert("entro en comprobar existe usuario");
-      //alert("control Primera Vez: " +  this._primerComprobacionQuery);
-      //alert("usuario existente: " +  usuario);
-      if (usuario===null  || usuario === undefined || usuario.length===0) {
+      //console.log("entro en comprobar existe usuario");
+      //console.log("control Primera Vez existe usuario: " +  this._primerComprobacionQuery);
+      //console.log("usuario existente existe usuario: " +  usuario);
+      //console.log(usuario.email);
+      if (usuario.email===undefined) {
         if (this._primerComprobacionQuery==="true") {
           return "none";
         }
@@ -642,9 +643,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     },
 
     _computeUsuarioValido(usuario) {
-      //alert("entro en comprobar usuario valido");
-      //alert("usuarioLogeado: " + this._usuarioLogeado);
-      //alert("existeUser: " + this.existeUser);
+      //console.log("entro en comprobar usuario valido");
+      //console.log("usuarioLogeado: " + this._usuarioLogeado);
+      //console.log("existeUser: " + this.existeUser);
       if (this._usuarioLogeado==="logeado" && this.existeUser==="true") {
           return "true";
       } 

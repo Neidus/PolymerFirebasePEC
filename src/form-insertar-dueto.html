@@ -110,39 +110,46 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     path="/pruebasConcursantes/artistas" 
     data="{{artistas}}">
     </firebase-query>
-    <div class="grid">
 
-      
-    <iron-form id="formDueto">
-        <form  action="/foo" method="get">
-          <paper-input type="text" name="nombre" required label="Nombre de Dueto" value=""></paper-input>
-          <paper-input type="text" on name="photoURL" required label="URL de imagen del dueto" value=""></paper-input>
-          <paper-input type="text" on name="valor" 
-                       required label="Coste en créditos del dueto" 
-                       value="1" pattern="[1-9][0-9]*" 
-                       title="Por favor introduce un número"></paper-input>
-          <paper-dropdown-menu id="formDuetoPrimerArtista" label="Primer Concursante" name="artistas" required>
-            <paper-listbox class="dropdown-content" slot="dropdown-content">
-                <template is="dom-repeat" items="{{artistas}}" sort="" initial-count="">         
+    <iron-pages selected="[[administrador]]" attr-for-selected="name" fallback-selection=false>
+         
+      <div class="grid" name="true">
+        <iron-form id="formDueto">
+          <form  action="/foo" method="get">
+            <paper-input type="text" name="nombre" required label="Nombre de Dueto" value=""></paper-input>
+            <paper-input type="text" on name="photoURL" required label="URL de imagen del dueto" value=""></paper-input>
+            <paper-input type="text" on name="valor" 
+                         required label="Coste en créditos del dueto" 
+                         value="1" pattern="[1-9][0-9]*" 
+                         title="Por favor introduce un número"></paper-input>
+            <paper-dropdown-menu id="formDuetoPrimerArtista" label="Primer Concursante" name="artistas" required>
+              <paper-listbox class="dropdown-content" slot="dropdown-content">
+                  <template is="dom-repeat" items="{{artistas}}" sort="" initial-count="">         
+                        <paper-item value="[[item.$key]]">[[item.nombre]]</paper-item>
+                  </template>
+              </paper-listbox>
+            </paper-dropdown-menu>
+            <paper-dropdown-menu id="formDuetoSegundoArtista" label="Segundo Concursante" name="artistas" required>
+              <paper-listbox name="prueba" class="dropdown-content" slot="dropdown-content">
+                  <template is="dom-repeat" items="{{artistas}}" sort="" initial-count="">         
                       <paper-item value="[[item.$key]]">[[item.nombre]]</paper-item>
-                </template>
-            </paper-listbox>
-          </paper-dropdown-menu>
-          <paper-dropdown-menu id="formDuetoSegundoArtista" label="Segundo Concursante" name="artistas" required>
-            <paper-listbox name="prueba" class="dropdown-content" slot="dropdown-content">
-                <template is="dom-repeat" items="{{artistas}}" sort="" initial-count="">         
-                    <paper-item value="[[item.$key]]">[[item.nombre]]</paper-item>
-                </template>
-            </paper-listbox>
-          </paper-dropdown-menu>               
-          <paper-button raised onclick="submitFormDueto()">Submit</paper-button>
-          <paper-button raised onclick="formDueto.reset()">Reset</paper-button>
-          <paper-button raised onclick="formDueto.validate()">Validate</paper-button>
-        </form>
-       
-      </iron-form>
-      
-  </div>
+                  </template>
+              </paper-listbox>
+            </paper-dropdown-menu>               
+            <paper-button raised onclick="submitFormDueto()">Submit</paper-button>
+            <paper-button raised onclick="formDueto.reset()">Reset</paper-button>
+            <paper-button raised onclick="formDueto.validate()">Validate</paper-button>
+          </form>
+         
+        </iron-form>
+      </div>
+
+      <div class="grid" name="false">
+        
+      </div>
+
+    </iron-pages>
+  
     
       
 
@@ -160,6 +167,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         artistas:{
             type: Object
+        },
+
+        administrador: {
+          type: String
         }
     },
 

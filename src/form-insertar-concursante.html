@@ -95,31 +95,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   
       </style>
 
-  <div class="grid">
-
-      
+<iron-pages selected="[[administrador]]" attr-for-selected="name" fallback-selection=false>
+         
+  <div class="grid" name="true">
     <iron-form id="formArtista">
-        <form  action="/foo" method="get">
-          <paper-input type="text" name="nombre" required label="Nombre de Concursante" value=""></paper-input>
-          <paper-input type="text" on name="photoURL" required label="URL de imagen del concursante" value=""></paper-input>
-          <paper-input type="text" on name="valor" 
-                       required label="Coste en créditos del concursante" 
-                       value="1" pattern="[1-9][0-9]*" 
-                       title="Por favor introduce un número"></paper-input>
-          
-          <paper-button raised onclick="submitFormArtista()">Submit</paper-button>
-          <paper-button raised onclick="formArtista.reset()">Reset</paper-button>
-          <paper-button raised onclick="formArtista.validate()">Validate</paper-button>
-        </form>
-       
-      </iron-form>
-      
+      <form  action="/foo" method="get">
+        <paper-input type="text" name="nombre" required label="Nombre de Concursante" value=""></paper-input>
+        <paper-input type="text" on name="photoURL" required label="URL de imagen del concursante" value=""></paper-input>
+        <paper-input type="text" on name="valor" 
+                     required label="Coste en créditos del concursante" 
+                     value="1" pattern="[1-9][0-9]*" 
+                     title="Por favor introduce un número"></paper-input>
+        
+        <paper-button raised onclick="submitFormArtista()">Submit</paper-button>
+        <paper-button raised onclick="formArtista.reset()">Reset</paper-button>
+        <paper-button raised onclick="formArtista.validate()">Validate</paper-button>
+      </form>
+     
+    </iron-form>
   </div>
-    
-      
 
+  <div class="grid" name="false">
     
+  </div>
 
+</iron-pages>
+    
   </template>
 
   <script>
@@ -132,6 +133,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         hola:{
             type: String
+        },
+
+        administrador: {
+          type: String
         }
     },
 

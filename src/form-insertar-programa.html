@@ -107,80 +107,69 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       <iron-pages selected="[[administrador]]" attr-for-selected="name" fallback-selection=false>
          
-        <div name="true">
-          t
-          [[administrador]]
+        <div class="grid" name="true">
+          <iron-form id="formPrograma">
+            <form  action="/foo" method="get">
+              <paper-input type="text" on name="nombre" label="Nombre del Programa" value=""></paper-input>
+              <paper-input type="text" on name="photoURL" label="URL de imagen del Programa" value=""></paper-input>
+              <paper-input type="date" on name="fecha" value=""></paper-input>
+              <paper-textarea type="text" on name="descripcion" label="Descripción del programa" value=""></paper-textarea>
+              
+              <h3>Artistas</h3>
+              <table is="s-table-lite">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>  
+                    <th>Elección</th>
+                    <th>Puntuación</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <template is="dom-repeat" items="[[artistas]]">
+                    <tr>  
+                      <td>[[item.nombre]]</td>
+                      <td><paper-checkbox id="[[item.$key]]" name="[[item.$key]]"></paper-checkbox></td>
+                      <td><paper-input type="number" name="[[item.$key]]" id="[[item.$key]]"></paper-input></td>
+                    </tr>
+                  </template>      
+                </tbody>
+              </table>
+              <h3>Duetos</h3> 
+              <table is="s-table-lite">
+                  <thead>
+                    <tr>
+                      <th>Nombre</th>  
+                      <th>Elección</th>
+                      <th>Puntuación</th>
+                    </tr>
+                  </thead> 
+
+                  <tbody>
+                    <template is="dom-repeat" items="[[duetos]]">
+                      <tr>  
+                        <td>[[item.nombre]]</td>
+                        <td><paper-checkbox id="[[item.$key]]" name="[[item.$key]]"></paper-checkbox></td>
+                        <td><paper-input type="number" name="[[item.$key]]" id="[[item.$key]]"></paper-input></td>
+                      </tr>
+                    </template>      
+                  </tbody>
+                </table>
+
+
+              <paper-button raised onclick="submitForm()">Submit</paper-button>
+            <!-- <paper-button raised onclick="formPrograma.reset()">Reset</paper-button>
+              <paper-button raised onclick="formPrograma.validate()">Validate</paper-button>-->
+            </form>
+          
+          </iron-form>
         </div>
 
         <div name="false">
-          f
-          [[administrador]]
         </div>
 
       </iron-pages>
 
-     
-
-
-  <div class="grid">
-
-      
-    <iron-form id="formPrograma">
-        <form  action="/foo" method="get">
-          <paper-input type="text" on name="nombre" label="Nombre del Programa" value=""></paper-input>
-          <paper-input type="text" on name="photoURL" label="URL de imagen del Programa" value=""></paper-input>
-          <paper-input type="date" on name="fecha" value=""></paper-input>
-          <paper-textarea type="text" on name="descripcion" label="Descripción del programa" value=""></paper-textarea>
-          
-          <h3>Artistas</h3>
-          <table is="s-table-lite">
-            <thead>
-              <tr>
-                <th>Nombre</th>  
-                <th>Elección</th>
-                <th>Puntuación</th>
-              </tr>
-            </thead>
-            <tbody>
-              <template is="dom-repeat" items="[[artistas]]">
-                <tr>  
-                  <td>[[item.nombre]]</td>
-                  <td><paper-checkbox id="[[item.$key]]" name="[[item.$key]]"></paper-checkbox></td>
-                  <td><paper-input type="number" name="[[item.$key]]" id="[[item.$key]]"></paper-input></td>
-                </tr>
-              </template>      
-            </tbody>
-          </table>
-          <h3>Duetos</h3> 
-          <table is="s-table-lite">
-              <thead>
-                <tr>
-                  <th>Nombre</th>  
-                  <th>Elección</th>
-                  <th>Puntuación</th>
-                </tr>
-              </thead> 
-
-              <tbody>
-                <template is="dom-repeat" items="[[duetos]]">
-                  <tr>  
-                    <td>[[item.nombre]]</td>
-                    <td><paper-checkbox id="[[item.$key]]" name="[[item.$key]]"></paper-checkbox></td>
-                    <td><paper-input type="number" name="[[item.$key]]" id="[[item.$key]]"></paper-input></td>
-                  </tr>
-                </template>      
-              </tbody>
-            </table>
-
-
-          <paper-button raised onclick="submitForm()">Submit</paper-button>
-         <!-- <paper-button raised onclick="formPrograma.reset()">Reset</paper-button>
-          <paper-button raised onclick="formPrograma.validate()">Validate</paper-button>-->
-        </form>
-       
-      </iron-form>
-      
-  </div>
+    
   </template>
 
   <script>

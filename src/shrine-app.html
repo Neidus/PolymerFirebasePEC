@@ -413,11 +413,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                       </iron-pages>
           
                       <iron-pages selected="[[page]]" attr-for-selected="name" name="Añadir concursantes" >
-                        <form-insertar-concursante name="list"></form-insertar-concursante>
+                        <form-insertar-concursante name="list" administrador=[[esAdministrador]]></form-insertar-concursante>
                       </iron-pages>
 
                       <iron-pages selected="[[page]]" attr-for-selected="name" name="Añadir duetos" >
-                        <form-insertar-dueto name="list"></form-insertar-dueto>
+                        <form-insertar-dueto name="list" administrador=[[esAdministrador]]></form-insertar-dueto>
                      </iron-pages>
 
                      <iron-pages selected="[[page]]" attr-for-selected="name" name="Añadir programa" >
@@ -453,10 +453,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             return [
               'programas',
               'elegir concursantes',
-              'rankings',
-              'Añadir concursantes',
-              'Añadir duetos',
-              'Añadir programa'
+              'rankings'
             ];
           },
           computed: '_probando(userAdmin)'
@@ -670,7 +667,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     },
       _cerrarSesion: function () {
-         console.log(this.userAdmin);
         this.$.auth.signOut();
 
         /*
@@ -740,10 +736,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         return [
               'programas',
               'elegir concursantes',
-              'rankings',
-              'Añadir concursantes',
-              'Añadir duetos',
-              'Añadir programa'
+              'rankings'
             ];
       },
 

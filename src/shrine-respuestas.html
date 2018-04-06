@@ -11,6 +11,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/polymer/polymer.html">
 
 <link rel="import" href="../bower_components/polymerfire/polymerfire.html">
+<link rel="import" href="../bower_components/underscore/underscore.js">
 
 <link rel="import" href="shrine-detail.html">
 <link rel="import" href="shrine-app.html">
@@ -30,14 +31,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         height: 100%;
         --paper-icon-button-ink-color: #31f0ef;
       }
-      
+
       .author {
         font-size: 11px;
         color: #000;
         line-height: 5em;
       }
 
-      .muestra-respuestas{
+      .muestra-respuestas {
         margin-left: 0px;
         margin-top: 10px;
         text-align: left;
@@ -81,20 +82,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <firebase-document path="/programas/{{programaid}}/mensajes/[[item.$key]]" data="{{mensaje}}">
     </firebase-document>
 
-    <div class"content">
+    <div class "content">
       <paper-button raised on-tap="_ayuda" hidden> Ayuda </paper-button>
       <paper-button raised on-tap="_respuestas" hidden> Respuestas </paper-button>
 
       <template is="dom-repeat" items="{{respuestas}}">
-          <div class="respuestas-item">
-            <div class="muestra-respuestas">
-                [[item.usuario]]: [[item.respuesta]]
-          </div>
-          </div>
-        </template>
-        <paper-input type="text" name="respuesta" required label="Nueva Respuesta"> </paper-input>
-        <paper-fab mini icon="reply" on-click="_responderMensaje" aria-label="Responder a este mensaje"> </paper-fab>
-      </div>
+        <div class="respuestas-item">
+          <div class="muestra-respuestas">
+            [[item.usuario]]: [[item.respuesta]]
+        </div>
+      </template>
+      <paper-input type="text" name="respuesta" required label="Nueva Respuesta"> </paper-input>   
+      <paper-fab mini icon="reply" on-click="_responderMensaje" aria-label="Responder a este mensaje"> </paper-fab>
+    </div>
 
   </template>
 
@@ -109,10 +109,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         mensajes: {
           type: Array
         },
+        respuestas: {
+          type: Array
+        },
         mensajeid: {
           type: String
         },
-
+        msgpos: {
+          type: String
+        },
         mensaje: {
           type: Object,
         },
@@ -122,19 +127,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         console.log(this.mensajes)
       },
-      _responderMensaje: function () {
-        var refBbdd2 = 'programas/' + this.programaid + '/mensajes/'+ this.mensajeid + '/Respuestas/';
-        
+      _responderMensaje: function (mensajes) {
+        var refBbdd2 = 'programas/' + this.programaid + '/mensajes/' + this.mensajeid + '/Respuestas/';
+        //var msgpos = find(mensajes, this.mensajeid)
+        //var msgpos = mensajes.map(function(e) { return e.$key;}).indexOf(this.mensajeid);
+        var len= this.mensajes;
+        for (var i = 0; i < this.mensajes.length; i++) {
+          if (this.mensajes[i].$key === this.mensajeid) {
+            console.log(this.mensajes[i].$key, this.mensajeid, i, document.getElementsByName("respuesta")[i].value)
+          }
+        } 
 
-         firebase.database().ref(refBbdd2).push({
+      /* firebase.database().ref(refBbdd2).push({
           uid: this.user.uid,
           usuario: this.user.displayName,
-          respuesta: document.getElementsByName("respuesta")[0].value,
+          respuesta: document.getElementsByName("respuesta")[x].value,
+        })*/
 
-        })
-        console.log(this.mensajeid, this.user.uid,this.user.displayName, this.mensajeid)
-        document.getElementsByName("respuesta")[0].value = "";
-
+       console.log(i, document.getElementsByName("respuesta")[i].value)
       },
     });
 

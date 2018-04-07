@@ -152,7 +152,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                               </tr>
                               <tr>
                                 <td>
-                                  <paper-button raised on-click="__cargarDatos">Submit</paper-button>
+                                  <paper-button raised on-click="__cargarDatos">actualizar datos</paper-button>
                                 </td>
                               </tr>                            
                           </form>
@@ -199,15 +199,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       });
 
       console.log(this.user);*/
-      //alert("Usuario: " + this.usuarioCuenta.privacidad); // funciona 
+      //alert("Usuario: " + this.usuarioCuenta.email); // funciona 
+      //alert("ID: "+ this.user.uid); // id del usuario
       //alert("PRUEBAAAA: "+ document.getElementsByName("email")[0].value); // funcionaaaaa 
-      //usuarioCuenta.email = document.getElementsByName("email")[0].value; // prueba 01
-
-
-
+// actualiza el nombre 
+     if (document.getElementsByName("username")[0].value != ""){
+        firebase.database().ref('users/' + this.user.uid).update({
+            username: document.getElementsByName("username")[0].value,               
+        });
+      }
+//actualiza el email   
+      if (document.getElementsByName("email")[0].value != ""){
+        firebase.database().ref('users/' + this.user.uid).update({
+            email: document.getElementsByName("email")[0].value,               
+        });
+      }
+// actualiza la privacidad 
+if (document.getElementsByName("privacidad")[0].value != ""){
+        firebase.database().ref('users/' + this.user.uid).update({
+            privacidad: document.getElementsByName("privacidad")[0].value,               
+        });
+      }
     },
-
     
+       
   });
   </script>
   <script>

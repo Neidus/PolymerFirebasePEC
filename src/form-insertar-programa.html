@@ -49,10 +49,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           -webkit-flex: 1 calc(100% - 20px);
           flex: 1 calc(100% - 20px);
           max-width: calc(75% - 20px);
-          max-width: calc(100% - 20px);
-          height: 30vmax;
+          
           min-height: 250px;
-          margin: 10px;
+          margin: auto;
+          width: 50%;
           text-decoration: none;
           background-color: white;
         }
@@ -74,9 +74,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             -webkit-flex: 1 calc(100% - 20px);
             flex: 1 calc(100% - 20px);
             max-width: calc(100% - 20px);
-            margin: 10px;
+            margin: auto;
+            width: 50%;
             text-decoration: none;
             background-color: white;
+            
           }
 
           
@@ -110,18 +112,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <iron-pages selected="[[administrador]]" attr-for-selected="name" fallback-selection=false>
 
       <div class="grid" name="true">
+
+          <div class="item">
+              <iron-form id="formProgramas">
+                <form  action="/foo" method="get">
+                  <paper-input type="text" on name="nombre" label="Nombre del Programa" value="" required></paper-input>
+                  <paper-input type="text" on name="photoURL" label="URL de imagen del Programa" value="" required></paper-input>
+                  <paper-input type="date" on name="fecha" value="" required></paper-input>
+                  <paper-textarea type="text" on name="descripcion" label="Descripción del programa" value="" required></paper-textarea>
+                </form>     
+              </iron-form>
+          </div>
+  
         <div class="item">
-            <div class="item">
-                <iron-form id="formProgramas">
-                  <form  action="/foo" method="get">
-                    <paper-input type="text" on name="nombre" label="Nombre del Programa" value=""></paper-input>
-                    <paper-input type="text" on name="photoURL" label="URL de imagen del Programa" value=""></paper-input>
-                    <paper-input type="date" on name="fecha" value=""></paper-input>
-                    <paper-textarea type="text" on name="descripcion" label="Descripción del programa" value=""></paper-textarea>
-                  </form>     
-                </iron-form>
-            </div>
-    
+            
           <iron-form id="formArtistas">
             <form  action="/foo" method="get">
               <h3>Artistas</h3>
@@ -138,7 +142,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     <tr>  
                       <td>[[item.nombre]]</td>
                       <td><paper-checkbox id="[[item.$key]]" name="[[item.$key]]"></paper-checkbox></td>
-                      <td><paper-input type="number" name="[[item.$key]]" id="[[item.$key]]"></paper-input></td>
+                      <td><paper-input type="number" name="[[item.$key]]" id="[[item.$key]]" value=1 max=10 min=1></paper-input></td>
                     </tr>
                   </template>      
                 </tbody>
@@ -164,7 +168,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   <tr>  
                       <td>[[item.nombre]]</td>
                       <td><paper-checkbox id="[[item.$key]]" name="[[item.$key]]"></paper-checkbox></td>
-                      <td><paper-input type="number" name="[[item.$key]]" id="[[item.$key]]"></paper-input></td>
+                      <td><paper-input type="number" name="[[item.$key]]" id="[[item.$key]]" value=1 max=10 min=1></paper-input></td>
                   </tr>
                 </template>      
               </tbody>
@@ -216,28 +220,96 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     _insertar_programa:function() {
 
-      var formJSONP= JSON.parse(JSON.stringify(document.getElementById("formProgramas").serializeForm()));
+
+      if (!document.getElementById("formProgramas").validate() || !document.getElementById("formArtistas").validate() || !document.getElementById("formDuetos").validate()){
+        return;
+      }
+
       var formJSONA= JSON.parse(JSON.stringify(document.getElementById("formArtistas").serializeForm()));
       var formJSOND= JSON.parse(JSON.stringify(document.getElementById("formDuetos").serializeForm()));
-
-      //console.log("El formulario con los datos de los programas: ");
-      //console.log(formJSONP);
       
-      //console.log("El formulario con los datos de los artistas añadidos: ");
+
+      var seleccionado=false;
+      for (var clave in formJSONA){
+        if(formJSONA[clave][0]==="on") {
+          seleccionado=true;
+        } else {
+          delete formJSONA[clave];
+        }
+      }
+
+      if(!seleccionado) {
+        alert("Debes elegir minimo un artista");
+        return;
+      }
+
+      seleccionado=false;
+
+      for (var clave in formJSOND){
+        if(formJSOND[clave][0]==="on") {
+          seleccionado=true;
+        } else {
+          delete formJSOND[clave];
+        }
+      }
+
+      if(!seleccionado) {
+        alert("Debes elegir minimo un dueto");
+        return;
+      }
+
+      var formJSONP= JSON.parse(JSON.stringify(document.getElementById("formProgramas").serializeForm()));
+     
+
+      for (var clave in formJSONA){
+        for (var clave2 in this.artistas) {
+          if (this.artistas[clave2].$key === clave) {
+
+            var aux = JSON.parse(JSON.stringify(this.artistas[clave2]));
+
+            delete aux.$key;
+            delete aux.valor;
+            aux["puntuacion"] = formJSONA[clave][1]; 
+            formJSONA[clave] = aux;
+          }
+        }
+      }
+
+       for (var clave in formJSOND){
+        for (var clave2 in this.duetos) {
+          if (this.duetos[clave2].$key === clave) {
+
+            var aux = JSON.parse(JSON.stringify(this.duetos[clave2]));
+
+            delete aux.$key;
+            delete aux.valor;
+            aux["puntuacion"] = formJSOND[clave][1]; 
+
+            formJSOND[clave] = aux;
+          }
+        }
+      }
+
+      //console.log("El formulario con los datos de los artistas tras el for: ");
       //console.log(formJSONA);
 
-      //console.log("El formulario con los datos de los duetos añadidos: ");
-      //console.log(formJSOND); 
+      //console.log("El formulario con los datos de los duetos tras el for: ");
+      //console.log(formJSOND);
+
+      formJSONP["duetos"] = formJSOND;
+      formJSONP["artistas"] = formJSONA;
+
+      //console.log("El formulario con los datos finales del programa: ");
+      //console.log(formJSONP);
+
 
       var postsRef = firebase.database().ref('/programas');
       var newPostRef = postsRef.push();
       newPostRef.set(formJSONP);
 
-      //firebase.database().ref('/programas/' + newPostRef.ref + '/artistas').set(formJSONA);
-      //firebase.database().ref('/programas/duetos').set(formJSOND);
-      //document.getElementById("formArtistas").reset();
-      //document.getElementById("formDuetos").reset();
-      //document.getElementById("formProgrmas").reset();
+      document.getElementById("formArtistas").reset();
+      document.getElementById("formDuetos").reset();
+      document.getElementById("formProgramas").reset();
     }
   });
   </script>

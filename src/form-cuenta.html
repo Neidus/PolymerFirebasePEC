@@ -126,8 +126,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     <h1>Perfil</h1>
                         <table>                     
                               <tr>
-                                  <td rowspan="10">
-                                      <img class="profilePic" src="{{usuarioCuenta.profile_picture}}" width="300" height="300"> 
+                                  <td rowspan="3">
+                                      <div><img class="profilePic" src="{{usuarioCuenta.profile_picture}}" width="300" height="300"> </div>
+                                      URL para cambiar la Imagen: <paper-input type="text" name="profile_picture" required label= {{usuarioCuenta.profile_picture}} value=""></paper-input> 
                                   </td>
                                   <td>                 
                                       <div>Usuario: {{usuarioCuenta.username}} </div>
@@ -218,6 +219,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 if (document.getElementsByName("privacidad")[0].value != ""){
         firebase.database().ref('users/' + this.user.uid).update({
             privacidad: document.getElementsByName("privacidad")[0].value,               
+        });
+      }
+// actualiza la imagen 
+if (document.getElementsByName("profile_picture")[0].value != ""){
+        firebase.database().ref('users/' + this.user.uid).update({
+            profile_picture: document.getElementsByName("profile_picture")[0].value,               
         });
       }
     },

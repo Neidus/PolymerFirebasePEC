@@ -197,6 +197,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         var formJSON = document.getElementById("formDueto").serializeForm()
         
+        if (document.getElementById("formDuetoPrimerArtista").selectedItem.value === document.getElementById("formDuetoSegundoArtista").selectedItem.value) {
+          alert("El primer y segundo miembro no puede ser el mismo");
+          return;
+        }
         
         artistas = [];
         artistas[document.getElementById("formDuetoPrimerArtista").selectedItem.value] =  formJSON.artistas[0];

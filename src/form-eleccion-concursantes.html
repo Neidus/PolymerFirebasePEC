@@ -178,7 +178,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     </div>
     
-      Créditos restantes: <input disabled id="contadorCreditos" value="{{puntuacionRestante}}" > 
+      Créditos restantes: <input disabled id="contadorCreditos" value="50" > 
       <p></p>
       <input  disabled id="contadorDuetos" value="0" hidden>
       <input  disabled id="contadorArtistas" value="0" hidden>
@@ -228,11 +228,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     __cargarDatos:function () {
     
-
-      var formJSONArtistas = document.getElementById("formEleccionArtista").serializeForm();
-      var formJSONDuetos = document.getElementById("formEleccionDueto").serializeForm();
+      //obtenemos los formularios en formato JSON
+      var formJSONArtistas = JSON.parse(JSON.stringify(document.getElementById("formEleccionArtista").serializeForm()));
+      var formJSONDuetos = JSON.parse(JSON.stringify(document.getElementById("formEleccionDueto").serializeForm()));
       
-      
+      //Controlamos que se hayan escogido el número de elementos que se debe
       if (!(Object.keys(formJSONArtistas).length===2)) {
         alert("Debes elegir 2 concursantes individuales exactamente");
         return;
@@ -246,39 +246,39 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       console.log(formJSONDuetos);
 
-      //Obtencion de los datos de los DUETOS
-      for (var clave in formJSONDuetos){
+      //Obtencion de los datos de los DUETOS.
+      for (var clave in formJSONDuetos){  //Recorremos el formulario de los duetos
             //alert("La clave es " + clave + " y el valor es " + formJSONDuetos[clave]);
-        for (var clave2 in this.duetos) {
+        for (var clave2 in this.duetos) {  //Recorremos los duetos que tenemos en nuestra bbdd
           //alert(this.duetos[clave2].$key);
-          if (this.duetos[clave2].$key === clave) {
+          if (this.duetos[clave2].$key === clave) {  //Si el dueto de la bbdd esta escogido en el formulario
 
-            var aux = this.duetos[clave2];
+            var aux = JSON.parse(JSON.stringify(this.duetos[clave2]));  //Asignamos a una variable la informacion del dueto
             //console.log("Antes de delete:");
             //console.log(aux);
-            delete aux.$key;
+            delete aux.$key;  //Eliminamos la clave
             //console.log("Después de delete:");
             //console.log(aux);
-            formJSONDuetos[clave] = aux;
+            formJSONDuetos[clave] = aux; //Asignamos la variable como nuevo valor del formulario de ese dueto
           }
         }
 
       }
 
       //Obtencion de los datos de los ARTISTAS
-      for (var clave in formJSONArtistas){
+      for (var clave in formJSONArtistas){  //Recorremos el formulario de los artistas
             //alert("La clave es " + clave + " y el valor es " + formJSONArtistas[clave]);
-        for (var clave2 in this.artistas) {
+        for (var clave2 in this.artistas) {   //Recorremos los artistas que tenemos en nuestra bbdd
           //alert(this.artistas[clave2].$key);
-          if (this.artistas[clave2].$key === clave) {
+          if (this.artistas[clave2].$key === clave) { //Si el artista de la bbdd esta escogido en el formulario
 
-            var aux = this.artistas[clave2];
+            var aux = JSON.parse(JSON.stringify(this.artistas[clave2])); //Asignamos a una variable la informacion del artista
             //console.log("Antes de delete:");
             //console.log(aux);
-            delete aux.$key;
+            delete aux.$key;  //Eliminamos la clave
             //console.log("Después de delete:");
             //console.log(aux);
-            formJSONArtistas[clave] = aux;
+            formJSONArtistas[clave] = aux; //Asignamos la variable como nuevo valor del formulario de ese artista
           }
         }
       }
@@ -293,6 +293,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       firebase.database().ref('/users/' + this.keyuser + '/elecciones/duetos').set(formJSONDuetos);
       firebase.database().ref('/users/' + this.keyuser + '/elecciones/artistas').set(formJSONArtistas);
 
+
+      alert("Inserción de datos confirmada.");
+
+      //Refrescamos la pagina para que se reinicien los datos
+      location.reload();
+      
 
       
 

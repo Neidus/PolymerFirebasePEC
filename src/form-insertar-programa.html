@@ -94,11 +94,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
        
   
       </style>
+
       <firebase-query 
       id="queryFormProgramaArtistas" 
       path="/concursantes/artistas" 
       data="{{artistas}}">
       </firebase-query>
+
       <firebase-query 
       id="queryFormProgramaDuetos" 
       path="/concursantes/duetos" 
@@ -106,15 +108,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </firebase-query>
 
       <iron-pages selected="[[administrador]]" attr-for-selected="name" fallback-selection=false>
-         
-        <div class="grid" name="true">
-          <iron-form id="formPrograma">
+
+      <div class="grid" name="true">
+        <div class="item">
+            <div class="item">
+                <iron-form id="formProgramas">
+                  <form  action="/foo" method="get">
+                    <paper-input type="text" on name="nombre" label="Nombre del Programa" value=""></paper-input>
+                    <paper-input type="text" on name="photoURL" label="URL de imagen del Programa" value=""></paper-input>
+                    <paper-input type="date" on name="fecha" value=""></paper-input>
+                    <paper-textarea type="text" on name="descripcion" label="Descripción del programa" value=""></paper-textarea>
+                  </form>     
+                </iron-form>
+            </div>
+    
+          <iron-form id="formArtistas">
             <form  action="/foo" method="get">
-              <paper-input type="text" on name="nombre" label="Nombre del Programa" value=""></paper-input>
-              <paper-input type="text" on name="photoURL" label="URL de imagen del Programa" value=""></paper-input>
-              <paper-input type="date" on name="fecha" value=""></paper-input>
-              <paper-textarea type="text" on name="descripcion" label="Descripción del programa" value=""></paper-textarea>
-              
               <h3>Artistas</h3>
               <table is="s-table-lite">
                 <thead>
@@ -134,41 +143,46 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   </template>      
                 </tbody>
               </table>
-              <h3>Duetos</h3> 
-              <table is="s-table-lite">
-                  <thead>
-                    <tr>
-                      <th>Nombre</th>  
-                      <th>Elección</th>
-                      <th>Puntuación</th>
-                    </tr>
-                  </thead> 
-
-                  <tbody>
-                    <template is="dom-repeat" items="[[duetos]]">
-                      <tr>  
-                        <td>[[item.nombre]]</td>
-                        <td><paper-checkbox id="[[item.$key]]" name="[[item.$key]]"></paper-checkbox></td>
-                        <td><paper-input type="number" name="[[item.$key]]" id="[[item.$key]]"></paper-input></td>
-                      </tr>
-                    </template>      
-                  </tbody>
-                </table>
-
-
-              <paper-button raised onclick="submitForm()">Submit</paper-button>
-            <!-- <paper-button raised onclick="formPrograma.reset()">Reset</paper-button>
-              <paper-button raised onclick="formPrograma.validate()">Validate</paper-button>-->
-            </form>
-          
+            </form>     
           </iron-form>
-        </div>
+          </div>
 
-        <div name="false">
+        <div class="item">
+            <iron-form id="formDuetos">
+            <form  action="/foo" method="get">
+            <h3>Duetos</h3> 
+            <table is="s-table-lite">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>  
+                    <th>Elección</th>
+                    <th>Puntuación</th>
+                  </tr>
+                </thead> 
+              <tbody>
+                  <template is="dom-repeat" items="[[duetos]]">
+                  <tr>  
+                      <td>[[item.nombre]]</td>
+                      <td><paper-checkbox id="[[item.$key]]" name="[[item.$key]]"></paper-checkbox></td>
+                      <td><paper-input type="number" name="[[item.$key]]" id="[[item.$key]]"></paper-input></td>
+                  </tr>
+                </template>      
+              </tbody>
+            </table>
+            </form>     
+            </iron-form>
+          </div>
+
         </div>
+        
+        
+
+      <div name="false">
+      </div>
 
       </iron-pages>
 
+      <paper-button raised on-click="_insertar_programa">Submit</paper-button>
     
   </template>
 
@@ -186,39 +200,46 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         administrador: {
           type: String
-        }
+        },
+
+        duetos: {
+          type: Object
+        },
+
+        artistas: {
+          type: Object
+        },
+        keyprograma: {
+          type: Object
+      } 
     },
 
     _insertar_programa:function() {
 
+      var formJSONP= JSON.parse(JSON.stringify(document.getElementById("formProgramas").serializeForm()));
+      var formJSONA= JSON.parse(JSON.stringify(document.getElementById("formArtistas").serializeForm()));
+      var formJSOND= JSON.parse(JSON.stringify(document.getElementById("formDuetos").serializeForm()));
+
+      //console.log("El formulario con los datos de los programas: ");
+      //console.log(formJSONP);
+      
+      //console.log("El formulario con los datos de los artistas añadidos: ");
+      //console.log(formJSONA);
+
+      //console.log("El formulario con los datos de los duetos añadidos: ");
+      //console.log(formJSOND); 
+
+      var postsRef = firebase.database().ref('/programas');
+      var newPostRef = postsRef.push();
+      newPostRef.set(formJSONP);
+
+      //firebase.database().ref('/programas/' + newPostRef.ref + '/artistas').set(formJSONA);
+      //firebase.database().ref('/programas/duetos').set(formJSOND);
+      //document.getElementById("formArtistas").reset();
+      //document.getElementById("formDuetos").reset();
+      //document.getElementById("formProgrmas").reset();
     }
   });
   </script>
-
-  <script>
-    
-  function submitForm() {
-      var formJSONPrograma = document.getElementById("formPrograma").serializeForm();
-
-      document.getElementById("formPrograma").submit();
-      if (document.getElementById("formPrograma").validate()){
-      
-        var postsRef = firebase.database().ref('/programas');
-
-        var newPostRef = postsRef.push();
-
-        var jsonFinal = JSON.parse(JSON.stringify(formJSONPrograma));
-
-        newPostRef.set(jsonFinal);
-
-        alert("Inserción de datos confirmada.");
-
-        document.getElementById("formPrograma").reset();
-             
-      }
-      
-    }
-
-  </script>
-
 </dom-module>
+

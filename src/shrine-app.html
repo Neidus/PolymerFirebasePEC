@@ -316,8 +316,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   <app-drawer slot="drawer" id="drawer" swipe-open="[[smallScreen]]">
                     <template is="dom-if" if="[[smallScreen]]">
                       <app-toolbar class="profileBar">
-                        <img class="profilePic" src="[[user.photoURL]]" width="30" height="30">
-                        <div class="profileName">[[user.displayName]]</div>
+                        <img class="profilePic" src="[[usuarioBBDD.profile_picture]]" width="30" height="30">
+                        <div class="profileName">[[usuarioBBDD.username]]</div>
           
                         <paper-menu-button>
                           <paper-icon-button icon="settings" aria-label="Settings" slot="dropdown-trigger" alt="menu"></paper-icon-button>
@@ -350,8 +350,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         </div>
                         <template is="dom-if" if="[[_shouldShowTabs(onDetailPage, smallScreen)]]">
                           <app-toolbar class="navItem2 profileBar rightItem" if="[[_shouldShowTabs(onDetailPage, smallScreen)]]">
-                            <img class="profilePic" src="[[user.photoURL]]" width="30" height="30">
-                            <div class="profileName">[[user.displayName]]</div>
+                            <img class="profilePic" src="[[usuarioBBDD.profile_picture]]" width="30" height="30">
+                            <div class="profileName">[[usuarioBBDD.username]]</div>
                             <paper-menu-button>
                               <paper-icon-button icon="settings" aria-label="Settings" slot="dropdown-trigger" alt="menu"></paper-icon-button>
                               <paper-listbox slot="dropdown-content">

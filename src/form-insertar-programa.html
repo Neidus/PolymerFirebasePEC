@@ -109,6 +109,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       data="{{duetos}}">
       </firebase-query>
 
+      <!-- Creo un componente query de firebase  para coger una lista de usuarios !-->
+
+       <firebase-query 
+      id="queryusuarios" 
+      path="/usuarios" 
+      data="{{lista_usuarios}}">
+      </firebase-query>
+
+      <!-- Creo un componente query de firebase  para coger una lista de programas !-->
+      
+      <firebase-query 
+      id="queryprogramas" 
+      path="/programas" 
+      data="{{lista_programas}}">
+      </firebase-query>
+
+
+
+
       <iron-pages selected="[[administrador]]" attr-for-selected="name" fallback-selection=false>
 
       <div class="grid" name="true">
@@ -202,6 +221,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             type: String
         },
 
+        key_ult_program:{   // ----> Establecemos la key del ultimo progrma, como una propiedad.
+        	type:String
+        },
+
         administrador: {
           type: String
         },
@@ -215,7 +238,41 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         },
         keyprograma: {
           type: Object
-      } 
+      	},
+
+		lista_usuarios: {   // --> la lista de usuarios como una propiedad.
+
+        type: Object
+      	},
+
+      lista_programas: {  // --> La lista de programas como una propiedad.
+
+        type: Object
+      }
+    },
+
+
+    _calcular_actualizar_puntuaciones:function(json_ultimo_programa){
+
+    	 console.log("calcular_actualizar_puntaciones no implementado \n\n");
+
+    	 var usuarios = JSON.parse(JSON.stringify(this.lista_usuarios)); //Relizamos un objeto json de los usuarios.
+
+    	 var ult_program = JSON.parse(JSON.stringify(json_ultimo_programa)); //Cogemos la referencia de firebase del programa.
+
+    	 var referencia_string =  ult_program.toString();
+
+    	 //Al tener la misma ruta, nos aprobechamos y nos quedamos con los ultimos caracteres empezando desde el 56
+
+    	 this.key_ult_program = referencia_string.substr(55);  
+
+    	 
+    	 console.log(this.key_ult_program);
+
+    	// console.log(usuarios[0].elecciones.dueto);
+
+    	// console.log(usuarios[0].elecciones.artistas);
+
     },
 
     _insertar_programa:function() {
@@ -310,7 +367,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       document.getElementById("formArtistas").reset();
       document.getElementById("formDuetos").reset();
       document.getElementById("formProgramas").reset();
+
+     
+  		this._calcular_actualizar_puntuaciones(newPostRef); //Calculamos y actualizamos las puntuaciones.
+
     }
+
   });
   </script>
 </dom-module>

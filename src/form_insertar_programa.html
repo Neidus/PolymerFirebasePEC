@@ -1,0 +1,276 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="shrine-item.html">
+<link rel="import" href="shrine-featured-item.html">
+
+<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+
+<link rel="import" href="../bower_components/polymerfire/polymerfire.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-input/paper-input-container.html">
+<link rel="import" href="../bower_components/paper-input/paper-input-error.html">
+<link rel="import" href="../bower_components/iron-form/iron-form.html">
+
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+
+<dom-module id="form-insertar-programa">
+
+  <template>
+
+    <style>
+
+        :host {
+          display: block;
+          -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+  
+        .grid {
+          @apply --layout-horizontal;
+          @apply --layout-center-center;
+          @apply --layout-wrap;
+          margin-top: 30px;
+        }
+  
+        .grid > .item {
+          -webkit-flex: 1 calc(100% - 20px);
+          flex: 1 calc(100% - 20px);
+          max-width: calc(75% - 20px);
+          max-width: calc(100% - 20px);
+          height: 30vmax;
+          min-height: 250px;
+          margin: 10px;
+          text-decoration: none;
+          background-color: white;
+        }
+
+      
+
+  
+        /**
+         * Desktop small, tablet
+         */
+        @media (max-width: 100%) {
+          .grid {
+            padding-left: 10px;
+            padding-right: 10px;
+            font-size: 0.7em;
+          }
+  
+          .grid > .item {
+            -webkit-flex: 1 calc(100% - 20px);
+            flex: 1 calc(100% - 20px);
+            max-width: calc(100% - 20px);
+            margin: 10px;
+            text-decoration: none;
+            background-color: white;
+          }
+
+          
+        }
+
+         paper-button {
+                background: #03a9f4;
+                color: white;
+                display: inline-block;
+                width: 100%;
+                margin-top:15px;
+                text-align: center;
+            }
+  
+       
+  
+      </style>
+      <firebase-query 
+      id="queryFormProgramaArtistas" 
+      path="/concursantes/artistas" 
+      data="{{artistas}}">
+      </firebase-query>
+      <firebase-query 
+      id="queryFormProgramaDuetos" 
+      path="/concursantes/duetos" 
+      data="{{duetos}}">
+      </firebase-query>
+
+      <!-- Creo un componente query de firebase  para coger una lista de usuarios !-->
+
+       <firebase-query 
+      id="queryusuarios" 
+      path="/usuarios" 
+      data="{{lista_usuarios}}">
+      </firebase-query>
+
+      <!-- Creo un componente query de firebase  para coger una lista de programas !-->
+      
+      <firebase-query 
+      id="queryprogramas" 
+      path="/programas" 
+      data="{{lista_programas}}">
+      </firebase-query>
+
+
+      <iron-pages selected="[[administrador]]" attr-for-selected="name" fallback-selection=false>
+         
+        <div class="grid" name="true">
+          <iron-form id="formPrograma">
+            <form  action="/foo" method="get">
+              <paper-input type="text" on name="nombre" label="Nombre del Programa" value=""></paper-input>
+              <paper-input type="text" on name="photoURL" label="URL de imagen del Programa" value=""></paper-input>
+              <paper-input type="date" on name="fecha" value=""></paper-input>
+              <paper-textarea type="text" on name="descripcion" label="Descripción del programa" value=""></paper-textarea>
+              
+              <h3>Artistas</h3>
+              <table is="s-table-lite">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>  
+                    <th>Elección</th>
+                    <th>Puntuación</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <template is="dom-repeat" items="[[artistas]]">
+                    <tr>  
+                      <td>[[item.nombre]]</td>
+                      <td><paper-checkbox id="[[item.$key]]" name="[[item.$key]]"></paper-checkbox></td>
+                      <td><paper-input type="number" name="[[item.$key]]" id="[[item.$key]]"></paper-input></td>
+                    </tr>
+                  </template>      
+                </tbody>
+              </table>
+              <h3>Duetos</h3> 
+              <table is="s-table-lite">
+                  <thead>
+                    <tr>
+                      <th>Nombre</th>  
+                      <th>Elección</th>
+                      <th>Puntuación</th>
+                    </tr>
+                  </thead> 
+
+                  <tbody>
+                    <template is="dom-repeat" items="[[duetos]]">
+                      <tr>  
+                        <td>[[item.nombre]]</td>
+                        <td><paper-checkbox id="[[item.$key]]" name="[[item.$key]]"></paper-checkbox></td>
+                        <td><paper-input type="number" name="[[item.$key]]" id="[[item.$key]]"></paper-input></td>
+                      </tr>
+                    </template>      
+                  </tbody>
+                </table>
+
+
+              <paper-button raised onclick="submitForm()">Submit</paper-button>
+            <!-- <paper-button raised onclick="formPrograma.reset()">Reset</paper-button>
+              <paper-button raised onclick="formPrograma.validate()">Validate</paper-button>-->
+            </form>
+          
+          </iron-form>
+
+        </div>
+
+        <div name="false">
+        </div>
+
+      </iron-pages>
+
+    
+  </template>
+
+  <script>
+
+  Polymer({
+
+    is: 'form-insertar-programa',
+
+    properties: {
+
+        insertar_programa:{
+            type: String
+        },
+
+        administrador: {
+          type: String
+        },
+
+        lista_usuarios: {
+        
+        type: Object
+      	},
+
+      	lista_programas: {
+		type: Object
+		}
+    }, 
+
+    _insertar_programa:function() {
+
+    },
+
+    _get_lista_usarios:function(){
+
+    	return lista_usuarios;
+    }
+
+  });
+  </script>
+
+  <script>
+
+  	 function calcular_actualizar_puntaciones()
+    {
+      console.log("calcular_actualizar_puntaciones no implementado \n\n");
+      
+      // Cogemos el ultimo programa. Que es el primero de la query.
+
+     // var ultimo_programa = programas[1].value; 
+
+      console.log(this.$.form-insertar-programa._get_lista_usarios());
+
+   //   console.log(ultimo_programa);
+    }
+    
+  function submitForm() {  //Lo comentamos para no insertar el programa.
+  	/*  
+      var formJSONPrograma = document.getElementById("formPrograma").serializeForm();
+
+      document.getElementById("formPrograma").submit();
+      if (document.getElementById("formPrograma").validate()){
+      
+        var postsRef = firebase.database().ref('/programas');
+
+        var newPostRef = postsRef.push();
+
+        var jsonFinal = JSON.parse(JSON.stringify(formJSONPrograma));
+
+        newPostRef.set(jsonFinal);
+
+        alert("Inserción de datos confirmada.");
+
+        document.getElementById("formPrograma").reset();
+      */
+
+      		calcular_actualizar_puntaciones();
+
+    //  }
+    
+
+
+    }
+
+  </script>
+
+</dom-module>

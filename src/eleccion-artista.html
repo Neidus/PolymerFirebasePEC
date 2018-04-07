@@ -101,7 +101,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
            <div>
 
                  
-              <paper-checkbox name="[[item.$key]]"></paper-checkbox>
+              <paper-checkbox name="[[item.$key]]" on-tap="__toggleFavorite"></paper-checkbox>
                     <!-- 
                       <paper-fab id ="[[item.$key]]" icon="{{__computeFavIcon(__favorite)}}" on-tap="__toggleFavorite"></paper-fab>
                     -->
@@ -148,30 +148,40 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     },
 
     __toggleFavorite: function(event, detail) {
-      this.__favorite = !this.__favorite;
+     
 
-      if (this.__favorite) {
-        if (document.getElementById("contadorArtistas").value>=2) {
-          alert("No puedes elegir más artistas. Deselecciona uno antes");
-          this.__favorite = !this.__favorite;
-          return;
+      for (var i=0; i<document.getElementById("formEleccionArtista").getElementsByTagName("paper-checkbox").length; i++) {
+  
+        if (document.getElementById("formEleccionArtista").getElementsByTagName("paper-checkbox")[i].name === this.item.$key) {
+          if (document.getElementById("formEleccionArtista").getElementsByTagName("paper-checkbox")[i].checked) {
+            if (document.getElementById("contadorArtistas").value>=2) {
+              alert("No puedes elegir más artistas. Deselecciona uno antes");
+              document.getElementById("formEleccionArtista").getElementsByTagName("paper-checkbox")[i].checked = false;
+              return;
+            }
+
+            if ((document.getElementById("contadorCreditos").value - this.item.valor) < 0) {
+              alert("No tienes suficientes créditos disponibles para elegirlo. Deselecciona uno antes o escoge otro");
+              document.getElementById("formEleccionArtista").getElementsByTagName("paper-checkbox")[i].checked = false;
+              return;
+            }
+
+            document.getElementById("contadorCreditos").value = Number(document.getElementById("contadorCreditos").value) - this.item.valor;
+            document.getElementById("contadorArtistas").value = Number(document.getElementById("contadorArtistas").value) + 1;
+            return;
+          } else {
+            document.getElementById("contadorCreditos").value = Number(document.getElementById("contadorCreditos").value) + this.item.valor;
+            document.getElementById("contadorArtistas").value = Number(document.getElementById("contadorArtistas").value) - 1;
+            return;
+          }
         }
-
-        if ((document.getElementById("contadorCreditos").value - this.item.valor) < 0) {
-          alert("No tienes suficientes créditos disponibles para elegirlo. Deselecciona uno antes o escoge otro");
-          this.__favorite = !this.__favorite;
-          return;
-        }
-
-        document.getElementById("contadorCreditos").value = Number(document.getElementById("contadorCreditos").value) - this.item.valor;
-        document.getElementById("contadorArtistas").value = Number(document.getElementById("contadorArtistas").value) + 1;
-        return;
-      } else {
-        document.getElementById("contadorCreditos").value = Number(document.getElementById("contadorCreditos").value) + this.item.valor;
-        document.getElementById("contadorArtistas").value = Number(document.getElementById("contadorArtistas").value) - 1;
-        return;
       }
+
     },
+
+    
+
+    
 
 
     

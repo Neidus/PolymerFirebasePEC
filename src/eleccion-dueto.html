@@ -96,14 +96,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   
       </style>
     
-           <div>
-              <paper-checkbox name="[[item.$key]]"></paper-checkbox>
+           
+              <paper-checkbox name="[[item.$key]]" on-tap="__toggleFavorite" ></paper-checkbox>
                  <!--
                     <paper-fab id ="[[item.$key]]" icon="{{__computeFavIcon(__favorite)}}" on-tap="__toggleFavorite"></paper-fab>
                  -->
              
 
-           </div>
+          
 
     
 
@@ -143,30 +143,35 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       return favorite ? 'favorite' : 'favorite-border';
     },
 
-    __toggleFavorite: function(event, detail) {
-      this.__favorite = !this.__favorite;
+    __toggleFavorite: function() {
+     
+      for (var i=0; i<document.getElementById("formEleccionDueto").getElementsByTagName("paper-checkbox").length; i++) {
+  
+        if (document.getElementById("formEleccionDueto").getElementsByTagName("paper-checkbox")[i].name === this.item.$key) {
+          if (document.getElementById("formEleccionDueto").getElementsByTagName("paper-checkbox")[i].checked) {
+            if (document.getElementById("contadorDuetos").value>=1) {
+              alert("No puedes elegir más duetos. Deselecciona uno antes");
+              document.getElementById("formEleccionDueto").getElementsByTagName("paper-checkbox")[i].checked = false;
+              return;
+            }
 
-      if (this.__favorite) {
-        if (document.getElementById("contadorDuetos").value>=1) {
-          alert("No puedes elegir más duetos. Deselecciona uno antes");
-          this.__favorite = !this.__favorite;
-          return;
+            if ((document.getElementById("contadorCreditos").value - this.item.valor) < 0) {
+              alert("No tienes suficientes créditos disponibles para elegirlo. Deselecciona uno antes o escoge otro");
+              document.getElementById("formEleccionDueto").getElementsByTagName("paper-checkbox")[i].checked = false;
+              return;
+            }
+
+            document.getElementById("contadorCreditos").value = Number(document.getElementById("contadorCreditos").value) - this.item.valor;
+            document.getElementById("contadorDuetos").value = Number(document.getElementById("contadorDuetos").value) + 1;
+            return;
+          } else {
+            document.getElementById("contadorCreditos").value = Number(document.getElementById("contadorCreditos").value) + this.item.valor;
+            document.getElementById("contadorDuetos").value = Number(document.getElementById("contadorDuetos").value) - 1;
+            return;
+          }
         }
-
-        if ((document.getElementById("contadorCreditos").value - this.item.valor) < 0) {
-          alert("No tienes suficientes créditos disponibles para elegirlo. Deselecciona uno antes o escoge otro");
-          this.__favorite = !this.__favorite;
-          return;
-        }
-
-        document.getElementById("contadorCreditos").value = Number(document.getElementById("contadorCreditos").value) - this.item.valor;
-        document.getElementById("contadorDuetos").value = Number(document.getElementById("contadorDuetos").value) + 1;
-        return;
-      } else {
-        document.getElementById("contadorCreditos").value = Number(document.getElementById("contadorCreditos").value) + this.item.valor;
-        document.getElementById("contadorDuetos").value = Number(document.getElementById("contadorDuetos").value) - 1;
-        return;
       }
+    
     },
 
 

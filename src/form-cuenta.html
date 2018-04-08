@@ -107,6 +107,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
 
+<firebase-query id="historialArtistas" path="/users/{{user.uid}}/elecciones/artistas" data="{{eleccionesartistas}}">
+</firebase-query>
+
+<firebase-query id="historialDuetos" path="/users/{{user.uid}}/elecciones/duetos" data="{{eleccionesduetos}}">
+</firebase-query>
 
 
 <firebase-document 
@@ -168,7 +173,54 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      </table>
                   </form>
               </iron-form>
-                   <!-- <paper-button raised on-tap="ayudame">prueba</paper-button>-->
+              <br>
+              <br>
+              <h1>Historial de votacion</h1>
+              <h2>Eleccion de Artistas</h2>
+              <br>
+              <iron-form id="historial">
+                  <form  action="/foo" method="get">
+                    <table border="">
+                      <tr>
+                        <td>
+                          Artista
+                        </td>
+                        <td>
+                          puntuacion 
+                        </td>
+                      </tr>
+                      <tr>
+                      <template is="dom-repeat" items="{{eleccionesartistas}}">
+                        <div class="eleccionesartistas-item">
+                          <div class="eleccionesartistas-nombre">{{item.nombre}}</div>                         
+                          <p></p>
+                        </div>
+                      </template>
+                    </tr>
+                    </table>
+
+                  <h2>Eleccion de duetos</h2>
+                  <table border="">
+                    <tr>
+                      <td>
+                        Duetos
+                      </td>
+                      <td>
+                        puntuacion 
+                      </td>
+                    </tr>
+                    <tr>
+                    <template is="dom-repeat" items="{{eleccionesduetos}}">
+                      <div class="eleccionesduetos-item">
+                        <div class="eleccionesduetos-nombre">{{item.nombre}}</div>                         
+                        <p></p>
+                      </div>
+                    </template>
+                  </tr>
+                  </table>
+                 
+                  </form>
+              </iron-form>    
           </div>
          </div>
 

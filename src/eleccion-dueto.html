@@ -162,10 +162,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
 
             document.getElementById("contadorCreditos").value = Number(document.getElementById("contadorCreditos").value) - this.item.valor;
-            document.getElementById("contadorDuetos").value = Number(document.getElementById("contadorDuetos").value) + 1;
+            document.getElementById("contadorDuetos").value = Number((document.getElementById("contadorDuetos").value) + 1);
             return;
           } else {
-            document.getElementById("contadorCreditos").value = Number(document.getElementById("contadorCreditos").value) + this.item.valor;
+            document.getElementById("contadorCreditos").value = parseInt(document.getElementById("contadorCreditos").value) + parseInt(this.item.valor);
             document.getElementById("contadorDuetos").value = Number(document.getElementById("contadorDuetos").value) - 1;
             return;
           }

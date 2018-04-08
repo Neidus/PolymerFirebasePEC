@@ -170,7 +170,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             document.getElementById("contadorArtistas").value = Number(document.getElementById("contadorArtistas").value) + 1;
             return;
           } else {
-            document.getElementById("contadorCreditos").value = Number(document.getElementById("contadorCreditos").value) + this.item.valor;
+            document.getElementById("contadorCreditos").value = parseInt(document.getElementById("contadorCreditos").value) + parseInt(this.item.valor);
             document.getElementById("contadorArtistas").value = Number(document.getElementById("contadorArtistas").value) - 1;
             return;
           }

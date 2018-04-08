@@ -89,7 +89,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <template is="dom-repeat" items="{{respuestas}}">
         <div class="respuestas-item">
           <div class="muestra-respuestas">
-            [[item.usuario]]: [[item.respuesta]]
+              <template is="dom-if" if="{{item.privacidad}}">
+                  Anónimo: [[item.respuesta]]
+              </template>
+
+              <template is="dom-if" if="{{!item.privacidad}}">
+                  [[item.usuario]]: [[item.respuesta]]
+              </template>
+            
         </div>
       </template>
       <paper-input type="text" name="respuesta" required label="Nueva Respuesta"> </paper-input>   
@@ -121,27 +128,41 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         mensaje: {
           type: Object,
         },
+
+        user: {
+          type: Object
+        },
+
+        uiduser: {
+          type: Object
+        }
       },
 
       _ayuda: function (mensajes) {
 
-        console.log(this.mensajes)
+        console.log(this.mensajes);
+        
       },
 
       _responderMensaje: function (mensajes) {
+        console.log(this.uiduser);
         var refBbdd2 = 'programas/' + this.programaid + '/mensajes/' + this.mensajeid + '/Respuestas/';
+        //var msgpos = find(mensajes, this.mensajeid)
+        //var msgpos = mensajes.map(function(e) { return e.$key;}).indexOf(this.mensajeid);
         var len= this.mensajes;
         for (var i = 0; i < this.mensajes.length; i++) {
           if (this.mensajes[i].$key === this.mensajeid) {
             console.log(this.mensajes[i].$key, this.mensajeid, i, document.getElementsByName("respuesta")[i].value)
           }
-        }   
+        } 
+        
         var x= i -1;
 
         firebase.database().ref(refBbdd2).push({
-          uid: this.user.uid,
-          usuario: this.user.displayName,
+          uid: this.uiduser,
+          usuario: this.user.username,
           respuesta: document.getElementsByName("respuesta")[0].value,
+          privacidad: this.user.privacidad
         })
        console.log(i, document.getElementsByName("respuesta")[x].value)
        document.getElementsByName("respuesta")[0].value = "";

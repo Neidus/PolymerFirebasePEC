@@ -137,15 +137,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             console.log(this.mensajes[i].$key, this.mensajeid, i, document.getElementsByName("respuesta")[i].value)
           }
         } 
+        
+        var x= i -1;
 
-      /* firebase.database().ref(refBbdd2).push({
+        firebase.database().ref(refBbdd2).push({
           uid: this.user.uid,
           usuario: this.user.displayName,
-          respuesta: document.getElementsByName("respuesta")[x].value,
-        })*/
-
-       console.log(i, document.getElementsByName("respuesta")[i].value)
-      },
+          respuesta: document.getElementsByName("respuesta")[0].value,
+        })
+       console.log(i, document.getElementsByName("respuesta")[x].value)
+       document.getElementsByName("respuesta")[0].value = "";
+       },
     });
 
   </script>

@@ -102,7 +102,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     
                             <template is="dom-repeat" items="[[ranking]]" sort="_sortFunction" initial-count="">
                                     
-                                    <template is="dom-if" if="{{item.privacidad}}">
+                                    <template is="dom-if" if="[[_computeIgual(item.privacidad, 'true')]]">
                                       <tr>
                                             <td>{{displayIndex(index)}}</td>
                                             <td>Anónimo</td>
@@ -110,7 +110,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                                           </tr>
                                     </template>
 
-                                    <template is="dom-if" if="{{!item.privacidad}}">
+                                    <template is="dom-if" if="[[!_computeIgual(item.privacidad, 'true')]]">
                                             <tr>
                                                     <td>{{displayIndex(index)}}</td>
                                                     <td>[[item.nombre]]</td>
@@ -170,6 +170,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     displayIndex: function(index) {
                 return index + 1;
+    },
+
+    _computeIgual: function(elemento, booleano) {
+ 
+      return elemento===booleano;
     }
     
   });

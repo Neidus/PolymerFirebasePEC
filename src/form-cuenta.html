@@ -345,6 +345,11 @@ if (document.getElementsByName("privacidad")[0].value != ""){
         firebase.database().ref('users/' + this.user.uid).update({
             privacidad: document.getElementsByName("privacidad")[0].value,               
         });
+        
+        firebase.database().ref('ranking/' + this.user.uid).update({
+            privacidad: document.getElementsByName("privacidad")[0].value,               
+        });
+
       }
 // actualiza la imagen 
 if (document.getElementsByName("profile_picture")[0].value != ""){
@@ -355,7 +360,7 @@ if (document.getElementsByName("profile_picture")[0].value != ""){
 // actualización de la descripcion 
 if(document.getElementsByName("descripcion")[0].value != ""){
     firebase.database().ref('users/'+ this.user.uid).update({
-      descripcion:document.getElementsByName("descripcion")[0].value,
+      descripcion: Boolean((document.getElementsByName("descripcion")[0].value=="true"))
     })
   }
 },

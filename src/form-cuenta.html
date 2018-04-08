@@ -113,6 +113,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <firebase-query id="historialDuetos" path="/users/{{user.uid}}/elecciones/duetos" data="{{eleccionesduetos}}">
 </firebase-query>
 
+<firebase-query id="historialProgramas" path="/programas" data="{{programas}}">
+</firebase-query>
+
 
 <firebase-document 
     path="/users/{{user.uid}}" 
@@ -179,47 +182,72 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <h2>Eleccion de Artistas</h2>
               <br>
               <iron-form id="historial">
-                  <form  action="/foo" method="get">
-                    <table border="">
-                      <tr>
-                        <td>
-                          Artista
-                        </td>
-                        <td>
-                          puntuacion 
-                        </td>
-                      </tr>
-                      <tr>
-                      <template is="dom-repeat" items="{{eleccionesartistas}}">
-                        <div class="eleccionesartistas-item">
-                          <div class="eleccionesartistas-nombre">{{item.nombre}}</div>                         
-                          <p></p>
-                        </div>
-                      </template>
-                    </tr>
-                    </table>
 
-                  <h2>Eleccion de duetos</h2>
-                  <table border="">
-                    <tr>
-                      <td>
-                        Duetos
-                      </td>
-                      <td>
-                        puntuacion 
-                      </td>
-                    </tr>
-                    <tr>
-                    <template is="dom-repeat" items="{{eleccionesduetos}}">
-                      <div class="eleccionesduetos-item">
-                        <div class="eleccionesduetos-nombre">{{item.nombre}}</div>                         
-                        <p></p>
-                      </div>
-                    </template>
-                  </tr>
-                  </table>
+                  <template is="dom-repeat" items="{{programas}}" as="programa">
+                      Programa [[programa.nombre]] a fecha de [[programa.fecha]]
+                      <p></p>
+
+                      <table border="">
+                          <tr>
+                            <td>
+                              Artista
+                            </td>
+                            <td>
+                              puntuacion 
+                            </td>
+                          </tr>
+
+                          <template is="dom-repeat" items="{{eleccionesartistas}}" as="artista">
+                            <tr>
+                              <td>[[artista.nombre]]</td>
+                                <template is="dom-repeat" items="{{arrayify(programa.artistas)}}" as="artistaprograma">
+                                  
+                                    <template is="dom-if" if="[[_computeIgualKey(artistaprograma.key,artista.$key)]]">
+                                      
+                                      <td>{{artistaprograma.puntuacion}}</td>
+                                        
+                                    </template>
+                            
+                                </template>
+                            </tr>
+                          </template>
+                        </table>   
+                  </template>
+                  <br>
+                  <h2>Eleccion de Duetos</h2>
+                  <br>
+
+                  <template is="dom-repeat" items="{{programas}}" as="programa">
+                      Programa [[programa.nombre]] a fecha de [[programa.fecha]]
+                      <p></p>
+
+                      <table border="">
+                          <tr>
+                            <td>
+                              Dueto
+                            </td>
+                            <td>
+                              puntuacion 
+                            </td>
+                          </tr>
+
+                          <template is="dom-repeat" items="{{eleccionesduetos}}" as="dueto">
+                            <tr>
+                              <td>[[dueto.nombre]]</td>
+                                <template is="dom-repeat" items="{{arrayify(programa.duetos)}}" as="duetoprograma">
+                                  
+                                    <template is="dom-if" if="[[_computeIgualKey(duetoprograma.key,dueto.$key)]]">
+                                      
+                                      <td>{{duetoprograma.puntuacion}}</td>
+                                        
+                                    </template>
+                            
+                                </template>
+                            </tr>
+                          </template>
+                        </table>   
+                  </template>
                  
-                  </form>
               </iron-form>    
           </div>
          </div>
@@ -242,7 +270,44 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         type: Object
       },
 
-      usuarioCuenta: Object
+      
+      eleccionesartistas: {
+        type: Object,
+        observer: "dataChanged"
+      },
+
+      programas: {
+        type: Object,
+        observer: "dataChanged"
+      } ,
+
+      usuarioCuenta: Object,
+
+    },
+
+    dataChanged: function (newData, oldData) {
+    // do something when the query returns values
+     if  (this.programas===undefined || this.eleccionesartistas===undefined) return;
+
+      if (this.programas.length>0 && this.eleccionesartistas.length>0) {
+      
+      console.log(document.getElementById("historial").getElementsByTagName("table")[0].rows.length);
+
+      for(clave in this.programas) {
+
+        for (clave2 in this.eleccionesartistas) {
+          
+        }
+        console.log("artistas eleccion");
+          console.log(this.eleccionesartistas);
+        console.log("artistas programa:");
+        console.log(this.programas[clave].artistas);
+        
+      }
+      
+
+    }
+   
     },
 
     ayudame: function() {
@@ -294,6 +359,31 @@ if(document.getElementsByName("descripcion")[0].value != ""){
     })
   }
 },
+
+arrayify: function(obj) { 
+  console.log("arrayify");
+  var aux = Object.keys(obj).map(function(k) { return obj[k]; });
+  console.log(Object.keys(obj).map(function(k) { return obj[k]; })); 
+  var i=0
+  for (clave in obj) {
+    
+    aux[i].key=clave;
+    i++;
+  }
+  console.log("antes de devolver el objeto: ");
+  console.log(aux);
+  return aux; 
+  
+}, 
+
+ _computeIgualKey: function(elemento1, elemento2) {
+   console.log("elemento1:");
+   console.log(elemento1);
+   console.log("elemento2:");
+   console.log(elemento2);
+
+   return (elemento1===elemento2);
+ }
     
        
   });

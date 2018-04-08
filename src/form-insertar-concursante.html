@@ -163,7 +163,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         console.log(document.getElementById("formArtista").serializeForm());
       
-        var postsRef = firebase.database().ref('/pruebasConcursantes/artistas');
+        var postsRef = firebase.database().ref('/concursantes/artistas');
 
         var newPostRef = postsRef.push();
         newPostRef.set(document.getElementById("formArtista").serializeForm());

@@ -310,7 +310,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             <template is="dom-repeat" items="{{mensajes}}">
               <div class="mensajes-item">
-                <div class="mensajes-nombre">[[item.usuario]]: [[item.mensaje]]
+                <div class="mensajes-nombre">
+                <template is="dom-if" if="{{item.privacidad}}">
+                    Anónimo: [[item.mensaje]]
+                </template>
+
+                <template is="dom-if" if="{{!item.privacidad}}">
+                    [[item.usuario]]: [[item.mensaje]]
+                </template>
+                  
+                  
             <!-- <a href$="#[[section]]/{{programaid}}/mensajes/[[item.$key]]" title$="[[item.mensaje]]" class="item">
                   </a>-->
                     <input id="msgid" value=[[item.$key]] hidden>
@@ -382,6 +391,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           uid: this.user.uid,
           usuario: this.usuarioBBDD.username,
           mensaje: document.getElementsByName("message")[0].value,
+          privacidad: this.usuarioBBDD.privacidad
 
 
         })

@@ -107,7 +107,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <firebase-query 
     id="queryFormDuetos" 
-    path="/pruebasConcursantes/artistas" 
+    path="/concursantes/artistas" 
     data="{{artistas}}">
     </firebase-query>
 
@@ -211,7 +211,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         console.log(formJSON.artistas);
         formJSON.artistas=artistas;
       
-        var postsRef = firebase.database().ref('/pruebasConcursantes/duetos');
+        var postsRef = firebase.database().ref('/concursantes/duetos');
 
         var newPostRef = postsRef.push();
         newPostRef.set(formJSON);

@@ -103,13 +103,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                             <template is="dom-repeat" items="[[ranking]]" sort="_sortFunction" initial-count="">
                                     
                                     <template is="dom-if" if="{{item.privacidad}}">
+                                      <tr>
                                             <td>{{displayIndex(index)}}</td>
                                             <td>Anónimo</td>
                                             <td>[[item.puntuacion]]</td>
+                                          </tr>
                                     </template>
 
                                     <template is="dom-if" if="{{!item.privacidad}}">
-                                            <tr >
+                                            <tr>
                                                     <td>{{displayIndex(index)}}</td>
                                                     <td>[[item.nombre]]</td>
                                                     <td>[[item.puntuacion]]</td>

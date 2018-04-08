@@ -754,6 +754,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           privacidad: "true",
           descripcion: ""
         });
+
+         firebase.database().ref('ranking/' + this.user.uid).set({
+          nombre: this.user.displayName,
+          privacidad: "true",
+          puntuacion: 0
+        });
         recargarPagina();
 
       }
